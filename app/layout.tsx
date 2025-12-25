@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Protocol - Strength Training",
+  title: "Protocol",
   description: "Intelligent strength training for runners",
   icons: {
     icon: '/favicon.ico',
