@@ -57,3 +57,64 @@ export interface SessionWithExercises extends Session {
 export interface SessionExerciseWithLogs extends SessionExercise {
   logs: ExerciseLog[];
 }
+
+// History view types
+
+// Aggregated session with all exercise logs for history view
+export interface SessionHistory {
+  id: string;
+  date: string; // ISO date string (YYYY-MM-DD)
+  session: Session;
+  protocol: Protocol;
+  exercises: SessionExerciseWithLogs[];
+  totalVolume: number; // calculated (weighted exercises only)
+  duration: number; // in minutes
+  completedExercises: number;
+  totalExercises: number;
+}
+
+// Aggregated stats for history view
+export interface HistoryStats {
+  totalWorkouts: number; // total unique workout dates
+  totalVolume: number; // all-time total volume (lbs)
+  currentStreak: number; // consecutive days with workouts
+  prCount: number; // number of personal records
+}
+
+// Personal record tracking
+export interface PersonalRecord {
+  exerciseName: string;
+  type: 'weight' | 'reps' | 'volume';
+  value: number;
+  date: string;
+  previousValue?: number;
+}
+
+// Exercise log with session context for progression view
+export interface ExerciseLogWithContext extends ExerciseLog {
+  session_exercise: SessionExercise;
+  session: Session;
+  date: string; // ISO date for grouping
+}
+
+// Data point for exercise progression chart
+export interface ExerciseProgressPoint {
+  date: string;
+  weight?: number;
+  reps: number[]; // array of reps per set
+  volume: number;
+  rpe?: number;
+}
+
+// Filter state for history view
+export interface HistoryFilters {
+  dateRange: 'week' | 'month' | 'quarter' | 'all';
+  exerciseName: string | null; // null = all exercises
+}
+
+// Calf progress data point for chart
+export interface CalfProgressData {
+  date: string;
+  leftReps: number;
+  rightReps: number;
+}

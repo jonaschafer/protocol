@@ -25,11 +25,14 @@ function TodayPageContent() {
   const [completedCount, setCompletedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [repeatSessionId, setRepeatSessionId] = useState<string | null>(null);
+  const [repeatSessionName, setRepeatSessionName] = useState<string | null>(null);
 
-  // Parse date from URL on mount
+  // Parse date and repeatSession from URL on mount
   useEffect(() => {
     const dateParam = searchParams?.get('date');
     const viewParam = searchParams?.get('view');
+    const repeatParam = searchParams?.get('repeatSession');
 
     if (dateParam) {
       try {
@@ -43,13 +46,24 @@ function TodayPageContent() {
     if (viewParam === 'week') {
       setShowWeekView(true);
     }
+
+    if (repeatParam) {
+      setRepeatSessionId(repeatParam);
+    } else {
+      setRepeatSessionId(null);
+      setRepeatSessionName(null);
+    }
   }, [searchParams]);
 
-  // Fetch workout when date changes
+  // Fetch workout when date or repeatSession changes
   useEffect(() => {
-    fetchWorkout(selectedDate);
+    if (repeatSessionId) {
+      fetchRepeatWorkout(repeatSessionId);
+    } else {
+      fetchWorkout(selectedDate);
+    }
     fetchAllSessions();
-  }, [selectedDate]);
+  }, [selectedDate, repeatSessionId]);
 
   const fetchWorkout = async (date: Date) => {
     setIsLoading(true);
@@ -104,6 +118,50 @@ function TodayPageContent() {
       await checkCompletionStatus(exercisesData || [], date);
     } catch (err) {
       console.error('Error fetching workout:', err);
+      setError('Failed to load workout');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchRepeatWorkout = async (sessionId: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Fetch session by ID
+      const { data: sessionData, error: sessionError } = await supabase
+        .from('sessions')
+        .select(
+          `
+          *,
+          protocols (*)
+        `
+        )
+        .eq('id', sessionId)
+        .single();
+
+      if (sessionError) throw sessionError;
+
+      setSession(sessionData);
+      setProtocol((sessionData as any).protocols);
+      setRepeatSessionName(sessionData.name);
+
+      // Fetch exercises for this session
+      const { data: exercisesData, error: exercisesError } = await supabase
+        .from('session_exercises')
+        .select('*')
+        .eq('session_id', sessionData.id)
+        .order('order_index', { ascending: true });
+
+      if (exercisesError) throw exercisesError;
+
+      setExercises(exercisesData || []);
+
+      // Check completion status for today
+      await checkCompletionStatus(exercisesData || [], new Date());
+    } catch (err) {
+      console.error('Error fetching repeat workout:', err);
       setError('Failed to load workout');
     } finally {
       setIsLoading(false);
@@ -206,6 +264,11 @@ function TodayPageContent() {
     router.push(`/today?date=${dateStr}`);
   };
 
+  const handleCancelRepeat = () => {
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    router.push(`/today?date=${dateStr}`);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -226,6 +289,28 @@ function TodayPageContent() {
         onToggleWeekView={handleToggleWeekView}
         showWeekView={showWeekView}
       />
+
+      {/* Repeat Workout Banner */}
+      {repeatSessionId && repeatSessionName && (
+        <div className="bg-amber-50 border-b border-amber-200 py-3">
+          <div className="max-w-2xl mx-auto px-4 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-amber-900">
+                Repeating: {repeatSessionName.split(' - ')[1] || repeatSessionName}
+              </p>
+              <p className="text-xs text-amber-700">
+                Logging today with exercises from this workout
+              </p>
+            </div>
+            <button
+              onClick={handleCancelRepeat}
+              className="text-sm text-amber-700 hover:text-amber-900 font-medium"
+            >
+              Cancel ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {showWeekView ? (
         <WeekView
