@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import SessionHeader from '@/app/components/SessionHeader';
 import ExerciseCard from '@/app/components/ExerciseCard';
 import Navigation from '@/app/components/Navigation';
+import CalfMilestoneWidget from '@/app/components/CalfMilestoneWidget';
 
 export default function TodayPage() {
   const [session, setSession] = useState<Session | null>(null);
@@ -100,8 +101,13 @@ export default function TodayPage() {
     }
   };
 
-  const handleExerciseComplete = () => {
+  const handleExerciseComplete = (exerciseName: string) => {
     setCompletedCount((prev) => prev + 1);
+
+    // Trigger calf progress update if this was a calf raise
+    if (exerciseName.includes('Calf Raise')) {
+      window.dispatchEvent(new Event('calfProgressUpdate'));
+    }
   };
 
   if (isLoading) {
@@ -136,6 +142,10 @@ export default function TodayPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="max-w-2xl mx-auto p-4">
+        <CalfMilestoneWidget />
+      </div>
+
       <SessionHeader
         session={session}
         protocol={protocol}
@@ -148,7 +158,7 @@ export default function TodayPage() {
           <ExerciseCard
             key={exercise.id}
             exercise={exercise}
-            onComplete={handleExerciseComplete}
+            onComplete={() => handleExerciseComplete(exercise.exercise_name)}
           />
         ))}
 

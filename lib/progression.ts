@@ -188,7 +188,7 @@ function calculateWeightProgression(
     const newWeight = Math.max(lastWeight - reduction, lastWeight - 10); // Cap at -10lb
     return {
       suggestedWeight: newWeight,
-      reasoning: `Dropped ${targetReps - avgReps.toFixed(1)} reps. Reduce to ${newWeight}lb`,
+      reasoning: `Dropped ${(targetReps - avgReps).toFixed(1)} reps. Reduce to ${newWeight}lb`,
       lastPerformance: `${lastLog.sets_completed}×${lastReps.join(',')} @ ${lastWeight}${lastLog.weight_unit}`,
       encouragement: 'Recovery phase - listen to your body.',
     };
