@@ -147,3 +147,64 @@ export async function getCalfProgress(): Promise<CalfProgress> {
     };
   }
 }
+
+export interface MilestoneStatus {
+  painFreeRunning: boolean;
+  calfMilestone: boolean;
+  weeklyMileage: boolean;
+  ptClearance: boolean;
+}
+
+/**
+ * Check milestone completion status for protocol unlocking
+ */
+export async function checkMilestones(): Promise<MilestoneStatus> {
+  try {
+    // Auto-check calf milestone from logs
+    const calfProgress = await getCalfProgress();
+    const calfMilestone = calfProgress.leftMax >= 30 && calfProgress.rightMax >= 30;
+
+    // For now, other milestones are manual (would come from user settings/inputs)
+    // In a full implementation, these would be stored in a user_milestones table
+    return {
+      painFreeRunning: false, // Manual user input
+      calfMilestone,
+      weeklyMileage: false, // Manual user input
+      ptClearance: false, // Manual user input
+    };
+  } catch (error) {
+    console.error('Error checking milestones:', error);
+    return {
+      painFreeRunning: false,
+      calfMilestone: false,
+      weeklyMileage: false,
+      ptClearance: false,
+    };
+  }
+}
+
+/**
+ * Update which protocol is currently active
+ */
+export async function updateActiveProtocol(protocolId: string): Promise<void> {
+  try {
+    // First, set all protocols to inactive
+    const { error: deactivateError } = await supabase
+      .from('protocols')
+      .update({ active: false })
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Update all
+
+    if (deactivateError) throw deactivateError;
+
+    // Then, activate the selected protocol
+    const { error: activateError } = await supabase
+      .from('protocols')
+      .update({ active: true })
+      .eq('id', protocolId);
+
+    if (activateError) throw activateError;
+  } catch (error) {
+    console.error('Error updating active protocol:', error);
+    throw error;
+  }
+}

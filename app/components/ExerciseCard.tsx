@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SessionExercise, ExerciseLog } from '@/lib/types';
 import { supabase } from '@/lib/supabase';
 import SetLogger from './SetLogger';
@@ -71,7 +72,10 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.2 }}
       className={`bg-white border rounded-lg p-4 transition-all ${
         isCompleted
           ? 'border-green-300 bg-green-50'
@@ -132,7 +136,18 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
         </button>
       )}
 
-      {isStarted && <SetLogger exercise={exercise} onComplete={handleComplete} />}
+      <AnimatePresence>
+        {isStarted && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <SetLogger exercise={exercise} onComplete={handleComplete} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {isCompleted && logs.length > 0 && (
         <div className="mt-3 pt-3 border-t border-green-200">
@@ -157,6 +172,6 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
