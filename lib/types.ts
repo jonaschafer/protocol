@@ -118,3 +118,20 @@ export interface CalfProgressData {
   leftReps: number;
   rightReps: number;
 }
+
+// Exercise library (imported from ExerciseDB)
+export interface ExerciseLibrary {
+  id: string;
+  external_id: string; // ExerciseDB ID
+  name: string;
+  description?: string;
+  body_parts: string[];
+  equipment: string[];
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  demo_file_path?: string; // Supabase Storage path to GIF
+  instructions: string[];
+  target_muscles: string[];
+  secondary_muscles: string[];
+  created_at: string;
+  updated_at: string;
+}

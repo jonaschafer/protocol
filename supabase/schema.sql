@@ -51,6 +51,33 @@ CREATE TABLE exercise_logs (
   notes TEXT
 );
 
+-- Exercise library table (populated from ExerciseDB API)
+CREATE TABLE exercise_library (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  external_id TEXT UNIQUE, -- ExerciseDB ID
+  name TEXT NOT NULL,
+  description TEXT,
+  body_parts TEXT[] NOT NULL DEFAULT '{}',
+  equipment TEXT[] NOT NULL DEFAULT '{}',
+  difficulty TEXT CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
+  demo_file_path TEXT, -- Supabase Storage path to GIF
+  instructions TEXT[],
+  target_muscles TEXT[],
+  secondary_muscles TEXT[],
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create indexes for fast filtering
+CREATE INDEX idx_exercise_library_body_parts ON exercise_library USING GIN (body_parts);
+CREATE INDEX idx_exercise_library_equipment ON exercise_library USING GIN (equipment);
+CREATE INDEX idx_exercise_library_difficulty ON exercise_library(difficulty);
+CREATE INDEX idx_exercise_library_target_muscles ON exercise_library USING GIN (target_muscles);
+
+-- Create full-text search index
+CREATE INDEX idx_exercise_library_name_search ON exercise_library USING GIN (to_tsvector('english', name));
+CREATE INDEX idx_exercise_library_description_search ON exercise_library USING GIN (to_tsvector('english', COALESCE(description, '')));
+
 -- Create indexes for common queries
 CREATE INDEX idx_sessions_protocol_id ON sessions(protocol_id);
 CREATE INDEX idx_sessions_day_of_week ON sessions(day_of_week);
@@ -64,9 +91,12 @@ ALTER TABLE protocols ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE session_exercises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE exercise_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE exercise_library ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (allow all for now - customize based on your auth setup)
 CREATE POLICY "Enable all access for protocols" ON protocols FOR ALL USING (true);
 CREATE POLICY "Enable all access for sessions" ON sessions FOR ALL USING (true);
 CREATE POLICY "Enable all access for session_exercises" ON session_exercises FOR ALL USING (true);
 CREATE POLICY "Enable all access for exercise_logs" ON exercise_logs FOR ALL USING (true);
+CREATE POLICY "Enable read access for exercise_library" ON exercise_library FOR SELECT USING (true);
+CREATE POLICY "Enable insert access for exercise_library" ON exercise_library FOR INSERT WITH CHECK (true);
