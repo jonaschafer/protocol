@@ -436,18 +436,16 @@ function ExerciseCard({ exercise }: { exercise: ExerciseLibrary }) {
               )}
 
               {/* Image/GIF Demo */}
-              {(exercise.external_video_url || exercise.demo_file_path) && (
+              {(exercise.demo_file_path || exercise.external_video_url) && (
                 <div>
                   <h4 className="text-sm font-semibold text-gray-700 mb-1">
                     Demonstration
                   </h4>
                   <img
-                    src={
-                      exercise.external_video_url ||
-                      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/exercises/${exercise.demo_file_path}`
-                    }
+                    src={exercise.demo_file_path || exercise.external_video_url || ''}
                     alt={exercise.name}
                     className="rounded-lg border border-gray-200 max-w-xs"
+                    crossOrigin="anonymous"
                   />
                 </div>
               )}
