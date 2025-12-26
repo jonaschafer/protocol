@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { getAllExercises } from '@/lib/supabase';
 import type { ExerciseLibrary } from '@/lib/types';
+import Navigation from '@/app/components/Navigation';
 
 export default function LibraryPage() {
   const [exercises, setExercises] = useState<ExerciseLibrary[]>([]);
@@ -323,6 +324,8 @@ export default function LibraryPage() {
           </div>
         )}
       </div>
+
+      <Navigation />
     </div>
   );
 }
