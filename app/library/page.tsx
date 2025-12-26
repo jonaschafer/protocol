@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { getAllExercises } from '@/lib/supabase';
 import type { ExerciseLibrary } from '@/lib/types';
 
@@ -113,8 +114,16 @@ export default function LibraryPage() {
       {/* Header */}
       <div className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">Exercise Library</h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <div className="flex items-center gap-3 mb-2">
+            <Link
+              href="/today"
+              className="text-blue-600 hover:text-blue-700 text-2xl"
+            >
+              ←
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-900">Exercise Library</h1>
+          </div>
+          <p className="text-sm text-gray-600 ml-11">
             Browse and search {exercises.length} exercises
           </p>
         </div>

@@ -56,6 +56,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
   const [sets, setSets] = useState<SetData[]>(initializeSets());
   const [amrapSets, setAmrapSets] = useState<AMRAPSetData[]>(initializeAMRAPSets());
   const [isLogging, setIsLogging] = useState(false);
+  const [notes, setNotes] = useState('');
 
   // Fetch progression suggestion on mount
   useEffect(() => {
@@ -100,6 +101,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
         reps_per_set: [setData.reps],
         weight_used: setData.weight ? parseFloat(setData.weight) : null,
         weight_unit: exercise.weight_unit || 'lbs',
+        notes: notes || null,
       });
 
       if (error) throw error;
@@ -136,6 +138,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
         reps_per_set: [setData.leftReps, setData.rightReps],
         weight_used: null,
         weight_unit: null,
+        notes: notes || null,
       });
 
       if (error) throw error;
@@ -176,6 +179,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
         reps_per_set: repsPerSet,
         weight_used: avgWeight ? parseFloat(avgWeight) : null,
         weight_unit: exercise.weight_unit || 'lbs',
+        notes: notes || null,
       });
 
       if (error) throw error;
@@ -230,11 +234,30 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
     );
   };
 
+  // Notes Component (shows last note and input for new note)
+  const NotesSection = () => (
+    <div className="mb-3">
+      {lastLog?.notes && (
+        <div className="text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-2">
+          <span className="font-semibold">Last time:</span> {lastLog.notes}
+        </div>
+      )}
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Add notes (optional)"
+        rows={2}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+      />
+    </div>
+  );
+
   // AMRAP rendering for calf raises (set-by-set with left/right legs)
   if (isAMRAP) {
     return (
       <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
         <ProgressionDisplay />
+        <NotesSection />
         {amrapSets.map((setData, index) => (
           <div
             key={index}
@@ -263,7 +286,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
                   }}
                   placeholder="0"
                   disabled={setData.logged}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
                 />
               </div>
               <div>
@@ -280,7 +303,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
                   }}
                   placeholder="0"
                   disabled={setData.logged}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
                 />
               </div>
             </div>
@@ -319,6 +342,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
       <ProgressionDisplay />
+      <NotesSection />
       {sets.map((setData, index) => (
         <div
           key={index}
@@ -340,7 +364,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
             }}
             placeholder={isTimeBased ? 'sec' : 'reps'}
             disabled={setData.logged}
-            className="w-20 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+            className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
           />
 
           {!isTimeBased && (
@@ -355,7 +379,7 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
                 }}
                 placeholder="weight"
                 disabled={setData.logged}
-                className="w-20 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-20 px-2 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
               />
               <span className="text-sm text-gray-600">{exercise.weight_unit || 'lbs'}</span>
             </>

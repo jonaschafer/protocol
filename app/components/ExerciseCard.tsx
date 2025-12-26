@@ -59,6 +59,30 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
     onComplete();
   };
 
+  const handleUndo = async () => {
+    if (!window.confirm('Delete today\'s log for this exercise?')) return;
+
+    try {
+      // Delete all logs for this exercise from today
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { error } = await supabase
+        .from('exercise_logs')
+        .delete()
+        .eq('session_exercise_id', exercise.id)
+        .gte('logged_at', today.toISOString());
+
+      if (error) throw error;
+
+      setIsCompleted(false);
+      setLogs([]);
+    } catch (error) {
+      console.error('Error deleting logs:', error);
+      alert('Failed to delete log. Please try again.');
+    }
+  };
+
   const formatTarget = () => {
     const parts = [];
 
@@ -69,6 +93,20 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
     }
 
     return parts.join(' ');
+  };
+
+  const getRestPeriod = () => {
+    const isAMRAP = exercise.target_reps.toUpperCase().includes('AMRAP');
+    const isTimeBased = exercise.target_reps.includes('sec');
+    const hasWeight = exercise.target_weight && exercise.target_weight > 0;
+
+    if (isAMRAP || isTimeBased) {
+      return '30-60s rest between sets';
+    } else if (hasWeight) {
+      return '60-90s rest between sets';
+    } else {
+      return '30-60s rest between sets';
+    }
   };
 
   return (
@@ -106,6 +144,7 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
 
           <div className="text-sm text-gray-600 mb-1">
             <span className="font-medium">{formatTarget()}</span>
+            <span className="text-xs text-gray-500 ml-2">({getRestPeriod()})</span>
           </div>
 
           {exercise.equipment && (
@@ -114,10 +153,6 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
             </div>
           )}
         </div>
-
-        {isCompleted && (
-          <div className="text-green-600 text-2xl ml-2">✓</div>
-        )}
       </div>
 
       {exercise.notes && (
@@ -126,13 +161,17 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
         </div>
       )}
 
-      {!isCompleted && !isStarted && (
+      {!isStarted && (
         <button
-          onClick={handleStart}
+          onClick={isCompleted ? handleUndo : handleStart}
           disabled={isLoading}
-          className="w-full py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors min-h-[44px]"
+          className={`w-full py-2 rounded-lg font-medium transition-colors min-h-[44px] ${
+            isCompleted
+              ? 'bg-green-600 text-white hover:bg-green-700'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
         >
-          {isLoading ? 'Loading...' : 'Start Exercise'}
+          {isLoading ? 'Loading...' : isCompleted ? 'Logged ✓' : 'Log'}
         </button>
       )}
 
