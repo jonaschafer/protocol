@@ -130,7 +130,7 @@ async function main() {
     // Get our exercises
     const { data: ourExercises, error } = await supabase
       .from('exercise_library')
-      .select('id, name, external_video_url')
+      .select('id, name, demo_file_path')
       .order('name');
 
     if (error || !ourExercises) {
@@ -146,7 +146,7 @@ async function main() {
 
     for (const ourEx of ourExercises) {
       // Skip if already has image
-      if (ourEx.external_video_url) {
+      if (ourEx.demo_file_path) {
         alreadyHasImage++;
         continue;
       }
@@ -180,15 +180,19 @@ async function main() {
         const imageUrl = `${GITHUB_BASE}/${freeEx.images[0]}`;
 
         // Update our database
-        const { error: updateError } = await supabase
+        const { data: updateData, error: updateError } = await supabase
           .from('exercise_library')
-          .update({ external_video_url: imageUrl })
-          .eq('id', ourEx.id);
+          .update({ demo_file_path: imageUrl })
+          .eq('id', ourEx.id)
+          .select();
 
         if (updateError) {
-          console.log(`❌ ${ourEx.name}: ${updateError.message}`);
+          console.log(`❌ ${ourEx.name}: Failed to update - ${updateError.message}`);
+          console.error('   Error details:', updateError);
+        } else if (!updateData || updateData.length === 0) {
+          console.log(`❌ ${ourEx.name}: Update returned no data (possible RLS issue)`);
         } else {
-          console.log(`✅ ${ourEx.name}`);
+          console.log(`✅ ${ourEx.name} → ${imageUrl}`);
           matched++;
         }
       } else {
