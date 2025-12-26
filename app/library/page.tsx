@@ -14,6 +14,7 @@ export default function LibraryPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
   const [showBodyPartsFilter, setShowBodyPartsFilter] = useState(false);
   const [showEquipmentFilter, setShowEquipmentFilter] = useState(false);
+  const [showAllExercises, setShowAllExercises] = useState(false);
 
   useEffect(() => {
     async function loadExercises() {
@@ -70,9 +71,23 @@ export default function LibraryPage() {
         return false;
       }
 
+      // Image filter - only show exercises with images unless "See All" is clicked
+      if (!showAllExercises && !exercise.external_video_url && !exercise.demo_file_path) {
+        return false;
+      }
+
       return true;
     });
-  }, [exercises, searchQuery, selectedBodyParts, selectedEquipment, selectedDifficulty]);
+  }, [exercises, searchQuery, selectedBodyParts, selectedEquipment, selectedDifficulty, showAllExercises]);
+
+  // Count exercises with and without images
+  const exercisesWithImages = useMemo(() => {
+    return exercises.filter((ex) => ex.external_video_url || ex.demo_file_path).length;
+  }, [exercises]);
+
+  const exercisesWithoutImages = useMemo(() => {
+    return exercises.length - exercisesWithImages;
+  }, [exercises, exercisesWithImages]);
 
   const toggleBodyPart = (part: string) => {
     setSelectedBodyParts((prev) =>
@@ -230,7 +245,19 @@ export default function LibraryPage() {
 
         {/* Results Count */}
         <div className="mb-4 text-sm text-gray-600">
-          Showing {filteredExercises.length} of {exercises.length} exercises
+          {showAllExercises ? (
+            <>Showing {filteredExercises.length} of {exercises.length} exercises</>
+          ) : (
+            <>
+              Showing {filteredExercises.length} exercises with images
+              {exercisesWithoutImages > 0 && (
+                <span className="text-gray-500">
+                  {' '}
+                  ({exercisesWithoutImages} more without images)
+                </span>
+              )}
+            </>
+          )}
         </div>
 
         {/* Loading State */}
@@ -262,6 +289,30 @@ export default function LibraryPage() {
             <ExerciseCard key={exercise.id} exercise={exercise} />
           ))}
         </div>
+
+        {/* See All Button */}
+        {!showAllExercises && exercisesWithoutImages > 0 && !isLoading && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setShowAllExercises(true)}
+              className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 font-medium transition-colors"
+            >
+              See All Exercises ({exercisesWithoutImages} more)
+            </button>
+          </div>
+        )}
+
+        {/* Show Less Button */}
+        {showAllExercises && exercisesWithoutImages > 0 && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setShowAllExercises(false)}
+              className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 font-medium transition-colors"
+            >
+              Show Only Exercises with Images
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

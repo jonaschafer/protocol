@@ -1,0 +1,1610 @@
+[
+  {
+    "exerciseId": "0001",
+    "exerciseName": "3/4 sit-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:10.363Z"
+  },
+  {
+    "exerciseId": "0002",
+    "exerciseName": "45° side bend",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:17.547Z"
+  },
+  {
+    "exerciseId": "0003",
+    "exerciseName": "air bike",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:24.799Z"
+  },
+  {
+    "exerciseId": "0006",
+    "exerciseName": "alternate heel touchers",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:31.895Z"
+  },
+  {
+    "exerciseId": "0007",
+    "exerciseName": "alternate lateral pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:38.997Z"
+  },
+  {
+    "exerciseId": "0009",
+    "exerciseName": "assisted chest dip (kneeling)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:45.997Z"
+  },
+  {
+    "exerciseId": "0010",
+    "exerciseName": "assisted hanging knee raise with throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:04:53.029Z"
+  },
+  {
+    "exerciseId": "0011",
+    "exerciseName": "assisted hanging knee raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:00.062Z"
+  },
+  {
+    "exerciseId": "0012",
+    "exerciseName": "assisted lying leg raise with lateral throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:07.086Z"
+  },
+  {
+    "exerciseId": "0013",
+    "exerciseName": "assisted lying leg raise with throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:14.146Z"
+  },
+  {
+    "exerciseId": "0014",
+    "exerciseName": "assisted motion russian twist",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:21.177Z"
+  },
+  {
+    "exerciseId": "0015",
+    "exerciseName": "assisted parallel close grip pull-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:28.213Z"
+  },
+  {
+    "exerciseId": "0016",
+    "exerciseName": "assisted prone hamstring",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:35.288Z"
+  },
+  {
+    "exerciseId": "0017",
+    "exerciseName": "assisted pull-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:42.323Z"
+  },
+  {
+    "exerciseId": "0018",
+    "exerciseName": "assisted standing triceps extension (with towel)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:49.500Z"
+  },
+  {
+    "exerciseId": "0019",
+    "exerciseName": "assisted triceps dip (kneeling)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:05:56.499Z"
+  },
+  {
+    "exerciseId": "0020",
+    "exerciseName": "balance board",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:03.481Z"
+  },
+  {
+    "exerciseId": "0022",
+    "exerciseName": "barbell pullover to press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:10.502Z"
+  },
+  {
+    "exerciseId": "0023",
+    "exerciseName": "barbell alternate biceps curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:17.487Z"
+  },
+  {
+    "exerciseId": "0024",
+    "exerciseName": "barbell bench front squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:24.485Z"
+  },
+  {
+    "exerciseId": "0025",
+    "exerciseName": "barbell bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:31.456Z"
+  },
+  {
+    "exerciseId": "0026",
+    "exerciseName": "barbell bench squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:38.472Z"
+  },
+  {
+    "exerciseId": "0027",
+    "exerciseName": "barbell bent over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:45.448Z"
+  },
+  {
+    "exerciseId": "0028",
+    "exerciseName": "barbell clean and press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:52.455Z"
+  },
+  {
+    "exerciseId": "0029",
+    "exerciseName": "barbell clean-grip front squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:06:59.437Z"
+  },
+  {
+    "exerciseId": "0030",
+    "exerciseName": "barbell close-grip bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:06.471Z"
+  },
+  {
+    "exerciseId": "0031",
+    "exerciseName": "barbell curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:13.471Z"
+  },
+  {
+    "exerciseId": "0032",
+    "exerciseName": "barbell deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:20.490Z"
+  },
+  {
+    "exerciseId": "0033",
+    "exerciseName": "barbell decline bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:27.475Z"
+  },
+  {
+    "exerciseId": "0034",
+    "exerciseName": "barbell decline bent arm pullover",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:34.592Z"
+  },
+  {
+    "exerciseId": "0035",
+    "exerciseName": "barbell decline close grip to skull press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:41.553Z"
+  },
+  {
+    "exerciseId": "0036",
+    "exerciseName": "barbell decline wide-grip press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:48.535Z"
+  },
+  {
+    "exerciseId": "0037",
+    "exerciseName": "barbell decline wide-grip pullover",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:07:55.517Z"
+  },
+  {
+    "exerciseId": "0038",
+    "exerciseName": "barbell drag curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:02.521Z"
+  },
+  {
+    "exerciseId": "0039",
+    "exerciseName": "barbell front chest squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:09.542Z"
+  },
+  {
+    "exerciseId": "0040",
+    "exerciseName": "barbell front raise and pullover",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:16.535Z"
+  },
+  {
+    "exerciseId": "0041",
+    "exerciseName": "barbell front raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:23.548Z"
+  },
+  {
+    "exerciseId": "0042",
+    "exerciseName": "barbell front squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:30.552Z"
+  },
+  {
+    "exerciseId": "0043",
+    "exerciseName": "barbell full squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:37.575Z"
+  },
+  {
+    "exerciseId": "0044",
+    "exerciseName": "barbell good morning",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:44.580Z"
+  },
+  {
+    "exerciseId": "0045",
+    "exerciseName": "barbell guillotine bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:51.576Z"
+  },
+  {
+    "exerciseId": "0046",
+    "exerciseName": "barbell hack squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:08:58.574Z"
+  },
+  {
+    "exerciseId": "0047",
+    "exerciseName": "barbell incline bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:05.598Z"
+  },
+  {
+    "exerciseId": "0048",
+    "exerciseName": "barbell incline reverse-grip press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:12.605Z"
+  },
+  {
+    "exerciseId": "0049",
+    "exerciseName": "barbell incline row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:19.684Z"
+  },
+  {
+    "exerciseId": "0050",
+    "exerciseName": "barbell incline shoulder raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:26.622Z"
+  },
+  {
+    "exerciseId": "0051",
+    "exerciseName": "barbell jefferson squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:33.609Z"
+  },
+  {
+    "exerciseId": "0052",
+    "exerciseName": "barbell jm bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:40.597Z"
+  },
+  {
+    "exerciseId": "0053",
+    "exerciseName": "barbell jump squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:47.574Z"
+  },
+  {
+    "exerciseId": "0054",
+    "exerciseName": "barbell lunge",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:09:54.549Z"
+  },
+  {
+    "exerciseId": "0055",
+    "exerciseName": "barbell lying close-grip press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:01.515Z"
+  },
+  {
+    "exerciseId": "0056",
+    "exerciseName": "barbell lying close-grip triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:08.483Z"
+  },
+  {
+    "exerciseId": "0057",
+    "exerciseName": "barbell lying extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:15.452Z"
+  },
+  {
+    "exerciseId": "0058",
+    "exerciseName": "barbell lying lifting (on hip)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:22.485Z"
+  },
+  {
+    "exerciseId": "0059",
+    "exerciseName": "barbell lying preacher curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:29.680Z"
+  },
+  {
+    "exerciseId": "0060",
+    "exerciseName": "barbell lying triceps extension skull crusher",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:36.727Z"
+  },
+  {
+    "exerciseId": "0061",
+    "exerciseName": "barbell lying triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:43.737Z"
+  },
+  {
+    "exerciseId": "0063",
+    "exerciseName": "barbell narrow stance squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:50.787Z"
+  },
+  {
+    "exerciseId": "0064",
+    "exerciseName": "barbell one arm bent over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:10:57.816Z"
+  },
+  {
+    "exerciseId": "0065",
+    "exerciseName": "barbell one arm floor press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:04.925Z"
+  },
+  {
+    "exerciseId": "0066",
+    "exerciseName": "barbell one arm side deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:11.904Z"
+  },
+  {
+    "exerciseId": "0067",
+    "exerciseName": "barbell one arm snatch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:18.873Z"
+  },
+  {
+    "exerciseId": "0068",
+    "exerciseName": "barbell one leg squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:25.874Z"
+  },
+  {
+    "exerciseId": "0069",
+    "exerciseName": "barbell overhead squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:32.873Z"
+  },
+  {
+    "exerciseId": "0070",
+    "exerciseName": "barbell preacher curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:39.813Z"
+  },
+  {
+    "exerciseId": "0071",
+    "exerciseName": "barbell press sit-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:46.778Z"
+  },
+  {
+    "exerciseId": "0072",
+    "exerciseName": "barbell prone incline curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:11:53.789Z"
+  },
+  {
+    "exerciseId": "0073",
+    "exerciseName": "barbell pullover",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:00.756Z"
+  },
+  {
+    "exerciseId": "0074",
+    "exerciseName": "barbell rack pull",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:07.753Z"
+  },
+  {
+    "exerciseId": "0075",
+    "exerciseName": "barbell rear delt raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:14.772Z"
+  },
+  {
+    "exerciseId": "0076",
+    "exerciseName": "barbell rear delt row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:21.736Z"
+  },
+  {
+    "exerciseId": "0077",
+    "exerciseName": "barbell rear lunge v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:28.777Z"
+  },
+  {
+    "exerciseId": "0078",
+    "exerciseName": "barbell rear lunge",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:35.768Z"
+  },
+  {
+    "exerciseId": "0079",
+    "exerciseName": "barbell reverse wrist curl v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:42.995Z"
+  },
+  {
+    "exerciseId": "0080",
+    "exerciseName": "barbell reverse curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:49.966Z"
+  },
+  {
+    "exerciseId": "0081",
+    "exerciseName": "barbell reverse preacher curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:12:56.974Z"
+  },
+  {
+    "exerciseId": "0082",
+    "exerciseName": "barbell reverse wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:04.021Z"
+  },
+  {
+    "exerciseId": "0083",
+    "exerciseName": "barbell rollerout from bench",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:11.069Z"
+  },
+  {
+    "exerciseId": "0084",
+    "exerciseName": "barbell rollerout",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:18.056Z"
+  },
+  {
+    "exerciseId": "0085",
+    "exerciseName": "barbell romanian deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:25.042Z"
+  },
+  {
+    "exerciseId": "0086",
+    "exerciseName": "barbell seated behind head military press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:32.011Z"
+  },
+  {
+    "exerciseId": "0087",
+    "exerciseName": "barbell seated bradford rocky press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:39.016Z"
+  },
+  {
+    "exerciseId": "0088",
+    "exerciseName": "barbell seated calf raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:46.023Z"
+  },
+  {
+    "exerciseId": "0089",
+    "exerciseName": "barbell seated close-grip concentration curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:13:53.080Z"
+  },
+  {
+    "exerciseId": "0090",
+    "exerciseName": "barbell seated good morning",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:00.083Z"
+  },
+  {
+    "exerciseId": "0091",
+    "exerciseName": "barbell seated overhead press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:07.148Z"
+  },
+  {
+    "exerciseId": "0092",
+    "exerciseName": "barbell seated overhead triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:14.189Z"
+  },
+  {
+    "exerciseId": "0094",
+    "exerciseName": "barbell seated twist",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:21.276Z"
+  },
+  {
+    "exerciseId": "0095",
+    "exerciseName": "barbell shrug",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:28.397Z"
+  },
+  {
+    "exerciseId": "0096",
+    "exerciseName": "barbell side bent v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:35.419Z"
+  },
+  {
+    "exerciseId": "0097",
+    "exerciseName": "barbell side split squat v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:42.399Z"
+  },
+  {
+    "exerciseId": "0098",
+    "exerciseName": "barbell side split squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:49.410Z"
+  },
+  {
+    "exerciseId": "0099",
+    "exerciseName": "barbell single leg split squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:14:56.374Z"
+  },
+  {
+    "exerciseId": "0100",
+    "exerciseName": "barbell skier",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:03.392Z"
+  },
+  {
+    "exerciseId": "0101",
+    "exerciseName": "barbell speed squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:10.356Z"
+  },
+  {
+    "exerciseId": "0102",
+    "exerciseName": "barbell squat (on knees)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:17.342Z"
+  },
+  {
+    "exerciseId": "0103",
+    "exerciseName": "barbell standing ab rollerout",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:24.314Z"
+  },
+  {
+    "exerciseId": "0104",
+    "exerciseName": "barbell standing back wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:31.325Z"
+  },
+  {
+    "exerciseId": "0105",
+    "exerciseName": "barbell standing bradford press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:38.293Z"
+  },
+  {
+    "exerciseId": "0106",
+    "exerciseName": "barbell standing close grip curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:45.374Z"
+  },
+  {
+    "exerciseId": "0107",
+    "exerciseName": "barbell standing front raise over head",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:15:54.595Z"
+  },
+  {
+    "exerciseId": "0108",
+    "exerciseName": "barbell standing leg calf raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:01.623Z"
+  },
+  {
+    "exerciseId": "0109",
+    "exerciseName": "barbell standing overhead triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:08.769Z"
+  },
+  {
+    "exerciseId": "0110",
+    "exerciseName": "barbell standing reverse grip curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:15.767Z"
+  },
+  {
+    "exerciseId": "0111",
+    "exerciseName": "barbell standing rocking leg calf raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:22.735Z"
+  },
+  {
+    "exerciseId": "0112",
+    "exerciseName": "barbell standing twist",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:29.751Z"
+  },
+  {
+    "exerciseId": "0113",
+    "exerciseName": "barbell standing wide-grip curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:36.723Z"
+  },
+  {
+    "exerciseId": "0114",
+    "exerciseName": "barbell step-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:43.702Z"
+  },
+  {
+    "exerciseId": "0115",
+    "exerciseName": "barbell stiff leg good morning",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:50.643Z"
+  },
+  {
+    "exerciseId": "0116",
+    "exerciseName": "barbell straight leg deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:16:57.632Z"
+  },
+  {
+    "exerciseId": "0117",
+    "exerciseName": "barbell sumo deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:04.622Z"
+  },
+  {
+    "exerciseId": "0118",
+    "exerciseName": "barbell reverse grip bent over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:11.650Z"
+  },
+  {
+    "exerciseId": "0119",
+    "exerciseName": "barbell upright row v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:18.652Z"
+  },
+  {
+    "exerciseId": "0120",
+    "exerciseName": "barbell upright row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:25.666Z"
+  },
+  {
+    "exerciseId": "0121",
+    "exerciseName": "barbell upright row v. 3",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:32.659Z"
+  },
+  {
+    "exerciseId": "0122",
+    "exerciseName": "barbell wide bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:39.691Z"
+  },
+  {
+    "exerciseId": "0123",
+    "exerciseName": "barbell wide-grip upright row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:46.690Z"
+  },
+  {
+    "exerciseId": "0124",
+    "exerciseName": "barbell wide squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:17:53.809Z"
+  },
+  {
+    "exerciseId": "0125",
+    "exerciseName": "barbell wrist curl v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:00.825Z"
+  },
+  {
+    "exerciseId": "0126",
+    "exerciseName": "barbell wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:07.812Z"
+  },
+  {
+    "exerciseId": "0127",
+    "exerciseName": "barbell zercher squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:14.792Z"
+  },
+  {
+    "exerciseId": "0128",
+    "exerciseName": "battling ropes",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:21.810Z"
+  },
+  {
+    "exerciseId": "0129",
+    "exerciseName": "bench dip (knees bent)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:28.850Z"
+  },
+  {
+    "exerciseId": "0130",
+    "exerciseName": "bench hip extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:35.850Z"
+  },
+  {
+    "exerciseId": "0137",
+    "exerciseName": "body-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:42.849Z"
+  },
+  {
+    "exerciseId": "0138",
+    "exerciseName": "bottoms-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:49.954Z"
+  },
+  {
+    "exerciseId": "0139",
+    "exerciseName": "biceps narrow pull-ups",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:18:56.945Z"
+  },
+  {
+    "exerciseId": "0140",
+    "exerciseName": "biceps pull-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:03.995Z"
+  },
+  {
+    "exerciseId": "0148",
+    "exerciseName": "cable alternate shoulder press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:11.030Z"
+  },
+  {
+    "exerciseId": "0149",
+    "exerciseName": "cable alternate triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:18.066Z"
+  },
+  {
+    "exerciseId": "0150",
+    "exerciseName": "cable bar lateral pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:25.032Z"
+  },
+  {
+    "exerciseId": "0151",
+    "exerciseName": "cable bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:32.050Z"
+  },
+  {
+    "exerciseId": "0152",
+    "exerciseName": "cable concentration extension (on knee)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:39.171Z"
+  },
+  {
+    "exerciseId": "0153",
+    "exerciseName": "cable cross-over lateral pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:46.150Z"
+  },
+  {
+    "exerciseId": "0154",
+    "exerciseName": "cable cross-over reverse fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:19:53.130Z"
+  },
+  {
+    "exerciseId": "0155",
+    "exerciseName": "cable cross-over variation",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:00.142Z"
+  },
+  {
+    "exerciseId": "0157",
+    "exerciseName": "cable deadlift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:07.118Z"
+  },
+  {
+    "exerciseId": "0158",
+    "exerciseName": "cable decline fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:14.091Z"
+  },
+  {
+    "exerciseId": "0159",
+    "exerciseName": "cable decline seated wide-grip row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:21.071Z"
+  },
+  {
+    "exerciseId": "0160",
+    "exerciseName": "cable floor seated wide-grip row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:28.084Z"
+  },
+  {
+    "exerciseId": "0161",
+    "exerciseName": "cable forward raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:35.107Z"
+  },
+  {
+    "exerciseId": "0162",
+    "exerciseName": "cable front raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:42.116Z"
+  },
+  {
+    "exerciseId": "0164",
+    "exerciseName": "cable front shoulder raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:49.150Z"
+  },
+  {
+    "exerciseId": "0165",
+    "exerciseName": "cable hammer curl (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:20:56.183Z"
+  },
+  {
+    "exerciseId": "0167",
+    "exerciseName": "cable high row (kneeling)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:03.195Z"
+  },
+  {
+    "exerciseId": "0168",
+    "exerciseName": "cable hip adduction",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:10.241Z"
+  },
+  {
+    "exerciseId": "0169",
+    "exerciseName": "cable incline bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:17.343Z"
+  },
+  {
+    "exerciseId": "0170",
+    "exerciseName": "cable incline fly (on stability ball)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:24.362Z"
+  },
+  {
+    "exerciseId": "0171",
+    "exerciseName": "cable incline fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:31.436Z"
+  },
+  {
+    "exerciseId": "0172",
+    "exerciseName": "cable incline pushdown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:38.467Z"
+  },
+  {
+    "exerciseId": "0173",
+    "exerciseName": "cable incline triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:45.483Z"
+  },
+  {
+    "exerciseId": "0174",
+    "exerciseName": "cable judo flip",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:52.514Z"
+  },
+  {
+    "exerciseId": "0175",
+    "exerciseName": "cable kneeling crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:21:59.506Z"
+  },
+  {
+    "exerciseId": "0176",
+    "exerciseName": "cable kneeling triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:06.502Z"
+  },
+  {
+    "exerciseId": "0177",
+    "exerciseName": "cable lateral pulldown (with rope attachment)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:13.532Z"
+  },
+  {
+    "exerciseId": "0178",
+    "exerciseName": "cable lateral raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:20.539Z"
+  },
+  {
+    "exerciseId": "0179",
+    "exerciseName": "cable low fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:27.526Z"
+  },
+  {
+    "exerciseId": "0180",
+    "exerciseName": "cable low seated row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:34.537Z"
+  },
+  {
+    "exerciseId": "0182",
+    "exerciseName": "cable lying close-grip curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:41.532Z"
+  },
+  {
+    "exerciseId": "0184",
+    "exerciseName": "cable lying extension pullover (with rope attachment)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:48.551Z"
+  },
+  {
+    "exerciseId": "0185",
+    "exerciseName": "cable lying fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:22:55.538Z"
+  },
+  {
+    "exerciseId": "0186",
+    "exerciseName": "cable lying triceps extension v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:02.617Z"
+  },
+  {
+    "exerciseId": "0188",
+    "exerciseName": "cable middle fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:09.591Z"
+  },
+  {
+    "exerciseId": "0189",
+    "exerciseName": "cable one arm bent over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:16.589Z"
+  },
+  {
+    "exerciseId": "0190",
+    "exerciseName": "cable one arm curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:23.578Z"
+  },
+  {
+    "exerciseId": "0191",
+    "exerciseName": "cable one arm lateral bent-over",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:30.562Z"
+  },
+  {
+    "exerciseId": "0192",
+    "exerciseName": "cable one arm lateral raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:37.536Z"
+  },
+  {
+    "exerciseId": "0193",
+    "exerciseName": "cable one arm straight back high row (kneeling)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:44.520Z"
+  },
+  {
+    "exerciseId": "0194",
+    "exerciseName": "cable overhead triceps extension (rope attachment)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:51.491Z"
+  },
+  {
+    "exerciseId": "0195",
+    "exerciseName": "cable preacher curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:23:58.509Z"
+  },
+  {
+    "exerciseId": "0196",
+    "exerciseName": "cable pull through (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:05.493Z"
+  },
+  {
+    "exerciseId": "0197",
+    "exerciseName": "cable pulldown (pro lat bar)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:12.467Z"
+  },
+  {
+    "exerciseId": "0198",
+    "exerciseName": "cable pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:19.480Z"
+  },
+  {
+    "exerciseId": "0199",
+    "exerciseName": "cable pushdown (straight arm) v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:26.502Z"
+  },
+  {
+    "exerciseId": "0200",
+    "exerciseName": "cable pushdown (with rope attachment)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:33.484Z"
+  },
+  {
+    "exerciseId": "0201",
+    "exerciseName": "cable pushdown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:40.492Z"
+  },
+  {
+    "exerciseId": "0202",
+    "exerciseName": "cable rear delt row (stirrups)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:47.677Z"
+  },
+  {
+    "exerciseId": "0203",
+    "exerciseName": "cable rear delt row (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:24:54.622Z"
+  },
+  {
+    "exerciseId": "0204",
+    "exerciseName": "cable rear drive",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:25:01.627Z"
+  },
+  {
+    "exerciseId": "0205",
+    "exerciseName": "cable rear pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:25:08.602Z"
+  },
+  {
+    "exerciseId": "0206",
+    "exerciseName": "cable reverse curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:25:15.547Z"
+  },
+  {
+    "exerciseId": "0207",
+    "exerciseName": "cable reverse-grip pushdown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:25:22.563Z"
+  },
+  {
+    "exerciseId": "0208",
+    "exerciseName": "cable reverse-grip straight back seated high row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:29:57.264Z"
+  },
+  {
+    "exerciseId": "0209",
+    "exerciseName": "cable reverse preacher curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:30:04.158Z"
+  },
+  {
+    "exerciseId": "0210",
+    "exerciseName": "cable reverse wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:30:11.039Z"
+  },
+  {
+    "exerciseId": "0211",
+    "exerciseName": "cable russian twists (on stability ball)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:30:18.646Z"
+  },
+  {
+    "exerciseId": "0212",
+    "exerciseName": "cable seated crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:30:25.582Z"
+  },
+  {
+    "exerciseId": "0213",
+    "exerciseName": "cable seated high row (v-bar)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:30:32.477Z"
+  },
+  {
+    "exerciseId": "0214",
+    "exerciseName": "cable seated one arm alternate row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:38:38.923Z"
+  },
+  {
+    "exerciseId": "0215",
+    "exerciseName": "cable seated rear lateral raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:38:45.839Z"
+  },
+  {
+    "exerciseId": "0216",
+    "exerciseName": "cable seated shoulder internal rotation",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:38:52.714Z"
+  },
+  {
+    "exerciseId": "0218",
+    "exerciseName": "cable seated wide-grip row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:38:59.834Z"
+  },
+  {
+    "exerciseId": "0219",
+    "exerciseName": "cable shoulder press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:39:07.226Z"
+  },
+  {
+    "exerciseId": "0220",
+    "exerciseName": "cable shrug",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:39:14.122Z"
+  },
+  {
+    "exerciseId": "0221",
+    "exerciseName": "cable side bend crunch (bosu ball)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:39:20.971Z"
+  },
+  {
+    "exerciseId": "0222",
+    "exerciseName": "cable side bend",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:40:41.553Z"
+  },
+  {
+    "exerciseId": "0223",
+    "exerciseName": "cable side crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:40:48.423Z"
+  },
+  {
+    "exerciseId": "0224",
+    "exerciseName": "cable standing back wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:40:55.296Z"
+  },
+  {
+    "exerciseId": "0225",
+    "exerciseName": "cable standing cross-over high reverse fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:41:02.569Z"
+  },
+  {
+    "exerciseId": "0226",
+    "exerciseName": "cable standing crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:41:10.022Z"
+  },
+  {
+    "exerciseId": "0227",
+    "exerciseName": "cable standing fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:41:18.531Z"
+  },
+  {
+    "exerciseId": "0228",
+    "exerciseName": "cable standing hip extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:16.882Z"
+  },
+  {
+    "exerciseId": "0229",
+    "exerciseName": "cable standing inner curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:23.762Z"
+  },
+  {
+    "exerciseId": "0230",
+    "exerciseName": "cable standing lift",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:30.597Z"
+  },
+  {
+    "exerciseId": "0231",
+    "exerciseName": "cable standing one arm triceps extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:37.769Z"
+  },
+  {
+    "exerciseId": "0232",
+    "exerciseName": "cable standing pulldown (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:45.180Z"
+  },
+  {
+    "exerciseId": "0233",
+    "exerciseName": "cable standing rear delt row (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:52.110Z"
+  },
+  {
+    "exerciseId": "0234",
+    "exerciseName": "cable standing row (v-bar)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:43:58.987Z"
+  },
+  {
+    "exerciseId": "0235",
+    "exerciseName": "cable standing shoulder external rotation",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:07.537Z"
+  },
+  {
+    "exerciseId": "0236",
+    "exerciseName": "cable standing twist row (v-bar)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:14.423Z"
+  },
+  {
+    "exerciseId": "0237",
+    "exerciseName": "cable straight arm pulldown (with rope)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:21.291Z"
+  },
+  {
+    "exerciseId": "0238",
+    "exerciseName": "cable straight arm pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:28.542Z"
+  },
+  {
+    "exerciseId": "0239",
+    "exerciseName": "cable straight back seated row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:35.526Z"
+  },
+  {
+    "exerciseId": "0240",
+    "exerciseName": "cable supine reverse fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:42.427Z"
+  },
+  {
+    "exerciseId": "0241",
+    "exerciseName": "cable triceps pushdown (v-bar)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T21:45:49.280Z"
+  },
+  {
+    "exerciseId": "0242",
+    "exerciseName": "cable tuck reverse crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:16:45.239Z"
+  },
+  {
+    "exerciseId": "0243",
+    "exerciseName": "cable twist",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:16:52.473Z"
+  },
+  {
+    "exerciseId": "0244",
+    "exerciseName": "cable twisting pull",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:16:59.572Z"
+  },
+  {
+    "exerciseId": "0245",
+    "exerciseName": "cable underhand pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:17:06.668Z"
+  },
+  {
+    "exerciseId": "0246",
+    "exerciseName": "cable upright row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:17:13.942Z"
+  },
+  {
+    "exerciseId": "0247",
+    "exerciseName": "cable wrist curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:17:20.987Z"
+  },
+  {
+    "exerciseId": "0248",
+    "exerciseName": "cambered bar lying row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:17:27.994Z"
+  },
+  {
+    "exerciseId": "0251",
+    "exerciseName": "chest dip",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:23:27.426Z"
+  },
+  {
+    "exerciseId": "0253",
+    "exerciseName": "chin-ups (narrow parallel grip)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:23:34.688Z"
+  },
+  {
+    "exerciseId": "0257",
+    "exerciseName": "circles knee stretch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:23:42.031Z"
+  },
+  {
+    "exerciseId": "0258",
+    "exerciseName": "clock push-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:23:49.366Z"
+  },
+  {
+    "exerciseId": "0259",
+    "exerciseName": "close-grip push-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:23:56.410Z"
+  },
+  {
+    "exerciseId": "0260",
+    "exerciseName": "cocoons",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:03.523Z"
+  },
+  {
+    "exerciseId": "0262",
+    "exerciseName": "cross body crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:10.585Z"
+  },
+  {
+    "exerciseId": "0267",
+    "exerciseName": "crunch (hands overhead)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:18.003Z"
+  },
+  {
+    "exerciseId": "0271",
+    "exerciseName": "crunch (on stability ball)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:24.993Z"
+  },
+  {
+    "exerciseId": "0272",
+    "exerciseName": "crunch (on stability ball, arms straight)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:31.961Z"
+  },
+  {
+    "exerciseId": "0274",
+    "exerciseName": "crunch floor",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:38.956Z"
+  },
+  {
+    "exerciseId": "0276",
+    "exerciseName": "dead bug",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:46.021Z"
+  },
+  {
+    "exerciseId": "0277",
+    "exerciseName": "decline crunch",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:52.999Z"
+  },
+  {
+    "exerciseId": "0279",
+    "exerciseName": "decline push-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:24:59.978Z"
+  },
+  {
+    "exerciseId": "0282",
+    "exerciseName": "decline sit-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:06.967Z"
+  },
+  {
+    "exerciseId": "0283",
+    "exerciseName": "diamond push-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:14.026Z"
+  },
+  {
+    "exerciseId": "0284",
+    "exerciseName": "donkey calf raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:20.973Z"
+  },
+  {
+    "exerciseId": "0285",
+    "exerciseName": "dumbbell alternate biceps curl",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:27.929Z"
+  },
+  {
+    "exerciseId": "0286",
+    "exerciseName": "dumbbell alternate side press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:34.918Z"
+  },
+  {
+    "exerciseId": "0287",
+    "exerciseName": "dumbbell arnold press v. 2",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:41.903Z"
+  },
+  {
+    "exerciseId": "0288",
+    "exerciseName": "dumbbell around pullover",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:48.872Z"
+  },
+  {
+    "exerciseId": "0289",
+    "exerciseName": "dumbbell bench press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:25:55.868Z"
+  },
+  {
+    "exerciseId": "0290",
+    "exerciseName": "dumbbell bench seated press",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:02.900Z"
+  },
+  {
+    "exerciseId": "0291",
+    "exerciseName": "dumbbell bench squat",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:09.937Z"
+  },
+  {
+    "exerciseId": "0292",
+    "exerciseName": "dumbbell one arm bent-over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:17.212Z"
+  },
+  {
+    "exerciseId": "0293",
+    "exerciseName": "dumbbell bent over row",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:24.339Z"
+  },
+  {
+    "exerciseId": "0227",
+    "exerciseName": "cable standing fly",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:41.953Z"
+  },
+  {
+    "exerciseId": "0228",
+    "exerciseName": "cable standing hip extension",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:26:49.039Z"
+  },
+  {
+    "exerciseId": "0001",
+    "exerciseName": "3/4 sit-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:44:39.075Z"
+  },
+  {
+    "exerciseId": "0002",
+    "exerciseName": "45° side bend",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:44:46.098Z"
+  },
+  {
+    "exerciseId": "0003",
+    "exerciseName": "air bike",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:44:53.115Z"
+  },
+  {
+    "exerciseId": "0001",
+    "exerciseName": "3/4 sit-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:46:39.214Z"
+  },
+  {
+    "exerciseId": "0002",
+    "exerciseName": "45° side bend",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:46:46.247Z"
+  },
+  {
+    "exerciseId": "0003",
+    "exerciseName": "air bike",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:46:53.208Z"
+  },
+  {
+    "exerciseId": "0006",
+    "exerciseName": "alternate heel touchers",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:00.319Z"
+  },
+  {
+    "exerciseId": "0007",
+    "exerciseName": "alternate lateral pulldown",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:07.344Z"
+  },
+  {
+    "exerciseId": "0009",
+    "exerciseName": "assisted chest dip (kneeling)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:14.334Z"
+  },
+  {
+    "exerciseId": "0010",
+    "exerciseName": "assisted hanging knee raise with throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:21.382Z"
+  },
+  {
+    "exerciseId": "0011",
+    "exerciseName": "assisted hanging knee raise",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:28.400Z"
+  },
+  {
+    "exerciseId": "0012",
+    "exerciseName": "assisted lying leg raise with lateral throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:35.507Z"
+  },
+  {
+    "exerciseId": "0013",
+    "exerciseName": "assisted lying leg raise with throw down",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:42.605Z"
+  },
+  {
+    "exerciseId": "0014",
+    "exerciseName": "assisted motion russian twist",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:49.614Z"
+  },
+  {
+    "exerciseId": "0015",
+    "exerciseName": "assisted parallel close grip pull-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:47:56.669Z"
+  },
+  {
+    "exerciseId": "0016",
+    "exerciseName": "assisted prone hamstring",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:48:03.673Z"
+  },
+  {
+    "exerciseId": "0017",
+    "exerciseName": "assisted pull-up",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:48:10.706Z"
+  },
+  {
+    "exerciseId": "0018",
+    "exerciseName": "assisted standing triceps extension (with towel)",
+    "error": "Failed to insert exercise",
+    "timestamp": "2025-12-25T22:48:17.906Z"
+  }
+]
