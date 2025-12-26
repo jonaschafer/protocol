@@ -16,11 +16,53 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
   const [isCompleted, setIsCompleted] = useState(false);
   const [logs, setLogs] = useState<ExerciseLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [notes, setNotes] = useState('');
+  const [isSavingNotes, setIsSavingNotes] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
 
   // Check if exercise has been logged today
   useEffect(() => {
     checkCompletionStatus();
   }, [exercise.id]);
+
+  // Auto-save notes with debouncing (2.5 seconds after user stops typing)
+  useEffect(() => {
+    if (!notes || !isCompleted) return; // Only save if completed and has notes
+
+    const timer = setTimeout(async () => {
+      setIsSavingNotes(true);
+      try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const { data: existingLogs } = await supabase
+          .from('exercise_logs')
+          .select('id')
+          .eq('session_exercise_id', exercise.id)
+          .gte('logged_at', today.toISOString())
+          .order('logged_at', { ascending: false })
+          .limit(1);
+
+        if (existingLogs && existingLogs.length > 0) {
+          const { error } = await supabase
+            .from('exercise_logs')
+            .update({ notes })
+            .eq('id', existingLogs[0].id);
+
+          if (error) throw error;
+
+          setShowSaved(true);
+          setTimeout(() => setShowSaved(false), 2000);
+        }
+      } catch (error) {
+        console.error('Error auto-saving notes:', error);
+      } finally {
+        setIsSavingNotes(false);
+      }
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [notes, exercise.id, isCompleted]);
 
   const checkCompletionStatus = async () => {
     setIsLoading(true);
@@ -41,6 +83,10 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
         setLogs(data);
         setIsCompleted(true);
         setIsStarted(false);
+        // Load notes from the most recent log
+        if (data[0].notes) {
+          setNotes(data[0].notes);
+        }
       }
     } catch (error) {
       console.error('Error checking completion status:', error);
@@ -157,6 +203,30 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
       {exercise.notes && (
         <div className="text-sm text-gray-700 bg-gray-50 rounded p-2 mb-3">
           <span className="font-medium">Note:</span> {exercise.notes}
+        </div>
+      )}
+
+      {/* Workout Notes - Always visible when completed */}
+      {isCompleted && (
+        <div className="mb-3">
+          <label className="block text-xs font-medium text-gray-700 mb-1">
+            Workout Notes
+          </label>
+          <div className="relative">
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Add notes about this workout (optional)"
+              rows={2}
+              style={{ fontSize: '16px' }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            />
+            {showSaved && (
+              <div className="absolute right-2 top-2 text-xs text-green-600 font-medium bg-white px-2 py-1 rounded shadow-sm">
+                Saved ✓
+              </div>
+            )}
+          </div>
         </div>
       )}
 
