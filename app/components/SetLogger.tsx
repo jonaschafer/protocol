@@ -57,6 +57,8 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
   const [amrapSets, setAmrapSets] = useState<AMRAPSetData[]>(initializeAMRAPSets());
   const [isLogging, setIsLogging] = useState(false);
   const [notes, setNotes] = useState('');
+  const [isSavingNotes, setIsSavingNotes] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
 
   // Fetch progression suggestion on mount
   useEffect(() => {
@@ -88,6 +90,48 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
 
     fetchProgression();
   }, [exercise.id]);
+
+  // Auto-save notes with debouncing (2.5 seconds after user stops typing)
+  useEffect(() => {
+    if (!notes) return; // Don't save empty notes
+
+    const timer = setTimeout(async () => {
+      setIsSavingNotes(true);
+      try {
+        // Check if there's already a log for today
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const { data: existingLogs } = await supabase
+          .from('exercise_logs')
+          .select('id, notes')
+          .eq('session_exercise_id', exercise.id)
+          .gte('logged_at', today.toISOString())
+          .order('logged_at', { ascending: false })
+          .limit(1);
+
+        if (existingLogs && existingLogs.length > 0) {
+          // Update existing log's notes
+          const { error } = await supabase
+            .from('exercise_logs')
+            .update({ notes })
+            .eq('id', existingLogs[0].id);
+
+          if (error) throw error;
+        }
+        // If no log exists yet, notes will be saved when sets are logged
+
+        setShowSaved(true);
+        setTimeout(() => setShowSaved(false), 2000);
+      } catch (error) {
+        console.error('Error auto-saving notes:', error);
+      } finally {
+        setIsSavingNotes(false);
+      }
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [notes, exercise.id]);
 
   const handleLogSet = async (setIndex: number) => {
     const setData = sets[setIndex];
@@ -234,30 +278,37 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
     );
   };
 
-  // Notes Component (shows last note and input for new note)
-  const NotesSection = () => (
-    <div className="mb-3">
-      {lastLog?.notes && (
-        <div className="text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-2">
-          <span className="font-semibold">Last time:</span> {lastLog.notes}
-        </div>
-      )}
-      <textarea
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        placeholder="Add notes (optional)"
-        rows={2}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-      />
-    </div>
-  );
 
   // AMRAP rendering for calf raises (set-by-set with left/right legs)
   if (isAMRAP) {
     return (
       <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
         <ProgressionDisplay />
-        <NotesSection />
+
+        {/* Notes Section */}
+        <div className="mb-3">
+          {lastLog?.notes && (
+            <div className="text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-2">
+              <span className="font-semibold">Last time:</span> {lastLog.notes}
+            </div>
+          )}
+          <div className="relative">
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Add notes (optional)"
+              rows={2}
+              style={{ fontSize: '16px' }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            />
+            {showSaved && (
+              <div className="absolute right-2 top-2 text-xs text-green-600 font-medium bg-white px-2 py-1 rounded shadow-sm">
+                Saved ✓
+              </div>
+            )}
+          </div>
+        </div>
+
         {amrapSets.map((setData, index) => (
           <div
             key={index}
@@ -342,7 +393,31 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
       <ProgressionDisplay />
-      <NotesSection />
+
+      {/* Notes Section */}
+      <div className="mb-3">
+        {lastLog?.notes && (
+          <div className="text-xs text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-2 mb-2">
+            <span className="font-semibold">Last time:</span> {lastLog.notes}
+          </div>
+        )}
+        <div className="relative">
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Add notes (optional)"
+            rows={2}
+            style={{ fontSize: '16px' }}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          />
+          {showSaved && (
+            <div className="absolute right-2 top-2 text-xs text-green-600 font-medium bg-white px-2 py-1 rounded shadow-sm">
+              Saved ✓
+            </div>
+          )}
+        </div>
+      </div>
+
       {sets.map((setData, index) => (
         <div
           key={index}
