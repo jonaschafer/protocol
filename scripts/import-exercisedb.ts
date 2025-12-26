@@ -18,22 +18,39 @@
  * - EXERCISEDB_API_KEY: Your RapidAPI key for ExerciseDB
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load .env.local from project root using absolute path
+const envPath = resolve(process.cwd(), '.env.local');
+config({ path: envPath });
+
+// Verify critical env vars are loaded
+const requiredVars = {
+  'NEXT_PUBLIC_SUPABASE_URL': process.env.NEXT_PUBLIC_SUPABASE_URL,
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  'EXERCISEDB_API_KEY': process.env.EXERCISEDB_API_KEY,
+};
+
+const missingVars = Object.entries(requiredVars)
+  .filter(([_, value]) => !value)
+  .map(([key]) => key);
+
+if (missingVars.length > 0) {
+  console.error('❌ Missing required environment variables:');
+  missingVars.forEach(varName => console.error(`   - ${varName}`));
+  console.error('\nMake sure .env.local exists in project root with all required variables.');
+  process.exit(1);
+}
+
+console.log('✅ Environment variables loaded successfully\n');
+
+// NOW import Node.js built-ins (safe to import before env vars)
 import * as fs from 'fs';
 import * as path from 'path';
-import * as dotenv from 'dotenv';
-import {
-  fetchAllExercises,
-  downloadGif,
-  uploadGifToSupabase,
-  transformExercise,
-  insertExercise,
-  exerciseExists,
-  delay,
-  type ExerciseDBExercise,
-} from '../lib/exercisedb';
 
-// Load environment variables
-dotenv.config({ path: '.env.local' });
+// Import type only (no runtime code)
+import type { ExerciseDBExercise } from '../lib/exercisedb';
 
 // Configuration
 const BATCH_SIZE = 100; // Fetch 100 exercises at a time
@@ -104,73 +121,19 @@ function logError(error: ImportError): void {
 }
 
 /**
- * Import a single exercise with retry logic
- */
-async function importExercise(
-  exercise: ExerciseDBExercise,
-  apiKey: string,
-  retries: number = RETRY_ATTEMPTS
-): Promise<boolean> {
-  try {
-    // Check if already exists
-    if (await exerciseExists(exercise.id)) {
-      console.log(`  ⏭️  ${exercise.name} (already exists)`);
-      return true;
-    }
-
-    // Download GIF
-    let gifPath: string | null = null;
-    try {
-      console.log(`  📥 Downloading GIF for ${exercise.name}...`);
-      const gifBuffer = await downloadGif(exercise.gifUrl);
-
-      // Upload to Supabase Storage
-      console.log(`  ☁️  Uploading GIF to storage...`);
-      gifPath = await uploadGifToSupabase(gifBuffer, exercise.name, exercise.id);
-
-      if (!gifPath) {
-        console.warn(`  ⚠️  Failed to upload GIF for ${exercise.name}, continuing without it`);
-      }
-    } catch (error) {
-      console.warn(`  ⚠️  Error with GIF for ${exercise.name}:`, error instanceof Error ? error.message : error);
-      // Continue without GIF
-    }
-
-    // Transform and insert
-    const transformed = transformExercise(exercise, gifPath);
-    const success = await insertExercise(transformed);
-
-    if (success) {
-      console.log(`  ✅ Imported: ${exercise.name}`);
-      return true;
-    } else {
-      throw new Error('Failed to insert exercise');
-    }
-  } catch (error) {
-    if (retries > 0) {
-      console.log(`  🔄 Retrying ${exercise.name} (${retries} attempts left)...`);
-      await delay(2000); // Wait 2 seconds before retry
-      return importExercise(exercise, apiKey, retries - 1);
-    }
-
-    // Log error
-    logError({
-      exerciseId: exercise.id,
-      exerciseName: exercise.name,
-      error: error instanceof Error ? error.message : String(error),
-      timestamp: new Date().toISOString(),
-    });
-
-    console.error(`  ❌ Failed to import ${exercise.name}:`, error instanceof Error ? error.message : error);
-    return false;
-  }
-}
-
-/**
  * Main import function
  */
 async function main() {
   console.log('🏋️  ExerciseDB Import Script\n');
+
+  // Dynamically import exercisedb module AFTER env vars are loaded
+  const {
+    fetchAllExercises,
+    transformExercise,
+    insertExercise,
+    exerciseExists,
+    delay,
+  } = await import('../lib/exercisedb.js');
 
   // Check for API key
   const apiKey = process.env.EXERCISEDB_API_KEY;
@@ -178,6 +141,54 @@ async function main() {
     console.error('❌ Error: EXERCISEDB_API_KEY not found in .env.local');
     console.error('Please add: EXERCISEDB_API_KEY=your_api_key_here');
     process.exit(1);
+  }
+
+  /**
+   * Import a single exercise with retry logic
+   */
+  async function importExercise(
+    exercise: ExerciseDBExercise,
+    apiKey: string,
+    retries: number = RETRY_ATTEMPTS
+  ): Promise<boolean> {
+    try {
+      // Check if already exists
+      if (await exerciseExists(exercise.id)) {
+        console.log(`  ⏭️  ${exercise.name} (already exists)`);
+        return true;
+      }
+
+      // Skip GIF download for now - will add later
+      const gifPath = null;
+
+      // Transform and insert
+      const transformed = transformExercise(exercise, gifPath);
+      const success = await insertExercise(transformed);
+
+      if (success) {
+        console.log(`  ✅ Imported: ${exercise.name}`);
+        return true;
+      } else {
+        throw new Error('Failed to insert exercise');
+      }
+    } catch (error) {
+      if (retries > 0) {
+        console.log(`  🔄 Retrying ${exercise.name} (${retries} attempts left)...`);
+        await delay(2000); // Wait 2 seconds before retry
+        return importExercise(exercise, apiKey, retries - 1);
+      }
+
+      // Log error
+      logError({
+        exerciseId: exercise.id,
+        exerciseName: exercise.name,
+        error: error instanceof Error ? error.message : String(error),
+        timestamp: new Date().toISOString(),
+      });
+
+      console.error(`  ❌ Failed to import ${exercise.name}:`, error instanceof Error ? error.message : error);
+      return false;
+    }
   }
 
   // Load or initialize progress

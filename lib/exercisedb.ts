@@ -3,21 +3,24 @@
  * Handles fetching exercises from ExerciseDB API and uploading to Supabase
  */
 
+import axios from 'axios';
 import { supabase } from './supabase';
 
 // ExerciseDB API base URL
 const EXERCISEDB_API_URL = 'https://exercisedb.p.rapidapi.com';
 
-// ExerciseDB exercise interface
+// ExerciseDB exercise interface (with optional fields to handle API variations)
 export interface ExerciseDBExercise {
   id: string;
   name: string;
   bodyPart: string;
   equipment: string;
-  gifUrl: string;
+  gifUrl?: string;        // Might be this
+  gif?: string;           // Or this
+  imageUrl?: string;      // Or this
   target: string;
-  secondaryMuscles: string[];
-  instructions: string[];
+  secondaryMuscles?: string[];
+  instructions?: string[];
 }
 
 // Our exercise library interface
@@ -60,23 +63,61 @@ export async function fetchAllExercises(
   }
 
   const exercises: ExerciseDBExercise[] = await response.json();
+
+  // DEBUG: Log first exercise to see actual API structure
+  if (exercises && exercises.length > 0 && offset === 0) {
+    console.log('\n📋 Sample exercise from API:');
+    console.log(JSON.stringify(exercises[0], null, 2));
+    console.log('');
+  }
+
   return exercises;
 }
 
 /**
- * Download GIF file from URL
- * @param url - GIF URL from ExerciseDB
+ * Download GIF file for an exercise
+ * @param exerciseId - ExerciseDB exercise ID
  * @returns Buffer containing the GIF data
  */
-export async function downloadGif(url: string): Promise<Buffer> {
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(`Failed to download GIF: ${response.status} ${response.statusText}`);
+export async function downloadGif(exerciseId: string): Promise<Buffer> {
+  const apiKey = process.env.EXERCISEDB_API_KEY;
+  if (!apiKey) {
+    throw new Error('EXERCISEDB_API_KEY is required');
   }
 
-  const arrayBuffer = await response.arrayBuffer();
-  return Buffer.from(arrayBuffer);
+  try {
+    // First, get the exercise details which includes the GIF URL
+    const detailResponse = await axios.get(
+      `https://exercisedb.p.rapidapi.com/exercises/exercise/${exerciseId}`,
+      {
+        headers: {
+          'X-RapidAPI-Key': apiKey,
+          'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com',
+        },
+      }
+    );
+
+    // Extract GIF URL from response (might be in gifUrl, imageUrl, or similar field)
+    const exercise = detailResponse.data;
+    const gifUrl = exercise.gifUrl || exercise.imageUrl || exercise.gif;
+
+    if (!gifUrl) {
+      throw new Error('No GIF URL found in exercise data');
+    }
+
+    // Now download the actual GIF from the URL
+    const gifResponse = await axios.get(gifUrl, {
+      responseType: 'arraybuffer',
+      timeout: 30000,
+    });
+
+    return Buffer.from(gifResponse.data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Failed to download GIF: ${error.response?.status} ${error.response?.statusText}`);
+    }
+    throw error;
+  }
 }
 
 /**
@@ -150,18 +191,26 @@ export function inferDifficulty(equipment: string): 'beginner' | 'intermediate' 
 }
 
 /**
+ * Construct API endpoint URL for fetching exercise GIF
+ * GIFs are served through the ExerciseDB API with authentication
+ */
+export function getExerciseGifUrl(exerciseId: string): string {
+  return `https://exercisedb.p.rapidapi.com/exercises/exercise/${exerciseId}`;
+}
+
+/**
  * Transform ExerciseDB exercise to our schema format
  */
 export function transformExercise(exercise: ExerciseDBExercise, gifPath: string | null): ExerciseLibraryRow {
   return {
     external_id: exercise.id,
     name: exercise.name,
-    description: exercise.instructions.join(' '), // Join instructions into description
+    description: (exercise.instructions || []).join(' '), // Join instructions into description
     body_parts: [exercise.bodyPart], // Convert to array
     equipment: [exercise.equipment], // Convert to array
     difficulty: inferDifficulty(exercise.equipment),
     demo_file_path: gifPath,
-    instructions: exercise.instructions,
+    instructions: exercise.instructions || [],
     target_muscles: [exercise.target],
     secondary_muscles: exercise.secondaryMuscles || [],
   };

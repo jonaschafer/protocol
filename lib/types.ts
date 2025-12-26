@@ -129,6 +129,7 @@ export interface ExerciseLibrary {
   equipment: string[];
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   demo_file_path?: string; // Supabase Storage path to GIF
+  external_video_url?: string; // External URL to exercise image/GIF
   instructions: string[];
   target_muscles: string[];
   secondary_muscles: string[];

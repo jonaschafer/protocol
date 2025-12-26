@@ -9,6 +9,7 @@ export default function Navigation() {
   const links = [
     { href: '/today', label: 'Today', icon: '📅' },
     { href: '/protocols', label: 'Protocols', icon: '📋' },
+    { href: '/library', label: 'Library', icon: '📚' },
     { href: '/history', label: 'History', icon: '📊' },
   ];
 

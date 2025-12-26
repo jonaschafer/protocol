@@ -14,12 +14,10 @@ import { calculateSessionVolume, calculateExerciseVolume } from './historyUtils'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable');
-}
-
-if (!supabaseAnonKey) {
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable');
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Missing Supabase environment variables. Check .env.local file.'
+  );
 }
 
 // Create a single supabase client for interacting with your database
@@ -613,6 +611,24 @@ export async function getPersonalRecords(): Promise<PersonalRecord[]> {
     return prs;
   } catch (error) {
     console.error('Error fetching personal records:', error);
+    return [];
+  }
+}
+
+/**
+ * Get all exercises from the exercise library
+ */
+export async function getAllExercises() {
+  try {
+    const { data, error } = await supabase
+      .from('exercise_library')
+      .select('*')
+      .order('name', { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching exercises:', error);
     return [];
   }
 }
