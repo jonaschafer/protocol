@@ -135,6 +135,16 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
 
   const handleLogSet = async (setIndex: number) => {
     const setData = sets[setIndex];
+
+    // If already logged, undo it
+    if (setData.logged) {
+      const newSets = [...sets];
+      newSets[setIndex].logged = false;
+      setSets(newSets);
+      return;
+    }
+
+    // Otherwise, log the set
     if (!setData.reps) return;
 
     setIsLogging(true);
@@ -169,6 +179,16 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
 
   const handleLogAMRAPSet = async (setIndex: number) => {
     const setData = amrapSets[setIndex];
+
+    // If already logged, undo it
+    if (setData.logged) {
+      const newSets = [...amrapSets];
+      newSets[setIndex].logged = false;
+      setAmrapSets(newSets);
+      return;
+    }
+
+    // Otherwise, log the set
     if (!setData.leftReps || !setData.rightReps) {
       alert('Please enter reps for both legs');
       return;
@@ -359,21 +379,19 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
               </div>
             </div>
 
-            {setData.logged ? (
-              <div className="flex items-center justify-center text-green-600 text-sm font-medium">
-                ✓ Set {index + 1} logged: L:{setData.leftReps}, R:{setData.rightReps}
-              </div>
-            ) : (
-              <button
-                onClick={() => handleLogAMRAPSet(index)}
-                disabled={
-                  isLogging || !setData.leftReps || !setData.rightReps
-                }
-                className="w-full py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed min-h-[44px]"
-              >
-                {isLogging ? 'Logging...' : `Log Set ${index + 1}`}
-              </button>
-            )}
+            <button
+              onClick={() => handleLogAMRAPSet(index)}
+              disabled={
+                isLogging && !setData.logged || (!setData.logged && (!setData.leftReps || !setData.rightReps))
+              }
+              className={`w-full py-2 rounded-lg font-medium min-h-[44px] ${
+                setData.logged
+                  ? 'bg-green-600 text-white hover:bg-green-700'
+                  : 'bg-gray-400 text-white hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed'
+              }`}
+            >
+              {setData.logged ? `Log Set ${index + 1} ✓` : (isLogging ? 'Logging...' : `Log Set ${index + 1}`)}
+            </button>
           </div>
         ))}
 
@@ -460,17 +478,17 @@ export default function SetLogger({ exercise, onComplete }: SetLoggerProps) {
             </>
           )}
 
-          {setData.logged ? (
-            <div className="ml-auto text-green-600 text-xl">✓</div>
-          ) : (
-            <button
-              onClick={() => handleLogSet(index)}
-              disabled={isLogging || !setData.reps}
-              className="ml-auto px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed min-h-[44px] min-w-[60px]"
-            >
-              Log
-            </button>
-          )}
+          <button
+            onClick={() => handleLogSet(index)}
+            disabled={isLogging && !setData.logged}
+            className={`ml-auto px-3 py-2 rounded-lg text-sm font-medium min-h-[44px] min-w-[60px] ${
+              setData.logged
+                ? 'bg-green-600 text-white hover:bg-green-700'
+                : 'bg-gray-400 text-white hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed'
+            }`}
+          >
+            {setData.logged ? 'Log ✓' : 'Log'}
+          </button>
         </div>
       ))}
 
