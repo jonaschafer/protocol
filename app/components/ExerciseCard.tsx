@@ -53,33 +53,38 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
     setIsStarted(true);
   };
 
-  const handleComplete = () => {
-    setIsCompleted(true);
-    setIsStarted(false);
+  const handleComplete = async () => {
+    await checkCompletionStatus();
     onComplete();
   };
 
-  const handleUndo = async () => {
-    if (!window.confirm('Delete today\'s log for this exercise?')) return;
+  const handleToggleLog = async () => {
+    if (isCompleted) {
+      // Undo - delete the log
+      if (!window.confirm('Delete today\'s log for this exercise?')) return;
 
-    try {
-      // Delete all logs for this exercise from today
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-      const { error } = await supabase
-        .from('exercise_logs')
-        .delete()
-        .eq('session_exercise_id', exercise.id)
-        .gte('logged_at', today.toISOString());
+        const { error } = await supabase
+          .from('exercise_logs')
+          .delete()
+          .eq('session_exercise_id', exercise.id)
+          .gte('logged_at', today.toISOString());
 
-      if (error) throw error;
+        if (error) throw error;
 
-      setIsCompleted(false);
-      setLogs([]);
-    } catch (error) {
-      console.error('Error deleting logs:', error);
-      alert('Failed to delete log. Please try again.');
+        setIsCompleted(false);
+        setIsStarted(false);
+        setLogs([]);
+      } catch (error) {
+        console.error('Error deleting logs:', error);
+        alert('Failed to delete log. Please try again.');
+      }
+    } else {
+      // Log - open the SetLogger
+      setIsStarted(true);
     }
   };
 
@@ -161,19 +166,17 @@ export default function ExerciseCard({ exercise, onComplete }: ExerciseCardProps
         </div>
       )}
 
-      {!isStarted && (
-        <button
-          onClick={isCompleted ? handleUndo : handleStart}
-          disabled={isLoading}
-          className={`w-full py-2 rounded-lg font-medium transition-colors min-h-[44px] ${
-            isCompleted
-              ? 'bg-green-600 text-white hover:bg-green-700'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-          }`}
-        >
-          {isLoading ? 'Loading...' : isCompleted ? 'Logged ✓' : 'Log'}
-        </button>
-      )}
+      <button
+        onClick={handleToggleLog}
+        disabled={isLoading || isStarted}
+        className={`w-full py-2 rounded-lg font-medium transition-colors min-h-[44px] ${
+          isCompleted
+            ? 'bg-green-600 text-white hover:bg-green-700 disabled:bg-green-400'
+            : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400'
+        }`}
+      >
+        {isLoading ? 'Loading...' : isStarted ? 'Logging...' : isCompleted ? 'Logged ✓' : 'Log'}
+      </button>
 
       <AnimatePresence>
         {isStarted && (
