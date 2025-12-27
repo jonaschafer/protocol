@@ -85,7 +85,26 @@ CREATE TABLE daily_workouts (
 
 ## Usage
 
-### Run the seeding script:
+### Step 1: Run the database migration
+
+First, you need to create the required tables in your Supabase database:
+
+```bash
+npm run migrate
+```
+
+This will display SQL that you need to run in your Supabase SQL Editor. Follow the instructions printed to the console:
+
+1. Copy the SQL output
+2. Go to your Supabase dashboard
+3. Navigate to SQL Editor
+4. Paste and run the SQL
+
+Alternatively, you can run the SQL from `supabase/migrations/001_add_training_plan_tables.sql` directly in the Supabase SQL Editor.
+
+### Step 2: Run the seeding script
+
+Once the tables are created, run the seeding script:
 
 ```bash
 npm run seed:plan
