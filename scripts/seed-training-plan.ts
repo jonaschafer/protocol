@@ -48,6 +48,8 @@ const PLAN_DATA = {
   start_date: "2026-01-05",
   end_date: "2026-09-07",
   total_weeks: 36,
+  current_week: 1,
+  is_active: true,
 };
 
 const PHASES = [
@@ -80,7 +82,8 @@ const PHASES = [
 // Week 1 data
 const WEEK_1_PLAN = {
   week_number: 1,
-  start_date: "2026-01-05",
+  phase: "Foundation",  // TEXT field, not foreign key
+  week_start_date: "2026-01-05",  // renamed from start_date
   end_date: "2026-01-11",
   week_theme: "Start conservative, establish PT habit",
   target_miles: 27,
@@ -90,78 +93,69 @@ const WEEK_1_PLAN = {
 
 const WEEK_1_WORKOUTS = [
   {
-    date: "2026-01-05",
+    workout_date: "2026-01-05",
     day_of_week: "Monday",
     workout_type: "rest",
-    workout_name: "Rest Day + PT",
-    description: "Full rest day with PT Foundation exercises",
-    notes: "PT exercises daily (10-15min): Hip marches, single-leg glute bridges, calf raises (goal: 30 each leg), Copenhagen planks, standing clamshells",
+    workout_notes: "PT exercises daily (10-15min): Hip marches, single-leg glute bridges, calf raises (goal: 30 each leg), Copenhagen planks, standing clamshells",
   },
   {
-    date: "2026-01-06",
+    workout_date: "2026-01-06",
     day_of_week: "Tuesday",
     workout_type: "run",
-    workout_name: "Tuesday Group Run",
-    description: "Social anchor run, conversational pace",
-    target_distance_miles: 6,
-    target_vert_feet: 1500,
-    effort_guidance: "Z2, RPE 6-7, conversational",
-    notes: "Non-negotiable social run. Pre-run: Toast + jam, water 30min before",
+    run_distance_miles: 6,
+    run_vert_feet: 1500,
+    run_effort: "Z2, RPE 6-7, conversational",
+    run_notes: "Tuesday Group Run - Social anchor run",
+    pre_run_fuel: "Toast + jam, water 30min before",
+    workout_notes: "Non-negotiable social run",
   },
   {
-    date: "2026-01-07",
+    workout_date: "2026-01-07",
     day_of_week: "Wednesday",
     workout_type: "run",
-    workout_name: "Easy Run",
-    description: "Recovery pace, easy effort",
-    target_distance_miles: 4,
-    target_vert_feet: 0,
-    effort_guidance: "Z2, RPE 5-6",
-    pace_guidance: "10:30-11:30/mi on flat",
-    notes: "Conversational, recovery pace. Optional rowing instead: 30min Z2",
+    run_distance_miles: 4,
+    run_vert_feet: 0,
+    run_effort: "Z2, RPE 5-6",
+    run_notes: "Easy Run - Recovery pace, 10:30-11:30/mi on flat",
+    workout_notes: "Conversational, recovery pace. Optional rowing instead: 30min Z2",
   },
   {
-    date: "2026-01-08",
+    workout_date: "2026-01-08",
     day_of_week: "Thursday",
     workout_type: "run",
-    workout_name: "Easy Run",
-    description: "Easy effort, maintain conversation",
-    target_distance_miles: 5,
-    target_vert_feet: 300,
-    effort_guidance: "Z2, RPE 5-6",
-    pace_guidance: "10:30-11:30/mi",
-    notes: "Recovery run or 40min rowing Z2",
+    run_distance_miles: 5,
+    run_vert_feet: 300,
+    run_effort: "Z2, RPE 5-6",
+    run_notes: "Easy Run - 10:30-11:30/mi",
+    workout_notes: "Recovery run or 40min rowing Z2",
   },
   {
-    date: "2026-01-09",
+    workout_date: "2026-01-09",
     day_of_week: "Friday",
     workout_type: "rest",
-    workout_name: "Rest Day + PT",
-    description: "Full rest with PT exercises",
-    notes: "PT Foundation exercises + mobility work",
+    workout_notes: "PT Foundation exercises + mobility work",
   },
   {
-    date: "2026-01-10",
+    workout_date: "2026-01-10",
     day_of_week: "Saturday",
     workout_type: "run",
-    workout_name: "Long Run",
-    description: "Progressive long run building endurance",
-    target_distance_miles: 8,
-    target_vert_feet: 400,
-    effort_guidance: "Z2, RPE 6",
-    notes: "Practice race nutrition: 1 gel at 30min. Routes: Marine Drive (flat) or Sellwood → Cemetery (rollers)",
+    run_distance_miles: 8,
+    run_vert_feet: 400,
+    run_effort: "Z2, RPE 6",
+    run_notes: "Long Run - Progressive endurance building",
+    run_route: "Marine Drive (flat) or Sellwood → Cemetery (rollers)",
+    during_run_nutrition: "1 gel at 30min",
+    workout_notes: "Practice race nutrition",
   },
   {
-    date: "2026-01-11",
+    workout_date: "2026-01-11",
     day_of_week: "Sunday",
     workout_type: "run",
-    workout_name: "Easy Run",
-    description: "Shake-out run, very easy",
-    target_distance_miles: 4,
-    target_vert_feet: 0,
-    effort_guidance: "Z2, RPE 5",
-    pace_guidance: "11:00-12:00/mi",
-    notes: "Recovery pace or 30min rowing (18-20 SPM, very easy)",
+    run_distance_miles: 4,
+    run_vert_feet: 0,
+    run_effort: "Z2, RPE 5",
+    run_notes: "Easy Run - Shake-out, 11:00-12:00/mi",
+    workout_notes: "Recovery pace or 30min rowing (18-20 SPM, very easy)",
   },
 ];
 
@@ -185,6 +179,11 @@ async function seedTrainingPlan() {
       return existingPlan.id;
     }
 
+    // Log data being inserted
+    console.log('📤 Inserting training plan with data:');
+    console.log(JSON.stringify(PLAN_DATA, null, 2));
+    console.log('');
+
     // Insert training plan
     const { data: plan, error: planError } = await supabase
       .from('training_plans')
@@ -192,7 +191,11 @@ async function seedTrainingPlan() {
       .select()
       .single();
 
-    if (planError) throw planError;
+    if (planError) {
+      console.log('❌ Insert failed with error:');
+      console.log(JSON.stringify(planError, null, 2));
+      throw planError;
+    }
 
     console.log(`✅ Created training plan: ${plan.plan_name}`);
     console.log(`   ID: ${plan.id}`);
@@ -226,13 +229,22 @@ async function seedPhases(planId: string) {
       return existingPhases;
     }
 
+    // Log data being inserted
+    console.log('📤 Inserting phases with data:');
+    console.log(JSON.stringify(phasesWithPlanId, null, 2));
+    console.log('');
+
     // Insert phases
     const { data: phases, error: phasesError } = await supabase
       .from('training_phases')
       .insert(phasesWithPlanId)
       .select();
 
-    if (phasesError) throw phasesError;
+    if (phasesError) {
+      console.log('❌ Insert failed with error:');
+      console.log(JSON.stringify(phasesError, null, 2));
+      throw phasesError;
+    }
 
     phases.forEach(phase => {
       console.log(`✅ Created phase: ${phase.name}`);
@@ -248,7 +260,7 @@ async function seedPhases(planId: string) {
   }
 }
 
-async function seedWeek1(planId: string, phaseId: string) {
+async function seedWeek1(planId: string) {
   console.log('📆 Seeding Week 1\n');
 
   try {
@@ -266,18 +278,29 @@ async function seedWeek1(planId: string, phaseId: string) {
       console.log(`ℹ️  Week 1 plan already exists (${existingWeek.id})`);
       weeklyPlanId = existingWeek.id;
     } else {
+      const weekData = {
+        ...WEEK_1_PLAN,
+        plan_id: planId,
+        // phase is already in WEEK_1_PLAN, no phase_id needed
+      };
+
+      // Log data being inserted
+      console.log('📤 Inserting weekly plan with data:');
+      console.log(JSON.stringify(weekData, null, 2));
+      console.log('');
+
       // Insert weekly plan
       const { data: week, error: weekError } = await supabase
         .from('weekly_plans')
-        .insert({
-          ...WEEK_1_PLAN,
-          plan_id: planId,
-          phase_id: phaseId,
-        })
+        .insert(weekData)
         .select()
         .single();
 
-      if (weekError) throw weekError;
+      if (weekError) {
+        console.log('❌ Insert failed with error:');
+        console.log(JSON.stringify(weekError, null, 2));
+        throw weekError;
+      }
 
       console.log(`✅ Created Week 1 plan`);
       console.log(`   Theme: ${week.week_theme}`);
@@ -317,20 +340,30 @@ async function seedDailyWorkouts(weeklyPlanId: string) {
       weekly_plan_id: weeklyPlanId,
     }));
 
+    // Log data being inserted
+    console.log('📤 Inserting daily workouts with data:');
+    console.log(JSON.stringify(workoutsWithPlanId, null, 2));
+    console.log('');
+
     const { data: workouts, error: workoutsError } = await supabase
       .from('daily_workouts')
       .insert(workoutsWithPlanId)
       .select();
 
-    if (workoutsError) throw workoutsError;
+    if (workoutsError) {
+      console.log('❌ Insert failed with error:');
+      console.log(JSON.stringify(workoutsError, null, 2));
+      throw workoutsError;
+    }
 
     workouts.forEach((workout, index) => {
-      console.log(`✅ ${workout.day_of_week} (${workout.date}): ${workout.workout_name}`);
-      if (workout.target_distance_miles) {
-        console.log(`   ${workout.target_distance_miles} miles, ${workout.target_vert_feet} ft vert`);
+      const workoutName = workout.run_notes?.split(' - ')[0] || workout.workout_type;
+      console.log(`✅ ${workout.day_of_week} (${workout.workout_date}): ${workoutName}`);
+      if (workout.run_distance_miles) {
+        console.log(`   ${workout.run_distance_miles} miles, ${workout.run_vert_feet} ft vert`);
       }
-      if (workout.effort_guidance) {
-        console.log(`   Effort: ${workout.effort_guidance}`);
+      if (workout.run_effort) {
+        console.log(`   Effort: ${workout.run_effort}`);
       }
       if (index < workouts.length - 1) console.log('');
     });
@@ -358,13 +391,8 @@ async function main() {
     const planId = await seedTrainingPlan();
     const phases = await seedPhases(planId);
 
-    // Get Foundation phase ID
-    const foundationPhase = phases.find(p => p.name === 'Foundation');
-    if (!foundationPhase) {
-      throw new Error('Foundation phase not found');
-    }
-
-    await seedWeek1(planId, foundationPhase.id);
+    // Seed Week 1 (phase is stored as text in weekly_plans, not a foreign key)
+    await seedWeek1(planId);
 
     console.log('='.repeat(60));
     console.log('\n🎉 Seeding Complete!\n');
