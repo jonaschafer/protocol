@@ -86,9 +86,9 @@ const WEEK_1_PLAN = {
   week_start_date: "2026-01-05",  // renamed from start_date
   end_date: "2026-01-11",
   week_theme: "Start conservative, establish PT habit",
-  target_miles: 27,
-  target_vert: 2200,
-  notes: "Foundation phase begins - focus on consistency and tissue adaptation",
+  target_miles: 24,  // Tue 6mi + Wed 4mi + Thu 5mi + Sun 9mi
+  target_vert: 2100,  // Tue 1500ft + Thu 500ft + Sun 100ft
+  notes: "Foundation phase begins - focus on consistency and tissue adaptation. 2 strength sessions (Heavy Day 1, Heavy Day 2). Daily PT Foundation exercises.",
 };
 
 const WEEK_1_WORKOUTS = [
@@ -96,7 +96,7 @@ const WEEK_1_WORKOUTS = [
     workout_date: "2026-01-05",
     day_of_week: "Monday",
     workout_type: "rest",
-    workout_notes: "PT exercises daily (10-15min): Hip marches, single-leg glute bridges, calf raises (goal: 30 each leg), Copenhagen planks, standing clamshells",
+    workout_notes: "PT Foundation exercises (10-15min): Hip marches, single-leg glute bridges, calf raises (goal: 30 each leg), Copenhagen planks, standing clamshells",
   },
   {
     workout_date: "2026-01-06",
@@ -107,7 +107,14 @@ const WEEK_1_WORKOUTS = [
     run_effort: "Z2, RPE 6-7, conversational",
     run_notes: "Tuesday Group Run - Social anchor run",
     pre_run_fuel: "Toast + jam, water 30min before",
-    workout_notes: "Non-negotiable social run",
+    strength_session_type: "Heavy Day 1",
+    strength_duration_minutes: 30,
+    strength_exercises: JSON.stringify([
+      { name: "Trap Bar Deadlift", sets: 3, reps: 8, weight: 95, weight_unit: "lbs" },
+      { name: "Bulgarian Split Squat", sets: 3, reps: "8 each", weight: 20, weight_unit: "lbs" },
+      { name: "Farmer's Carry", sets: 2, reps: "50ft", weight: 35, weight_unit: "lbs", note: "each hand" }
+    ]),
+    workout_notes: "Non-negotiable social run + strength after",
   },
   {
     workout_date: "2026-01-07",
@@ -117,17 +124,24 @@ const WEEK_1_WORKOUTS = [
     run_vert_feet: 0,
     run_effort: "Z2, RPE 5-6",
     run_notes: "Easy Run - Recovery pace, 10:30-11:30/mi on flat",
-    workout_notes: "Conversational, recovery pace. Optional rowing instead: 30min Z2",
+    workout_notes: "PT Foundation exercises. Conversational pace. Optional rowing instead: 30min Z2",
   },
   {
     workout_date: "2026-01-08",
     day_of_week: "Thursday",
     workout_type: "run",
     run_distance_miles: 5,
-    run_vert_feet: 300,
+    run_vert_feet: 500,
     run_effort: "Z2, RPE 5-6",
-    run_notes: "Easy Run - 10:30-11:30/mi",
-    workout_notes: "Recovery run or 40min rowing Z2",
+    run_notes: "Easy Hills - Gentle rolling terrain",
+    strength_session_type: "Heavy Day 2",
+    strength_duration_minutes: 30,
+    strength_exercises: JSON.stringify([
+      { name: "Back Squat", sets: 3, reps: 8, weight: 95, weight_unit: "lbs" },
+      { name: "Step-Ups", sets: 3, reps: "8 each", height: "20 inches" },
+      { name: "Box Jumps", sets: 3, reps: 5, height: "24 inches" }
+    ]),
+    workout_notes: "Easy hills + strength after",
   },
   {
     workout_date: "2026-01-09",
@@ -138,24 +152,20 @@ const WEEK_1_WORKOUTS = [
   {
     workout_date: "2026-01-10",
     day_of_week: "Saturday",
-    workout_type: "run",
-    run_distance_miles: 8,
-    run_vert_feet: 400,
-    run_effort: "Z2, RPE 6",
-    run_notes: "Long Run - Progressive endurance building",
-    run_route: "Marine Drive (flat) or Sellwood → Cemetery (rollers)",
-    during_run_nutrition: "1 gel at 30min",
-    workout_notes: "Practice race nutrition",
+    workout_type: "rest",
+    workout_notes: "PT Foundation exercises + full rest",
   },
   {
     workout_date: "2026-01-11",
     day_of_week: "Sunday",
     workout_type: "run",
-    run_distance_miles: 4,
-    run_vert_feet: 0,
-    run_effort: "Z2, RPE 5",
-    run_notes: "Easy Run - Shake-out, 11:00-12:00/mi",
-    workout_notes: "Recovery pace or 30min rowing (18-20 SPM, very easy)",
+    run_distance_miles: 9,
+    run_vert_feet: 100,
+    run_effort: "Z2, RPE 6",
+    run_notes: "Long Run - Progressive endurance building, mostly flat",
+    run_route: "Marine Drive or Springwater Corridor",
+    during_run_nutrition: "1 gel at 45min",
+    workout_notes: "PT Foundation exercises after. Practice race nutrition.",
   },
 ];
 
