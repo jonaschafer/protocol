@@ -9,6 +9,7 @@
     "lint": "eslint",
     "import:exercises": "tsx scripts/import-exercisedb.ts",
     "add:images": "node -r dotenv/config node_modules/.bin/tsx scripts/add-images-from-free-db.ts dotenv_config_path=.env.local",
+    "migrate": "tsx scripts/run-migration.ts",
     "seed:plan": "tsx scripts/seed-training-plan.ts"
   },
   "dependencies": {

@@ -13,31 +13,28 @@
 
 import { config } from 'dotenv';
 import { resolve } from 'path';
+import { createClient } from '@supabase/supabase-js';
 
 // Load .env.local from project root
 const envPath = resolve(process.cwd(), '.env.local');
 config({ path: envPath });
 
 // Verify environment variables
-const requiredVars = {
-  'NEXT_PUBLIC_SUPABASE_URL': process.env.NEXT_PUBLIC_SUPABASE_URL,
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-};
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const missingVars = Object.entries(requiredVars)
-  .filter(([_, value]) => !value)
-  .map(([key]) => key);
-
-if (missingVars.length > 0) {
+if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Missing required environment variables:');
-  missingVars.forEach(varName => console.error(`   - ${varName}`));
+  if (!supabaseUrl) console.error('   - NEXT_PUBLIC_SUPABASE_URL');
+  if (!supabaseKey) console.error('   - NEXT_PUBLIC_SUPABASE_ANON_KEY');
   console.error('\nMake sure .env.local exists in project root with all required variables.');
   process.exit(1);
 }
 
 console.log('✅ Environment variables loaded successfully\n');
 
-import { supabase } from '../lib/supabase';
+// Create Supabase client directly in the script (avoids import order issues)
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ============================================================================
 // PLAN DATA
