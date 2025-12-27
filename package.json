@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "import:exercises": "tsx scripts/import-exercisedb.ts",
-    "add:images": "node -r dotenv/config node_modules/.bin/tsx scripts/add-images-from-free-db.ts dotenv_config_path=.env.local"
+    "add:images": "node -r dotenv/config node_modules/.bin/tsx scripts/add-images-from-free-db.ts dotenv_config_path=.env.local",
+    "seed:plan": "tsx scripts/seed-training-plan.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
