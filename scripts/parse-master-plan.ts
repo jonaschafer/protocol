@@ -225,4 +225,5 @@ function main() {
 
 main();
 
-export { parseWeek1, WeekData, WeeklyPlanData, DailyWorkoutData };
+export { parseWeek1 };
+export type { WeekData, WeeklyPlanData, DailyWorkoutData };

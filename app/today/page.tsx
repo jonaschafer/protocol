@@ -1,272 +1,56 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { format, parse } from 'date-fns';
-import { Session, SessionExercise, Protocol } from '@/lib/types';
-import { supabase } from '@/lib/supabase';
-import SessionHeader from '@/app/components/SessionHeader';
-import ExerciseCard from '@/app/components/ExerciseCard';
-import Navigation from '@/app/components/Navigation';
-import CalfMilestoneWidget from '@/app/components/CalfMilestoneWidget';
-import DayNavigator from '@/app/components/DayNavigator';
-import WeekView from '@/app/components/WeekView';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { getTodaysWorkout, getWorkoutByDate, getTodaysLog, type TodaysWorkout } from '@/lib/queries';
+import Navigation from '../components/Navigation';
+import LogWorkoutModal from '../components/LogWorkoutModal';
+import { ArrowLeft, CheckCircle2, Mountain, Gauge, Route, Calendar } from 'lucide-react';
+import Link from 'next/link';
+import { format } from 'date-fns';
 
 function TodayPageContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showWeekView, setShowWeekView] = useState(false);
-  const [session, setSession] = useState<Session | null>(null);
-  const [protocol, setProtocol] = useState<Protocol | null>(null);
-  const [exercises, setExercises] = useState<SessionExercise[]>([]);
-  const [allSessions, setAllSessions] = useState<(Session & { exerciseCount: number })[]>([]);
-  const [completedCount, setCompletedCount] = useState(0);
+  const dateParam = searchParams.get('date');
+  const [workout, setWorkout] = useState<TodaysWorkout | null>(null);
+  const [hasLog, setHasLog] = useState(false);
+  const [showLogModal, setShowLogModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [repeatSessionId, setRepeatSessionId] = useState<string | null>(null);
-  const [repeatSessionName, setRepeatSessionName] = useState<string | null>(null);
+  const [viewDate, setViewDate] = useState<string | null>(null);
 
-  // Parse date and repeatSession from URL on mount
   useEffect(() => {
-    const dateParam = searchParams?.get('date');
-    const viewParam = searchParams?.get('view');
-    const repeatParam = searchParams?.get('repeatSession');
+    loadWorkout();
+  }, [dateParam]);
 
-    if (dateParam) {
-      try {
-        const parsedDate = parse(dateParam, 'yyyy-MM-dd', new Date());
-        setSelectedDate(parsedDate);
-      } catch (e) {
-        console.error('Invalid date parameter');
-      }
-    }
-
-    if (viewParam === 'week') {
-      setShowWeekView(true);
-    }
-
-    if (repeatParam) {
-      setRepeatSessionId(repeatParam);
-    } else {
-      setRepeatSessionId(null);
-      setRepeatSessionName(null);
-    }
-  }, [searchParams]);
-
-  // Fetch workout when date or repeatSession changes
-  useEffect(() => {
-    if (repeatSessionId) {
-      fetchRepeatWorkout(repeatSessionId);
-    } else {
-      fetchWorkout(selectedDate);
-    }
-    fetchAllSessions();
-  }, [selectedDate, repeatSessionId]);
-
-  const fetchWorkout = async (date: Date) => {
+  const loadWorkout = async () => {
     setIsLoading(true);
-    setError(null);
-
     try {
-      const dayOfWeek = date.getDay();
-
-      // Fetch active protocol
-      const { data: activeProtocol, error: protocolError } = await supabase
-        .from('protocols')
-        .select('*')
-        .eq('active', true)
-        .single();
-
-      if (protocolError) throw protocolError;
-      setProtocol(activeProtocol);
-
-      // Fetch session for this day
-      const { data: sessionData, error: sessionError } = await supabase
-        .from('sessions')
-        .select('*')
-        .eq('protocol_id', activeProtocol.id)
-        .eq('day_of_week', dayOfWeek)
-        .single();
-
-      if (sessionError) {
-        if (sessionError.code === 'PGRST116') {
-          setError('No workout scheduled for this day');
-          setSession(null);
-          setExercises([]);
-          setIsLoading(false);
-          return;
-        }
-        throw sessionError;
+      let data;
+      if (dateParam) {
+        // View a specific date
+        data = await getWorkoutByDate(dateParam);
+        setViewDate(dateParam);
+      } else {
+        // View today's workout
+        data = await getTodaysWorkout();
+        setViewDate(null);
       }
+      setWorkout(data);
 
-      setSession(sessionData);
-
-      // Fetch exercises for this session
-      const { data: exercisesData, error: exercisesError } = await supabase
-        .from('session_exercises')
-        .select('*')
-        .eq('session_id', sessionData.id)
-        .order('order_index', { ascending: true });
-
-      if (exercisesError) throw exercisesError;
-
-      setExercises(exercisesData || []);
-
-      // Check completion status
-      await checkCompletionStatus(exercisesData || [], date);
-    } catch (err) {
-      console.error('Error fetching workout:', err);
-      setError('Failed to load workout');
+      if (data) {
+        const log = await getTodaysLog(data.id);
+        setHasLog(!!log);
+      }
+    } catch (error) {
+      console.error('Error loading workout:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fetchRepeatWorkout = async (sessionId: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Fetch session by ID
-      const { data: sessionData, error: sessionError } = await supabase
-        .from('sessions')
-        .select(
-          `
-          *,
-          protocols (*)
-        `
-        )
-        .eq('id', sessionId)
-        .single();
-
-      if (sessionError) throw sessionError;
-
-      setSession(sessionData);
-      setProtocol((sessionData as any).protocols);
-      setRepeatSessionName(sessionData.name);
-
-      // Fetch exercises for this session
-      const { data: exercisesData, error: exercisesError } = await supabase
-        .from('session_exercises')
-        .select('*')
-        .eq('session_id', sessionData.id)
-        .order('order_index', { ascending: true });
-
-      if (exercisesError) throw exercisesError;
-
-      setExercises(exercisesData || []);
-
-      // Check completion status for today
-      await checkCompletionStatus(exercisesData || [], new Date());
-    } catch (err) {
-      console.error('Error fetching repeat workout:', err);
-      setError('Failed to load workout');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchAllSessions = async () => {
-    try {
-      const { data: activeProtocol } = await supabase
-        .from('protocols')
-        .select('*')
-        .eq('active', true)
-        .single();
-
-      if (!activeProtocol) return;
-
-      const { data: sessions } = await supabase
-        .from('sessions')
-        .select('*')
-        .eq('protocol_id', activeProtocol.id);
-
-      if (!sessions) return;
-
-      // Get exercise counts for each session
-      const sessionsWithCounts = await Promise.all(
-        sessions.map(async (session) => {
-          const { data: exercises } = await supabase
-            .from('session_exercises')
-            .select('id')
-            .eq('session_id', session.id);
-
-          return {
-            ...session,
-            exerciseCount: exercises?.length || 0,
-          };
-        })
-      );
-
-      setAllSessions(sessionsWithCounts);
-    } catch (err) {
-      console.error('Error fetching all sessions:', err);
-    }
-  };
-
-  const checkCompletionStatus = async (exercisesList: SessionExercise[], date: Date) => {
-    try {
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-
-      const exerciseIds = exercisesList.map((e) => e.id);
-
-      const { data, error } = await supabase
-        .from('exercise_logs')
-        .select('session_exercise_id')
-        .in('session_exercise_id', exerciseIds)
-        .gte('logged_at', startOfDay.toISOString())
-        .lte('logged_at', endOfDay.toISOString());
-
-      if (error) throw error;
-
-      const uniqueExercises = new Set(data?.map((log) => log.session_exercise_id));
-      setCompletedCount(uniqueExercises.size);
-    } catch (err) {
-      console.error('Error checking completion status:', err);
-    }
-  };
-
-  const handleExerciseComplete = (exerciseName: string) => {
-    setCompletedCount((prev) => prev + 1);
-
-    if (exerciseName.includes('Calf Raise')) {
-      window.dispatchEvent(new Event('calfProgressUpdate'));
-    }
-  };
-
-  const handleDateChange = (newDate: Date) => {
-    setSelectedDate(newDate);
-    const dateStr = format(newDate, 'yyyy-MM-dd');
-    router.push(`/today?date=${dateStr}`);
-  };
-
-  const handleToggleWeekView = () => {
-    const newShowWeek = !showWeekView;
-    setShowWeekView(newShowWeek);
-
-    if (newShowWeek) {
-      router.push('/today?view=week');
-    } else {
-      const dateStr = format(selectedDate, 'yyyy-MM-dd');
-      router.push(`/today?date=${dateStr}`);
-    }
-  };
-
-  const handleDayClick = (date: Date) => {
-    setSelectedDate(date);
-    setShowWeekView(false);
-    const dateStr = format(date, 'yyyy-MM-dd');
-    router.push(`/today?date=${dateStr}`);
-  };
-
-  const handleCancelRepeat = () => {
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    router.push(`/today?date=${dateStr}`);
+  const handleLogSuccess = () => {
+    setHasLog(true);
+    loadWorkout();
   };
 
   if (isLoading) {
@@ -280,97 +64,274 @@ function TodayPageContent() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <DayNavigator
-        selectedDate={selectedDate}
-        onDateChange={handleDateChange}
-        protocolName={protocol?.name || 'Protocol'}
-        onToggleWeekView={handleToggleWeekView}
-        showWeekView={showWeekView}
-      />
+  if (!workout) {
+    return (
+      <div className="min-h-screen bg-gray-50 pb-24">
+        <div className="max-w-2xl mx-auto px-4 py-6">
+          <Link href="/" className="inline-flex items-center text-blue-600 mb-6 min-h-[44px]">
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Week
+          </Link>
 
-      {/* Repeat Workout Banner */}
-      {repeatSessionId && repeatSessionName && (
-        <div className="bg-amber-50 border-b border-amber-200 py-3">
-          <div className="max-w-2xl mx-auto px-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-amber-900">
-                Repeating: {repeatSessionName.split(' - ')[1] || repeatSessionName}
-              </p>
-              <p className="text-xs text-amber-700">
-                Logging today with exercises from this workout
-              </p>
-            </div>
-            <button
-              onClick={handleCancelRepeat}
-              className="text-sm text-amber-700 hover:text-amber-900 font-medium"
-            >
-              Cancel ✕
-            </button>
+          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8 text-center">
+            <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-gray-900 mb-2">No Workout Today</h2>
+            <p className="text-gray-600">There is no workout scheduled for today.</p>
           </div>
         </div>
-      )}
+        <Navigation />
+      </div>
+    );
+  }
 
-      {showWeekView ? (
-        <WeekView
-          selectedDate={selectedDate}
-          sessions={allSessions}
-          onDayClick={handleDayClick}
-        />
-      ) : (
-        <>
-          {!error && session && (
-            <>
-              <div className="max-w-2xl mx-auto p-4">
-                <CalfMilestoneWidget />
+  const getWorkoutTypeColor = (type: string) => {
+    switch (type) {
+      case 'run': return 'bg-blue-600';
+      case 'strength': return 'bg-purple-600';
+      case 'rowing': return 'bg-teal-600';
+      case 'rest': return 'bg-gray-600';
+      default: return 'bg-gray-600';
+    }
+  };
+
+  const getWorkoutTypeBgColor = (type: string) => {
+    switch (type) {
+      case 'run': return 'bg-blue-50';
+      case 'strength': return 'bg-purple-50';
+      case 'rowing': return 'bg-teal-50';
+      case 'rest': return 'bg-gray-50';
+      default: return 'bg-gray-50';
+    }
+  };
+
+  return (
+    <div className={`min-h-screen pb-48 ${getWorkoutTypeBgColor(workout.workout_type)}`}>
+      {/* Header */}
+      <div className={`${getWorkoutTypeColor(workout.workout_type)} text-white p-6 pb-8`}>
+        <div className="max-w-2xl mx-auto">
+          <Link
+            href={workout.weekly_plan?.week_number !== undefined ? `/?week=${workout.weekly_plan.week_number}` : "/"}
+            className="inline-flex items-center text-white/90 hover:text-white mb-4 min-h-[44px]"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Week
+          </Link>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-white/80 text-sm mb-1">
+                {viewDate ? format(new Date(viewDate), 'MMMM d, yyyy').toUpperCase() : "TODAY'S WORKOUT"}
+              </p>
+              <h1 className="text-2xl font-bold">{workout.day_of_week}</h1>
+              {workout.weekly_plan && (
+                <p className="text-white/90 text-sm mt-2">
+                  Week {workout.weekly_plan.week_number} • {workout.weekly_plan.phase}
+                </p>
+              )}
+            </div>
+
+            {hasLog && (
+              <div className="bg-white/20 rounded-full p-3">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-4 -mt-4 space-y-4">
+        {/* Run Workout Details */}
+        {workout.workout_type === 'run' && (
+          <>
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+              <h2 className="text-lg font-bold mb-4">Run Details</h2>
+
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Route className="w-4 h-4 text-blue-600" />
+                    <p className="text-xs text-blue-600 font-medium uppercase">Distance</p>
+                  </div>
+                  <p className="text-2xl font-bold text-blue-900">{workout.run_distance_miles}</p>
+                  <p className="text-sm text-blue-600">miles</p>
+                </div>
+
+                <div className="bg-orange-50 rounded-lg p-4">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Mountain className="w-4 h-4 text-orange-600" />
+                    <p className="text-xs text-orange-600 font-medium uppercase">Vert</p>
+                  </div>
+                  <p className="text-2xl font-bold text-orange-900">{workout.run_vert_feet}</p>
+                  <p className="text-sm text-orange-600">feet</p>
+                </div>
               </div>
 
-              <SessionHeader
-                session={session}
-                protocol={protocol!}
-                completedCount={completedCount}
-                totalCount={exercises.length}
-              />
+              {workout.run_effort && (
+                <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-1">
+                    <Gauge className="w-4 h-4 text-gray-600" />
+                    <p className="text-sm font-medium text-gray-700">Effort</p>
+                  </div>
+                  <p className="text-gray-900">{workout.run_effort}</p>
+                </div>
+              )}
 
-              <div className="max-w-2xl mx-auto p-4 space-y-3">
-                {exercises.map((exercise) => (
-                  <ExerciseCard
-                    key={exercise.id}
-                    exercise={exercise}
-                    onComplete={() => handleExerciseComplete(exercise.exercise_name)}
-                  />
-                ))}
+              {workout.run_route && (
+                <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm font-medium text-gray-700 mb-1">Route</p>
+                  <p className="text-gray-900">{workout.run_route}</p>
+                </div>
+              )}
 
-                {completedCount === exercises.length && exercises.length > 0 && (
-                  <div className="bg-green-100 border border-green-300 rounded-lg p-6 text-center mt-6">
-                    <div className="text-4xl mb-2">🎉</div>
-                    <h3 className="text-xl font-bold text-green-900 mb-1">
-                      Workout Complete!
-                    </h3>
-                    <p className="text-green-700">
-                      Great job on completing {session.name}!
-                    </p>
+              {workout.run_notes && (
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <p className="text-sm font-medium text-blue-900 mb-1">Notes</p>
+                  <p className="text-sm text-blue-800">{workout.run_notes}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Nutrition */}
+            {(workout.pre_run_fuel || workout.during_run_nutrition) && (
+              <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                <h3 className="text-lg font-bold mb-4">Nutrition</h3>
+
+                {workout.pre_run_fuel && (
+                  <div className="mb-3">
+                    <p className="text-sm font-medium text-gray-700 mb-1">Pre-run</p>
+                    <p className="text-gray-900">{workout.pre_run_fuel}</p>
+                  </div>
+                )}
+
+                {workout.during_run_nutrition && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-1">During run</p>
+                    <p className="text-gray-900">{workout.during_run_nutrition}</p>
                   </div>
                 )}
               </div>
-            </>
-          )}
+            )}
+          </>
+        )}
 
-          {error && (
-            <div className="max-w-2xl mx-auto p-4 pt-8">
-              <div className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <div className="text-4xl mb-4">💤</div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  {error}
-                </h2>
-                <p className="text-gray-600">
-                  Enjoy your rest day!
-                </p>
+        {/* Strength Workout Details */}
+        {(workout.workout_type === 'strength' || workout.strength_session_type) && (
+          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h2 className="text-lg font-bold mb-4">{workout.strength_session_type || 'Strength Session'}</h2>
+
+            {workout.strength_duration_minutes && (
+              <div className="mb-4 p-3 bg-purple-50 rounded-lg">
+                <p className="text-sm font-medium text-purple-700 mb-1">Duration</p>
+                <p className="text-2xl font-bold text-purple-900">{workout.strength_duration_minutes} min</p>
               </div>
+            )}
+
+            {workout.strength_exercises && (
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-700">Exercises</p>
+                {JSON.parse(workout.strength_exercises).map((ex: any, idx: number) => (
+                  <div key={idx} className="p-3 bg-gray-50 rounded-lg">
+                    <p className="font-medium text-gray-900">{ex.exercise}</p>
+                    {ex.sets && ex.reps && (
+                      <p className="text-sm text-gray-600 mt-1">
+                        {ex.sets} × {ex.reps} {ex.note ? `(${ex.note})` : ''}
+                      </p>
+                    )}
+                    {ex.details && <p className="text-sm text-gray-600 mt-1">{ex.details}</p>}
+                    {ex.duration && <p className="text-sm text-gray-600 mt-1">{ex.duration}</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Rowing Workout Details */}
+        {workout.workout_type === 'rowing' && (
+          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h2 className="text-lg font-bold mb-4">Rowing</h2>
+
+            <div className="grid grid-cols-2 gap-4">
+              {workout.rowing_duration_minutes && (
+                <div className="bg-teal-50 rounded-lg p-4">
+                  <p className="text-xs text-teal-600 font-medium uppercase mb-2">Duration</p>
+                  <p className="text-2xl font-bold text-teal-900">{workout.rowing_duration_minutes}</p>
+                  <p className="text-sm text-teal-600">minutes</p>
+                </div>
+              )}
+
+              {workout.rowing_spm_target && (
+                <div className="bg-teal-50 rounded-lg p-4">
+                  <p className="text-xs text-teal-600 font-medium uppercase mb-2">Target SPM</p>
+                  <p className="text-2xl font-bold text-teal-900">{workout.rowing_spm_target}</p>
+                  <p className="text-sm text-teal-600">strokes/min</p>
+                </div>
+              )}
             </div>
-          )}
-        </>
+
+            {workout.rowing_effort && (
+              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p className="text-sm font-medium text-gray-700 mb-1">Effort</p>
+                <p className="text-gray-900">{workout.rowing_effort}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Rest Day */}
+        {workout.workout_type === 'rest' && (
+          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h2 className="text-lg font-bold mb-4">Rest Day</h2>
+            <p className="text-gray-700 mb-4">
+              Focus on recovery and PT exercises. Light movement is encouraged.
+            </p>
+
+            {workout.workout_notes && (
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-700">{workout.workout_notes}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Workout Notes */}
+        {workout.workout_notes && workout.workout_type !== 'rest' && (
+          <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <h3 className="text-lg font-bold mb-3">Workout Notes</h3>
+            <p className="text-gray-700 whitespace-pre-line">{workout.workout_notes}</p>
+          </div>
+        )}
+
+        {/* Log Workout Button */}
+        {!hasLog && (
+          <div className="fixed bottom-20 left-0 right-0 p-4 bg-gradient-to-t from-white via-white to-transparent">
+            <button
+              onClick={() => setShowLogModal(true)}
+              className={`w-full max-w-2xl mx-auto ${getWorkoutTypeColor(workout.workout_type)} text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-shadow min-h-[44px]`}
+            >
+              Log This Workout
+            </button>
+          </div>
+        )}
+
+        {hasLog && (
+          <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center space-x-3">
+            <CheckCircle2 className="w-6 h-6 text-green-600 flex-shrink-0" />
+            <div>
+              <p className="font-medium text-green-900">Workout Logged</p>
+              <p className="text-sm text-green-700">Great work today!</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Log Modal */}
+      {showLogModal && workout && (
+        <LogWorkoutModal
+          workout={workout}
+          onClose={() => setShowLogModal(false)}
+          onSuccess={handleLogSuccess}
+        />
       )}
 
       <Navigation />
