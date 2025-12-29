@@ -11,7 +11,14 @@
     "add:images": "node -r dotenv/config node_modules/.bin/tsx scripts/add-images-from-free-db.ts dotenv_config_path=.env.local",
     "check:schema": "tsx scripts/check-schema.ts",
     "migrate": "tsx scripts/run-migration.ts",
-    "seed:plan": "tsx scripts/seed-training-plan.ts"
+    "seed:plan": "tsx scripts/seed-training-plan.ts",
+    "seed:all": "tsx scripts/seed-all-weeks.ts",
+    "add:pt": "tsx scripts/add-pt-exercises.ts",
+    "fix:dates": "tsx scripts/fix-week-dates.ts",
+    "cleanup:pt": "tsx scripts/cleanup-pt-notes.ts",
+    "add:week-zero": "tsx scripts/add-week-zero.ts",
+    "set:week": "tsx scripts/set-current-week.ts",
+    "update:week-zero-dates": "tsx scripts/update-week-zero-dates.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
