@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { getWeekWorkouts, getWeekLogs, getCurrentWeekNumber } from '@/lib/queries';
+import { getWeekWorkouts, getWeekLogs, getCurrentWeekByDate } from '@/lib/queries';
 import Navigation from './components/Navigation';
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Mountain, Route, Clock, TrendingUp } from 'lucide-react';
 
@@ -30,7 +30,7 @@ function HomePageContent() {
     if (weekParam) {
       setWeekNumber(parseInt(weekParam));
     } else {
-      const current = await getCurrentWeekNumber();
+      const current = await getCurrentWeekByDate();
       setWeekNumber(current);
     }
   };

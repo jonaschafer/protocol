@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { getPhaseWeeks, getCurrentWeekNumber, getWeekWorkouts, getWeekLogs, getTrainingPlan } from '@/lib/queries';
+import { getPhaseWeeks, getCurrentWeekByDate, getWeekWorkouts, getWeekLogs, getTrainingPlan, getTrainingPhases } from '@/lib/queries';
 import Navigation from '../components/Navigation';
 import { ChevronDown, ChevronUp, CheckCircle2, Circle, Mountain, Route, Clock, Dumbbell } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,40 +19,29 @@ interface PhaseInfo {
   bgColor: string;
 }
 
-const PHASE_INFO: PhaseInfo[] = [
-  {
-    name: 'Recovery',
-    dateRange: 'Dec 29, 2024 - Jan 4, 2025',
-    weekRange: 'Week 0',
+// Phase colors mapping
+const PHASE_COLORS: Record<string, { color: string; borderColor: string; bgColor: string }> = {
+  'Recovery': {
     color: 'text-amber-700',
     borderColor: 'border-amber-500',
     bgColor: 'bg-amber-50'
   },
-  {
-    name: 'Foundation',
-    dateRange: 'Jan 5 - Mar 29, 2026',
-    weekRange: 'Weeks 1-12',
+  'Foundation': {
     color: 'text-green-700',
     borderColor: 'border-green-500',
     bgColor: 'bg-green-50'
   },
-  {
-    name: 'Durability',
-    dateRange: 'Mar 30 - Jul 19, 2026',
-    weekRange: 'Weeks 13-28',
+  'Durability': {
     color: 'text-blue-700',
     borderColor: 'border-blue-500',
     bgColor: 'bg-blue-50'
   },
-  {
-    name: 'Specificity',
-    dateRange: 'Jul 20 - Sep 7, 2026',
-    weekRange: 'Weeks 29-36',
+  'Specificity': {
     color: 'text-purple-700',
     borderColor: 'border-purple-500',
     bgColor: 'bg-purple-50'
   }
-];
+};
 
 interface WeekData {
   week_number: number;
@@ -78,6 +67,7 @@ function PlanPageContent() {
   const searchParams = useSearchParams();
   const [expandedPhases, setExpandedPhases] = useState<Phase[]>([]);
   const [currentWeek, setCurrentWeek] = useState<number>(1);
+  const [phaseInfo, setPhaseInfo] = useState<PhaseInfo[]>([]);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set());
   const [weeksData, setWeeksData] = useState<Record<string, WeekData[]>>({});
   const [weekWorkouts, setWeekWorkouts] = useState<Record<number, any>>({});
@@ -95,8 +85,8 @@ function PlanPageContent() {
     const phase = searchParams.get('phase') as Phase | null;
     const week = searchParams.get('week');
 
-    if (phase && PHASE_INFO.find(p => p.name.toLowerCase() === phase.toLowerCase())) {
-      const phaseName = PHASE_INFO.find(p => p.name.toLowerCase() === phase.toLowerCase())!.name;
+    if (phase && phaseInfo.length > 0 && phaseInfo.find(p => p.name.toLowerCase() === phase.toLowerCase())) {
+      const phaseName = phaseInfo.find(p => p.name.toLowerCase() === phase.toLowerCase())!.name;
       if (!expandedPhases.includes(phaseName)) {
         setExpandedPhases([phaseName]);
       }
@@ -121,12 +111,30 @@ function PlanPageContent() {
   const loadInitialData = async () => {
     setIsLoading(true);
     try {
-      const [current, plan] = await Promise.all([
-        getCurrentWeekNumber(),
-        getTrainingPlan()
+      const [current, plan, phases] = await Promise.all([
+        getCurrentWeekByDate(),
+        getTrainingPlan(),
+        getTrainingPhases()
       ]);
       setCurrentWeek(current);
       setTrainingPlan(plan);
+
+      // Build phase info from database
+      const formatDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      };
+
+      const phaseInfoFromDB: PhaseInfo[] = phases.map((phase: any) => ({
+        name: phase.name as Phase,
+        dateRange: `${formatDate(phase.start_date)} - ${formatDate(phase.end_date)}`,
+        weekRange: phase.week_start === phase.week_end
+          ? `Week ${phase.week_start}`
+          : `Weeks ${phase.week_start}-${phase.week_end}`,
+        ...PHASE_COLORS[phase.name as Phase]
+      }));
+
+      setPhaseInfo(phaseInfoFromDB);
 
       // Load all phases
       const [recoveryWeeks, foundationWeeks, durabilityWeeks, specificityWeeks] = await Promise.all([
@@ -311,28 +319,28 @@ function PlanPageContent() {
 
       <div className="max-w-2xl mx-auto px-4 -mt-4 space-y-3">
         {/* Phase Sections */}
-        {PHASE_INFO.map((phaseInfo) => {
-          const isExpanded = expandedPhases.includes(phaseInfo.name);
-          const weeks = weeksData[phaseInfo.name] || [];
-          const stats = getPhaseStats(phaseInfo.name);
+        {phaseInfo.map((phase) => {
+          const isExpanded = expandedPhases.includes(phase.name);
+          const weeks = weeksData[phase.name] || [];
+          const stats = getPhaseStats(phase.name);
 
           return (
             <div
-              key={phaseInfo.name}
-              className={`bg-white rounded-lg shadow-sm border-l-4 ${phaseInfo.borderColor} overflow-hidden`}
+              key={phase.name}
+              className={`bg-white rounded-lg shadow-sm border-l-4 ${phase.borderColor} overflow-hidden`}
             >
               {/* Phase Header */}
               <button
-                onClick={() => togglePhase(phaseInfo.name)}
+                onClick={() => togglePhase(phase.name)}
                 className="w-full p-4 text-left hover:bg-gray-50 transition-colors min-h-[44px]"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h2 className={`text-xl font-bold ${phaseInfo.color}`}>
-                      {phaseInfo.name} Phase
+                    <h2 className={`text-xl font-bold ${phase.color}`}>
+                      {phase.name} Phase
                     </h2>
-                    <p className="text-sm text-gray-600">{phaseInfo.dateRange}</p>
-                    <p className="text-xs text-gray-500 mt-1">{phaseInfo.weekRange}</p>
+                    <p className="text-sm text-gray-600">{phase.dateRange}</p>
+                    <p className="text-xs text-gray-500 mt-1">{phase.weekRange}</p>
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -346,22 +354,22 @@ function PlanPageContent() {
 
                 {/* Phase Stats */}
                 <div className="grid grid-cols-2 gap-3 mt-3">
-                  <div className={`${phaseInfo.bgColor} rounded-lg p-2`}>
+                  <div className={`${phase.bgColor} rounded-lg p-2`}>
                     <div className="flex items-center space-x-2 mb-1">
-                      <Route className={`w-4 h-4 ${phaseInfo.color}`} />
-                      <p className={`text-xs font-medium ${phaseInfo.color}`}>Target Miles</p>
+                      <Route className={`w-4 h-4 ${phase.color}`} />
+                      <p className={`text-xs font-medium ${phase.color}`}>Target Miles</p>
                     </div>
-                    <p className={`text-lg font-bold ${phaseInfo.color}`}>
+                    <p className={`text-lg font-bold ${phase.color}`}>
                       {stats.totalMiles.toFixed(0)}
                     </p>
                   </div>
 
-                  <div className={`${phaseInfo.bgColor} rounded-lg p-2`}>
+                  <div className={`${phase.bgColor} rounded-lg p-2`}>
                     <div className="flex items-center space-x-2 mb-1">
-                      <Mountain className={`w-4 h-4 ${phaseInfo.color}`} />
-                      <p className={`text-xs font-medium ${phaseInfo.color}`}>Target Vert</p>
+                      <Mountain className={`w-4 h-4 ${phase.color}`} />
+                      <p className={`text-xs font-medium ${phase.color}`}>Target Vert</p>
                     </div>
-                    <p className={`text-lg font-bold ${phaseInfo.color}`}>
+                    <p className={`text-lg font-bold ${phase.color}`}>
                       {(stats.totalVert / 1000).toFixed(0)}k ft
                     </p>
                   </div>

@@ -409,3 +409,42 @@ export async function getTrainingPlan() {
 
   return plan;
 }
+
+/**
+ * Get current week by finding which weekly_plans row contains today's date
+ * More reliable than calculating based on start_date
+ */
+export async function getCurrentWeekByDate(): Promise<number> {
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+  const { data, error } = await supabase
+    .from('weekly_plans')
+    .select('week_number, week_start_date, end_date')
+    .lte('week_start_date', today)
+    .gte('end_date', today)
+    .single();
+
+  if (error || !data) {
+    console.log('No current week found for today, falling back to getCurrentWeek()');
+    return getCurrentWeek();
+  }
+
+  return data.week_number;
+}
+
+/**
+ * Get all training phases with actual dates
+ */
+export async function getTrainingPhases() {
+  const { data: phases, error } = await supabase
+    .from('training_phases')
+    .select('*')
+    .order('week_start', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching training phases:', error);
+    return [];
+  }
+
+  return phases || [];
+}
