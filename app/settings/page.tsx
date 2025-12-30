@@ -3,13 +3,21 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getTrainingPlan, getCurrentWeekNumber } from '@/lib/queries';
+import { supabase } from '@/lib/supabase';
 import Navigation from '../components/Navigation';
-import { BookOpen, Settings as SettingsIcon, AlertTriangle } from 'lucide-react';
+import { BookOpen, AlertTriangle, Save } from 'lucide-react';
 
 export default function SettingsPage() {
   const [trainingPlan, setTrainingPlan] = useState<any>(null);
   const [currentWeek, setCurrentWeek] = useState<number>(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
+  // Editable plan fields
+  const [goalRace, setGoalRace] = useState('');
+  const [raceDate, setRaceDate] = useState('');
+  const [hasChanges, setHasChanges] = useState(false);
 
   // Placeholder state for preferences (no logic yet)
   const [distanceUnits, setDistanceUnits] = useState('miles');
@@ -20,6 +28,16 @@ export default function SettingsPage() {
     loadPlanData();
   }, []);
 
+  useEffect(() => {
+    // Check if there are changes
+    if (trainingPlan) {
+      const changed =
+        goalRace !== (trainingPlan.goal_race || '') ||
+        raceDate !== (trainingPlan.end_date || '');
+      setHasChanges(changed);
+    }
+  }, [goalRace, raceDate, trainingPlan]);
+
   const loadPlanData = async () => {
     setIsLoading(true);
     try {
@@ -29,10 +47,47 @@ export default function SettingsPage() {
       ]);
       setTrainingPlan(plan);
       setCurrentWeek(weekNum);
+
+      // Set initial values for editing
+      setGoalRace(plan?.goal_race || '');
+      setRaceDate(plan?.end_date || '');
     } catch (error) {
       console.error('Error loading plan data:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!trainingPlan?.id) return;
+
+    setIsSaving(true);
+    setSaveMessage(null);
+
+    try {
+      const { error } = await supabase
+        .from('training_plans')
+        .update({
+          goal_race: goalRace,
+          end_date: raceDate
+        })
+        .eq('id', trainingPlan.id);
+
+      if (error) throw error;
+
+      setSaveMessage({ type: 'success', text: 'Plan updated successfully!' });
+      setHasChanges(false);
+
+      // Reload plan data
+      await loadPlanData();
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSaveMessage(null), 3000);
+    } catch (error) {
+      console.error('Error saving plan:', error);
+      setSaveMessage({ type: 'error', text: 'Failed to save changes. Please try again.' });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -71,69 +126,102 @@ export default function SettingsPage() {
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-lg font-semibold mb-4">Plan Info</h2>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
+            {/* Editable Goal Race */}
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Goal Race</label>
-              <p className="text-gray-900">{trainingPlan?.goal_race || 'Not set'}</p>
+              <label htmlFor="goal-race" className="text-sm font-medium text-gray-700 block mb-1">
+                Goal Race
+              </label>
+              <input
+                id="goal-race"
+                type="text"
+                value={goalRace}
+                onChange={(e) => setGoalRace(e.target.value)}
+                placeholder="e.g., Wy'East Wonder 50M - September 7, 2026"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[44px]"
+              />
             </div>
 
+            {/* Editable Race Date */}
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Race Date</label>
-              <p className="text-gray-900">{formatDate(trainingPlan?.goal_race_date)}</p>
+              <label htmlFor="race-date" className="text-sm font-medium text-gray-700 block mb-1">
+                Race Date
+              </label>
+              <input
+                id="race-date"
+                type="date"
+                value={raceDate}
+                onChange={(e) => setRaceDate(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[44px]"
+              />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Current Week</label>
-                <p className="text-gray-900">{currentWeek}</p>
+            {/* Warning about date changes */}
+            {hasChanges && raceDate !== trainingPlan?.end_date && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <div className="flex items-start space-x-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-amber-900 mb-1">
+                      Important: Date Change Notice
+                    </p>
+                    <p className="text-xs text-amber-800">
+                      Changing the race date will update the end date in your plan. However, shifting all workout dates requires manual updates in Supabase.
+                      Weekly workouts and content will stay the same, only the dates would need to be adjusted.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-700 block mb-1">Current Phase</label>
-                <p className="text-gray-900">{trainingPlan?.current_phase || 'N/A'}</p>
+            )}
+
+            {/* Save Button */}
+            {hasChanges && (
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="w-full flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+              >
+                <Save className="w-5 h-5" />
+                <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>
+              </button>
+            )}
+
+            {/* Save Message */}
+            {saveMessage && (
+              <div className={`rounded-lg p-3 ${
+                saveMessage.type === 'success'
+                  ? 'bg-green-50 border border-green-200 text-green-800'
+                  : 'bg-red-50 border border-red-200 text-red-800'
+              }`}>
+                <p className="text-sm font-medium">{saveMessage.text}</p>
               </div>
-            </div>
+            )}
 
-            <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Total Weeks</label>
-              <p className="text-gray-900">{trainingPlan?.total_weeks || 'N/A'}</p>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Start Date</label>
-              <p className="text-gray-900">{formatDate(trainingPlan?.start_date)}</p>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">End Date</label>
-              <p className="text-gray-900">{formatDate(trainingPlan?.end_date)}</p>
-            </div>
-
+            {/* Read-only Plan Info */}
             <div className="pt-4 mt-4 border-t border-gray-200 space-y-3">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">Current Week</label>
+                  <p className="text-gray-900">{currentWeek}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-1">Total Weeks</label>
+                  <p className="text-gray-900">{trainingPlan?.total_weeks || 'N/A'}</p>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 block mb-1">Start Date</label>
+                <p className="text-gray-900">{formatDate(trainingPlan?.start_date)}</p>
+              </div>
+
               <Link
                 href="/plan"
                 className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium text-sm min-h-[44px]"
               >
                 <BookOpen className="w-5 h-5" />
-                <span>View Full 36-Week Plan</span>
+                <span>View Full Training Plan</span>
               </Link>
-
-              <div className="pt-3">
-                <Link
-                  href="/configure-plan"
-                  className="w-full inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 min-h-[44px]"
-                >
-                  <SettingsIcon className="w-5 h-5" />
-                  <span>Reconfigure Plan (36 → 32 weeks)</span>
-                </Link>
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mt-3">
-                  <div className="flex items-start space-x-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-amber-800">
-                      This will regenerate your entire training plan. Logged workouts will be preserved.
-                    </p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
