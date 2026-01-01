@@ -3,8 +3,16 @@
 import { useState } from 'react'
 import { SetRow } from './components/SetRow'
 import { Notes } from './components/Notes'
+import { ExerciseHeader } from './components/ExerciseHeader'
 
 export default function Home() {
+  // Exercise data from Supabase (will be fetched from Supabase)
+  const [exerciseData] = useState({
+    exerciseName: 'Trap Bar Deadlift',
+    restNote: '30 seconds rest between sets',
+    cues: '6-8" step height, but 24" is ideal. Slow, controlled eccentric (3-sec lower). Focus on knee tracking over toes. '
+  });
+
   const [sets, setSets] = useState([
     { id: 1, setNumber: 1, reps: '8', weight: '145', isTimed: false },
     { id: 2, setNumber: 2, reps: '8', weight: '145', isTimed: false },
@@ -55,6 +63,13 @@ export default function Home() {
   return (
     <div style={{ padding: '20px', background: '#000', minHeight: '100vh' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {/* Exercise Header */}
+        <ExerciseHeader
+          exerciseName={exerciseData.exerciseName}
+          restNote={exerciseData.restNote}
+          cues={exerciseData.cues}
+        />
+
         {sets.map((set) => (
           <SetRow
             key={set.id}
