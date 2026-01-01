@@ -11,29 +11,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@layer utilities {
-  /* Map Figma font names to Google Fonts - handle Tailwind arbitrary values with colons
-     These classes match the arbitrary font-family values used in components like:
-     font-['Inter:Regular',sans-serif]
-  */
-  .font-\[\'Instrument_Sans\:Medium\'\,sans-serif\] {
-    font-family: 'Instrument Sans', sans-serif !important;
-    font-weight: 500;
-  }
-
-  .font-\[\'Inter\:Regular\'\,sans-serif\] {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 400;
-  }
-
-  .font-\[\'IBM_Plex_Mono\:Regular\'\,sans-serif\] {
-    font-family: 'IBM Plex Mono', monospace !important;
-    font-weight: 400;
-  }
-
-  .font-\[\'Inter_Tight\:Medium\'\,sans-serif\] {
-    font-family: 'Inter Tight', sans-serif !important;
-    font-weight: 500;
-  }
-}
-
