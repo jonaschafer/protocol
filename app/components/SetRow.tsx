@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useRef, useEffect } from "react";
 
 interface SetRowProps {
@@ -38,19 +40,37 @@ export function SetRow({
   const VELOCITY_WINDOW_MS = 100; // Measure velocity over last 100ms
 
   // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Responsive breakpoints
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 768);
-  const [isNarrowScreen, setIsNarrowScreen] = useState(window.innerWidth < 480);
+  const [isWideScreen, setIsWideScreen] = useState(false);
+  const [isNarrowScreen, setIsNarrowScreen] = useState(false);
 
   useEffect(() => {
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    mediaQuery.addEventListener('change', handleReducedMotionChange);
+
+    // Check screen size
     const handleResize = () => {
       setIsWideScreen(window.innerWidth >= 768);
       setIsNarrowScreen(window.innerWidth < 480);
     };
+    
+    setIsWideScreen(window.innerWidth >= 768);
+    setIsNarrowScreen(window.innerWidth < 480);
+    
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleReducedMotionChange);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Haptic feedback helper

@@ -1,8 +1,10 @@
+'use client'
+
 import { useState } from 'react'
 import { SetRow } from './components/SetRow'
 import { Notes } from './components/Notes'
 
-function App() {
+export default function Home() {
   const [sets, setSets] = useState([
     { id: 1, setNumber: 1, reps: '8', weight: '145' },
     { id: 2, setNumber: 2, reps: '8', weight: '145' },
@@ -175,6 +177,4 @@ function App() {
     </div>
   )
 }
-
-export default App
 
