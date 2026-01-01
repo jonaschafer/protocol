@@ -19,7 +19,7 @@ export default function Home() {
   ]);
   const [isLogged, setIsLogged] = useState(false);
   const [showCard, setShowCard] = useState(true);
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  const currentCarouselIndex = 0;
   const totalCarouselItems = 1; // Can be increased if you have multiple exercises
 
   const handleDelete = (id: number) => {
