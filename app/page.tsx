@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { SetRow } from './components/SetRow'
-import { Notes } from './components/Notes'
-import { ExerciseHeader } from './components/ExerciseHeader'
+import { ExerciseCard } from './exercises/exerciseCard'
 
 export default function Home() {
   // Exercise data from Supabase (will be fetched from Supabase)
@@ -20,6 +18,9 @@ export default function Home() {
     { id: 4, setNumber: 4, reps: '60', weight: '0', isTimed: true }
   ]);
   const [isLogged, setIsLogged] = useState(false);
+  const [showCard, setShowCard] = useState(true);
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  const totalCarouselItems = 1; // Can be increased if you have multiple exercises
 
   const handleDelete = (id: number) => {
     setSets(prevSets => {
@@ -60,138 +61,53 @@ export default function Home() {
     );
   };
 
+  const handleDismiss = () => {
+    setShowCard(false);
+    // Return to main workout view - you can add navigation logic here
+    console.log('Card dismissed, returning to main workout view');
+  };
+
+  if (!showCard) {
+    // Main workout view when card is dismissed
+    return (
+      <div style={{ padding: '20px', background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button
+          onClick={() => setShowCard(true)}
+          style={{
+            padding: '20px 40px',
+            backgroundColor: 'white',
+            color: '#000',
+            border: 'none',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontFamily: 'Inter, sans-serif'
+          }}
+        >
+          Show Exercise Card
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: '20px', background: '#000', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {/* Exercise Header */}
-        <ExerciseHeader
-          exerciseName={exerciseData.exerciseName}
-          restNote={exerciseData.restNote}
-          cues={exerciseData.cues}
-        />
-
-        {sets.map((set) => (
-          <SetRow
-            key={set.id}
-            setNumber={set.setNumber}
-            reps={set.reps}
-            weight={set.weight}
-            onDelete={() => handleDelete(set.id)}
-            onRepsChange={(value) => handleRepsChange(set.id, value)}
-            onWeightChange={(value) => handleWeightChange(set.id, value)}
-            opacity={isLogged ? 0.6 : 1}
-            isTimed={set.isTimed}
-          />
-        ))}
-
-        {/* Action Buttons */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '10px',
-            width: '100%'
-          }}
-          data-name="action"
-          data-node-id="230:7071"
-        >
-          {/* Add Set Button */}
-          <button
-            onClick={handleAddSet}
-            style={{
-              border: '1px solid white',
-              display: 'flex',
-              height: '68px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              paddingLeft: 0,
-              paddingRight: 0,
-              paddingTop: '20px',
-              paddingBottom: '20px',
-              position: 'relative',
-              borderRadius: '20px',
-              flexShrink: 0,
-              width: '100%',
-              boxSizing: 'border-box',
-              background: 'transparent',
-              cursor: 'pointer'
-            }}
-            data-name="add set"
-            data-node-id="230:7072"
-          >
-            <p
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                lineHeight: '61.102px',
-                fontStyle: 'normal',
-                position: 'relative',
-                flexShrink: 0,
-                fontSize: '15px',
-                textAlign: 'center',
-                whiteSpace: 'nowrap',
-                color: 'white',
-                margin: 0,
-                padding: 0
-              }}
-              data-node-id="230:7073"
-            >
-              Add set
-            </p>
-          </button>
-
-          {/* Log / Done Button */}
-          <button
-            onClick={handleLog}
-            style={{
-              backgroundColor: isLogged ? '#059F00' : 'white',
-              display: 'flex',
-              height: '68px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              paddingLeft: 0,
-              paddingRight: 0,
-              paddingTop: '20px',
-              paddingBottom: '20px',
-              position: 'relative',
-              borderRadius: '20px',
-              flexShrink: 0,
-              width: '100%',
-              boxSizing: 'border-box',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-            data-name="log"
-            data-node-id="230:7074"
-          >
-            <p
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                lineHeight: '61.102px',
-                fontStyle: 'normal',
-                position: 'relative',
-                flexShrink: 0,
-                fontSize: '15px',
-                textAlign: 'center',
-                whiteSpace: 'nowrap',
-                color: isLogged ? '#ffffff' : '#1e1e1e',
-                margin: 0,
-                padding: 0
-              }}
-              data-node-id="230:7075"
-            >
-              {isLogged ? 'Done' : 'Log'}
-            </p>
-          </button>
-        </div>
-
-        {/* Notes Field */}
-        <Notes onSave={(value) => console.log('Notes saved:', value)} />
-      </div>
+      <ExerciseCard
+        exerciseName={exerciseData.exerciseName}
+        restNote={exerciseData.restNote}
+        cues={exerciseData.cues}
+        sets={sets}
+        isLogged={isLogged}
+        onDelete={handleDelete}
+        onAddSet={handleAddSet}
+        onLog={handleLog}
+        onRepsChange={handleRepsChange}
+        onWeightChange={handleWeightChange}
+        onNotesSave={(value) => console.log('Notes saved:', value)}
+        onDismiss={handleDismiss}
+        currentCarouselIndex={currentCarouselIndex}
+        totalCarouselItems={totalCarouselItems}
+      />
     </div>
   )
 }

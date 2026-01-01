@@ -12,7 +12,7 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '6px',
         alignItems: 'flex-start',
         justifyContent: 'center',
         paddingBottom: '26px',
@@ -57,7 +57,8 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           fontSize: '15px',
           color: 'white',
           margin: 0,
-          padding: 0
+          padding: 0,
+          paddingBottom: '20px'
         }}
         data-node-id="232:7358"
       >
@@ -75,8 +76,8 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           overflow: 'clip',
           paddingLeft: 0,
           paddingRight: '16px',
-          paddingTop: '20px',
-          paddingBottom: '20px',
+          paddingTop: '14px',
+          paddingBottom: 0,
           position: 'relative',
           flexShrink: 0,
           width: '100%',
@@ -134,6 +135,7 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           left: 0,
           top: '82px',
           width: '100%',
+          marginTop: '10px',
           borderTop: '0.5px solid rgba(255, 255, 255, 0.2)'
         }}
         data-node-id="232:7362"
