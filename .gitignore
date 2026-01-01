@@ -28,4 +28,8 @@ dist-ssr
 out/
 next-env.d.ts
 
+# Archive directories (should not be built)
+protocol-archive/
+protocol-archive-old/
+
 
