@@ -6,9 +6,10 @@ import { Notes } from './components/Notes'
 
 export default function Home() {
   const [sets, setSets] = useState([
-    { id: 1, setNumber: 1, reps: '8', weight: '145' },
-    { id: 2, setNumber: 2, reps: '8', weight: '145' },
-    { id: 3, setNumber: 3, reps: '8', weight: '145' }
+    { id: 1, setNumber: 1, reps: '8', weight: '145', isTimed: false },
+    { id: 2, setNumber: 2, reps: '8', weight: '145', isTimed: false },
+    { id: 3, setNumber: 3, reps: '8', weight: '145', isTimed: false },
+    { id: 4, setNumber: 4, reps: '60', weight: '0', isTimed: true }
   ]);
   const [isLogged, setIsLogged] = useState(false);
 
@@ -29,7 +30,8 @@ export default function Home() {
       id: Date.now(),
       setNumber: sets.length + 1,
       reps: lastSet ? lastSet.reps : '8',
-      weight: lastSet ? lastSet.weight : '145'
+      weight: lastSet ? lastSet.weight : '145',
+      isTimed: lastSet ? lastSet.isTimed : false
     };
     setSets([...sets, newSet]);
   };
@@ -63,6 +65,7 @@ export default function Home() {
             onRepsChange={(value) => handleRepsChange(set.id, value)}
             onWeightChange={(value) => handleWeightChange(set.id, value)}
             opacity={isLogged ? 0.6 : 1}
+            isTimed={set.isTimed}
           />
         ))}
 

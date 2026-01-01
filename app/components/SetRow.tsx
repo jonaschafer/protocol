@@ -10,6 +10,7 @@ interface SetRowProps {
   onWeightChange?: (value: string) => void;
   onDelete?: () => void;
   opacity?: number;
+  isTimed?: boolean;
 }
 
 export function SetRow({ 
@@ -19,7 +20,8 @@ export function SetRow({
   onRepsChange, 
   onWeightChange,
   onDelete,
-  opacity = 1
+  opacity = 1,
+  isTimed = false
 }: SetRowProps) {
   const [localReps, setLocalReps] = useState(reps);
   const [localWeight, setLocalWeight] = useState(weight);
@@ -59,11 +61,11 @@ export function SetRow({
     // Check screen size
     const handleResize = () => {
       setIsWideScreen(window.innerWidth >= 768);
-      setIsNarrowScreen(window.innerWidth < 480);
+      setIsNarrowScreen(window.innerWidth <= 388);
     };
     
     setIsWideScreen(window.innerWidth >= 768);
-    setIsNarrowScreen(window.innerWidth < 480);
+    setIsNarrowScreen(window.innerWidth <= 388);
     
     window.addEventListener('resize', handleResize);
     
@@ -514,7 +516,7 @@ export function SetRow({
           }}
           data-node-id="226:6017"
         >
-          Reps
+          {isTimed ? 'Dur' : 'Reps'}
         </p>
         <input
           type="tel"
