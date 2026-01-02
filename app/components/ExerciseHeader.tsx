@@ -31,13 +31,14 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
         style={{
           fontFamily: 'Instrument Sans, sans-serif',
           fontWeight: 500,
-          lineHeight: 'normal',
+          lineHeight: 1.2,
           position: 'relative',
           flexShrink: 0,
           fontSize: '26px',
           color: 'white',
           margin: 0,
-          padding: 0
+          padding: 0,
+          width: '100%'
         }}
         data-node-id="232:7357"
       >
@@ -64,6 +65,18 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
       >
         {restNote}
       </p>
+
+      {/* Divider Line */}
+      <div
+        style={{
+          height: '0',
+          width: '100%',
+          marginTop: '10px',
+          marginBottom: '0',
+          borderTop: '0.5px solid rgba(255, 255, 255, 0.2)'
+        }}
+        data-node-id="232:7362"
+      />
 
       {/* Cues Section */}
       <div
@@ -126,20 +139,6 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           {cues}
         </p>
       </div>
-
-      {/* Divider Line */}
-      <div
-        style={{
-          position: 'absolute',
-          height: '0',
-          left: 0,
-          top: '82px',
-          width: '100%',
-          marginTop: '10px',
-          borderTop: '0.5px solid rgba(255, 255, 255, 0.2)'
-        }}
-        data-node-id="232:7362"
-      />
     </div>
   );
 }
