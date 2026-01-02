@@ -1,0 +1,113 @@
+.card {
+  width: 100%;
+  min-height: fit-content;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 16px;
+  padding-right: 14px;
+  position: relative;
+  background: #080808;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.dayName {
+  color: white;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  line-height: 1.4;
+  width: 230px;
+}
+
+.badgesRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge {
+  height: 25px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  outline: 1px solid rgba(255, 255, 255, 0.50);
+  outline-offset: -1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.badgeText {
+  color: white;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 19.37px;
+  word-wrap: break-word;
+}
+
+.ptContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.checkboxIcon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ptBadge {
+  height: 25px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: white;
+  overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.ptBadgeText {
+  color: #080808;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 19.37px;
+  word-wrap: break-word;
+}
+
+.intensity {
+  right: 14px;
+  top: 22px;
+  position: absolute;
+  opacity: 0.60;
+  text-align: right;
+  color: white;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 19.37px;
+  word-wrap: break-word;
+}
+
