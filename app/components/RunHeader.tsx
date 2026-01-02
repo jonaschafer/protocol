@@ -363,7 +363,7 @@ export function RunHeader({ helper, miles, vert, zone, rpe, route }: RunHeaderPr
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '12px',
+            gap: '2px',
             alignItems: 'flex-start',
             justifyContent: 'center',
             fontStyle: 'normal',
