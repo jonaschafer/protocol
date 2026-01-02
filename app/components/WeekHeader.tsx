@@ -36,7 +36,11 @@ export function WeekHeader({ weekNumber, category, phase = 'durability' }: WeekH
   return (
     <div
       className="w-full h-[110px] px-5 relative"
-      style={{ backgroundColor: config.bgColor }}
+      style={{ 
+        backgroundColor: config.bgColor,
+        borderTopLeftRadius: '30px',
+        borderTopRightRadius: '30px'
+      }}
       data-name="weekHeader"
     >
       {/* Week Number */}

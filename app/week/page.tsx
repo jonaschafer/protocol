@@ -57,19 +57,23 @@ export default function WeekPage() {
   ];
 
   return (
-    <div style={{ padding: '40px', minHeight: '100vh', background: '#1e1e1e' }}>
-      <div style={{ maxWidth: '402px', height: '800px', margin: '0 auto' }}>
-        <WeekView
-          weekNumber={13}
-          category="Durability"
-          phase="durability"
-          milesCurrent={0}
-          milesTotal={18}
-          vert={2500}
-          notes="Start conservative, establish PT habit"
-          days={days}
-        />
-      </div>
+    <div 
+      style={{ 
+        background: '#272727', 
+        minHeight: '100vh',
+        width: '100%'
+      }}
+    >
+      <WeekView
+        weekNumber={13}
+        category="Durability"
+        phase="durability"
+        milesCurrent={0}
+        milesTotal={18}
+        vert={2500}
+        notes="Start conservative, establish PT habit"
+        days={days}
+      />
     </div>
   );
 }

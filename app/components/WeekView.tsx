@@ -39,14 +39,9 @@ export function WeekView({
     <div
       style={{
         width: '100%',
-        height: '100%',
+        minHeight: '100vh',
         position: 'relative',
-        background: '#272727',
-        overflow: 'hidden',
-        borderRadius: 30,
-        borderLeft: '1px rgba(255, 255, 255, 0.10) solid',
-        borderTop: '1px rgba(255, 255, 255, 0.10) solid',
-        borderRight: '1px rgba(255, 255, 255, 0.10) solid'
+        background: '#272727'
       }}
       data-name="weekView"
     >
@@ -58,35 +53,21 @@ export function WeekView({
       {/* Content Section */}
       <div
         style={{
-          width: 362,
-          left: 20,
-          top: 140,
-          position: 'absolute',
+          padding: '0 20px',
+          paddingTop: '140px',
+          paddingBottom: '200px',
+          display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          gap: 20,
-          display: 'inline-flex'
+          gap: 20
         }}
       >
         {/* Run Header Section */}
-        <div
-          style={{
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: 20,
-            display: 'flex',
-            width: '100%'
-          }}
-        >
-          <WeekRunHeader
-            milesCurrent={milesCurrent}
-            milesTotal={milesTotal}
-            vert={vert}
-            notes={notes}
-          />
-        </div>
+        <WeekRunHeader
+          milesCurrent={milesCurrent}
+          milesTotal={milesTotal}
+          vert={vert}
+          notes={notes}
+        />
 
         {/* Exercise List (Days) */}
         <WeekExerciseList days={days} />
