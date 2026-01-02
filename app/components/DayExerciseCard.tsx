@@ -4,7 +4,7 @@ import styles from './DayExerciseCard.module.css';
 interface DayExerciseCardProps {
   exerciseName: string; // e.g., "Trap Bar Deadlift"
   sets?: number; // e.g., 3
-  reps?: number; // e.g., 8
+  reps?: number | string; // e.g., 8 or "30 sec"
   weight?: string; // e.g., "#165"
   exerciseNote?: string; // e.g., "60% RPE"
 }

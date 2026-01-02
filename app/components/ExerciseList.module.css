@@ -1,0 +1,99 @@
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dividerContainer {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.divider {
+  height: 0;
+  width: 100%;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 30px;
+  padding-top: 40px;
+  padding-left: 0;
+  padding-right: 0;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  position: relative;
+  flex-shrink: 0;
+  font-size: 26px;
+  color: white;
+  text-align: right;
+  white-space: nowrap;
+  font-variation-settings: 'wdth' 100;
+  margin: 0;
+  padding: 0;
+}
+
+.logButtonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+}
+
+.logButton {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 140px;
+  height: 41px;
+  position: relative;
+  border-radius: 20px;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.logButtonText {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: normal;
+  font-style: normal;
+  position: relative;
+  flex-shrink: 0;
+  font-size: 15px;
+  color: #1e1e1e;
+  text-align: center;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+}
+
+.exercisesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
