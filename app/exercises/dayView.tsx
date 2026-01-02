@@ -3,6 +3,7 @@
 import { DayHeader } from '../components/DayHeader'
 import { RunHeader } from '../components/RunHeader'
 import RunNutrition from '../components/RunNutrition'
+import DayExerciseCard from '../components/DayExerciseCard'
 
 interface DayViewProps {
   date: string;
@@ -55,7 +56,24 @@ export function DayView({ date, dayNumber, category }: DayViewProps) {
         <RunNutrition />
       </div>
 
-      {/* TODO: Add exerciseList components */}
+      {/* Exercise Cards */}
+      <div style={{ padding: '0 20px', paddingTop: '20px', paddingBottom: '200px' }}>
+        <DayExerciseCard
+          exerciseName="Trap Bar Deadlift"
+          sets={3}
+          reps={8}
+          weight="#165"
+          exerciseNote="60%"
+        />
+        <div style={{ paddingTop: '13px' }}>
+          <DayExerciseCard
+            exerciseName="Barbell Back Squat with Pause at Bottom"
+            sets={4}
+            reps={6}
+            exerciseNote="65%"
+          />
+        </div>
+      </div>
     </div>
   );
 }
