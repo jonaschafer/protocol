@@ -281,14 +281,14 @@ export default function Home() {
 
   if (exercisesForCard.length === 0) {
     return (
-      <div style={{ padding: '20px', background: '#000', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ padding: '20px', background: '#165DFC', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ color: 'white' }}>No exercises to display</p>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px', background: '#000', minHeight: '100vh' }}>
+    <div style={{ padding: '20px 20px 0 20px', background: '#165DFC', minHeight: '100vh' }}>
       <ExerciseCard
         exercises={exercisesForCard}
         onDismiss={() => {
