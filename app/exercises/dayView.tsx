@@ -3,7 +3,7 @@
 import { DayHeader } from '../components/DayHeader'
 import { RunHeader } from '../components/RunHeader'
 import RunNutrition from '../components/RunNutrition'
-import DayExerciseCard from '../components/DayExerciseCard'
+import ExerciseList from '../components/ExerciseList'
 
 interface DayViewProps {
   date: string;
@@ -17,7 +17,10 @@ export function DayView({ date, dayNumber, category }: DayViewProps) {
       style={{
         position: 'relative',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        backgroundColor: '#272727',
+        borderRadius: '30px',
+        overflow: 'hidden'
       }}
       data-name="dayView"
     >
@@ -56,23 +59,25 @@ export function DayView({ date, dayNumber, category }: DayViewProps) {
         <RunNutrition />
       </div>
 
-      {/* Exercise Cards */}
-      <div style={{ padding: '0 20px', paddingTop: '20px', paddingBottom: '200px' }}>
-        <DayExerciseCard
-          exerciseName="Trap Bar Deadlift"
-          sets={3}
-          reps={8}
-          weight="#165"
-          exerciseNote="60%"
+      {/* Exercise List */}
+      <div style={{ padding: '0 20px', paddingBottom: '200px' }}>
+        <ExerciseList
+          exercises={[
+            {
+              exerciseName: "Trap Bar Deadlift",
+              sets: 3,
+              reps: 8,
+              weight: "#165",
+              exerciseNote: "60%"
+            },
+            {
+              exerciseName: "Barbell Back Squat with Pause at Bottom",
+              sets: 4,
+              reps: 6,
+              exerciseNote: "65%"
+            }
+          ]}
         />
-        <div style={{ paddingTop: '13px' }}>
-          <DayExerciseCard
-            exerciseName="Barbell Back Squat with Pause at Bottom"
-            sets={4}
-            reps={6}
-            exerciseNote="65%"
-          />
-        </div>
       </div>
     </div>
   );
