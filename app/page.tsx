@@ -19,8 +19,6 @@ export default function Home() {
   ]);
   const [isLogged, setIsLogged] = useState(false);
   const [showCard, setShowCard] = useState(true);
-  const currentCarouselIndex = 0;
-  const totalCarouselItems = 1;
 
   const handleDelete = (id: number) => {
     setSets(prevSets => {
@@ -105,10 +103,7 @@ export default function Home() {
         onWeightChange={handleWeightChange}
         onNotesSave={(value) => console.log('Notes saved:', value)}
         onDismiss={handleDismiss}
-        currentCarouselIndex={currentCarouselIndex}
-        totalCarouselItems={totalCarouselItems}
       />
     </div>
   )
 }
-

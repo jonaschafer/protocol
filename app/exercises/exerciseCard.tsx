@@ -26,8 +26,6 @@ interface ExerciseCardProps {
   onWeightChange: (id: number, value: string) => void;
   onNotesSave?: (value: string) => void;
   onDismiss?: () => void;
-  currentCarouselIndex?: number;
-  totalCarouselItems?: number;
 }
 
 export function ExerciseCard({
@@ -42,9 +40,7 @@ export function ExerciseCard({
   onRepsChange,
   onWeightChange,
   onNotesSave,
-  onDismiss,
-  currentCarouselIndex = 0,
-  totalCarouselItems = 1
+  onDismiss
 }: ExerciseCardProps) {
   const [dragDistance, setDragDistance] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -245,7 +241,6 @@ export function ExerciseCard({
         style={{
           padding: '20px',
           paddingTop: '40px', // Extra space for drag indicator
-          paddingBottom: '60px', // Space for carousel dots
           display: 'flex',
           flexDirection: 'column',
           gap: '10px'
@@ -376,38 +371,6 @@ export function ExerciseCard({
         {/* Notes Field */}
         <Notes onSave={onNotesSave || ((value) => console.log('Notes saved:', value))} />
       </div>
-
-      {/* Carousel Dots */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '16px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: '6px',
-          alignItems: 'center',
-          zIndex: 10
-        }}
-      >
-        {Array.from({ length: totalCarouselItems }).map((_, index) => {
-          const isActive = index === currentCarouselIndex;
-          return (
-            <div
-              key={index}
-              style={{
-                width: isActive ? '16px' : '6px',
-                height: '6px',
-                backgroundColor: isActive ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.3)',
-                borderRadius: '3px',
-                transition: 'all 0.2s ease-out'
-              }}
-              aria-label={`Carousel item ${index + 1}`}
-            />
-          );
-        })}
-      </div>
     </div>
   );
 }
-

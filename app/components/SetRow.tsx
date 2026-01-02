@@ -41,12 +41,18 @@ export function SetRow({
   const VELOCITY_THRESHOLD = -0.5; // px/ms (negative = left swipe)
   const VELOCITY_WINDOW_MS = 100; // Measure velocity over last 100ms
 
+  // Refs for measuring container and label widths
+  const repsContainerRef = useRef<HTMLDivElement>(null);
+  const repsLabelMeasureRef = useRef<HTMLSpanElement>(null);
+  const weightContainerRef = useRef<HTMLDivElement>(null);
+  const weightLabelMeasureRef = useRef<HTMLSpanElement>(null);
+
+  // State for dynamic label visibility
+  const [showRepsLabel, setShowRepsLabel] = useState(true);
+  const [showWeightLabel, setShowWeightLabel] = useState(true);
+
   // Check for reduced motion preference
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  // Responsive breakpoints
-  const [isWideScreen, setIsWideScreen] = useState(false);
-  const [isNarrowScreen, setIsNarrowScreen] = useState(false);
 
   useEffect(() => {
     // Check for reduced motion preference
@@ -57,23 +63,66 @@ export function SetRow({
       setPrefersReducedMotion(e.matches);
     };
     mediaQuery.addEventListener('change', handleReducedMotionChange);
-
-    // Check screen size
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 768);
-      setIsNarrowScreen(window.innerWidth <= 388);
-    };
-    
-    setIsWideScreen(window.innerWidth >= 768);
-    setIsNarrowScreen(window.innerWidth <= 388);
-    
-    window.addEventListener('resize', handleResize);
     
     return () => {
       mediaQuery.removeEventListener('change', handleReducedMotionChange);
-      window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Measure and update label visibility based on available space
+  useEffect(() => {
+    const MIN_GAP = 6; // Minimum gap before hiding label
+    const PADDING_LEFT = 16;
+    const PADDING_RIGHT = 16;
+
+    const checkLabelVisibility = () => {
+      // Check Reps container
+      if (repsContainerRef.current && repsLabelMeasureRef.current) {
+        const containerWidth = repsContainerRef.current.offsetWidth;
+        const labelWidth = repsLabelMeasureRef.current.offsetWidth;
+        // Calculate actual input width based on content
+        const inputWidth = Math.max(localReps.length * 28, 44); // Match getInputWidth logic
+        const availableWidth = containerWidth - PADDING_LEFT - PADDING_RIGHT;
+        const requiredWidth = labelWidth + MIN_GAP + inputWidth;
+        setShowRepsLabel(availableWidth >= requiredWidth);
+      }
+
+      // Check Weight container
+      if (weightContainerRef.current && weightLabelMeasureRef.current) {
+        const containerWidth = weightContainerRef.current.offsetWidth;
+        const labelWidth = weightLabelMeasureRef.current.offsetWidth;
+        // Calculate actual input width based on content
+        const inputWidth = Math.max(localWeight.length * 28, 44); // Match getInputWidth logic
+        const availableWidth = containerWidth - PADDING_LEFT - PADDING_RIGHT;
+        const requiredWidth = labelWidth + MIN_GAP + inputWidth;
+        setShowWeightLabel(availableWidth >= requiredWidth);
+      }
+    };
+
+    // Initial check after a brief delay to ensure DOM is ready
+    const initialTimeout = setTimeout(checkLabelVisibility, 0);
+
+    // Use ResizeObserver for efficient measurement
+    const resizeObserver = new ResizeObserver(() => {
+      checkLabelVisibility();
+    });
+
+    if (repsContainerRef.current) {
+      resizeObserver.observe(repsContainerRef.current);
+    }
+    if (weightContainerRef.current) {
+      resizeObserver.observe(weightContainerRef.current);
+    }
+
+    // Also check when values change (affects input width)
+    const valueChangeTimeout = setTimeout(checkLabelVisibility, 0);
+
+    return () => {
+      resizeObserver.disconnect();
+      clearTimeout(initialTimeout);
+      clearTimeout(valueChangeTimeout);
+    };
+  }, [localReps, localWeight, isTimed]);
 
   // Haptic feedback helper
   const triggerHaptic = () => {
@@ -292,6 +341,16 @@ export function SetRow({
     onWeightChange?.(value);
   };
 
+  // Calculate input width based on content (for shrink-wrapping)
+  const getInputWidth = (value: string): string => {
+    // For 44px font, each character is roughly 28px wide
+    // Add some padding and ensure minimum touch target
+    const charWidth = 28;
+    const minWidth = 44; // Minimum touch target
+    const calculatedWidth = Math.max(value.length * charWidth, minWidth);
+    return `${calculatedWidth}px`;
+  };
+
   // Calculate red box dimensions and positions
   const maxRedBoxWidth = rowWidthRef.current > 0 ? rowWidthRef.current - GAP : 0;
   
@@ -438,7 +497,7 @@ export function SetRow({
           display: 'flex',
           height: '68px',
           alignItems: 'center',
-          justifyContent: isNarrowScreen ? 'center' : 'flex-start',
+          justifyContent: 'flex-start',
           overflow: 'hidden',
           paddingLeft: '16px',
           paddingRight: '16px',
@@ -477,13 +536,13 @@ export function SetRow({
 
       {/* Reps Container */}
       <div
+        ref={repsContainerRef}
         style={{
           backgroundColor: '#1e1e1e',
           display: 'flex',
           height: '68px',
           alignItems: 'center',
-          justifyContent: isNarrowScreen ? 'flex-end' : 'space-between',
-          minWidth: isWideScreen ? undefined : '120px',
+          minWidth: '110px',
           overflow: 'hidden',
           paddingLeft: '16px',
           paddingRight: '16px',
@@ -499,6 +558,23 @@ export function SetRow({
         data-name="Sets Container"
         data-node-id="226:6016"
       >
+        {/* Hidden measurement element - always rendered for width calculation */}
+        <span
+          ref={repsLabelMeasureRef}
+          style={{
+            position: 'absolute',
+            visibility: 'hidden',
+            height: 'auto',
+            width: 'auto',
+            whiteSpace: 'nowrap',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '15px'
+          }}
+          aria-hidden="true"
+        >
+          {isTimed ? 'Dur' : 'Reps'}
+        </span>
         <p
           style={{
             fontFamily: 'Inter, sans-serif',
@@ -511,8 +587,9 @@ export function SetRow({
             fontSize: '15px',
             color: 'white',
             margin: 0,
+            marginRight: '8px',
             padding: 0,
-            display: isNarrowScreen ? 'none' : 'block'
+            display: showRepsLabel ? 'block' : 'none'
           }}
           data-node-id="226:6017"
         >
@@ -529,7 +606,7 @@ export function SetRow({
             fontWeight: 500,
             lineHeight: '61.102px',
             position: 'relative',
-            flexShrink: 0,
+            width: getInputWidth(localReps),
             fontSize: '44px',
             textAlign: 'right',
             color: 'white',
@@ -539,8 +616,8 @@ export function SetRow({
             outline: 'none',
             padding: 0,
             margin: 0,
-            width: '80px',
-            minWidth: '60px'
+            marginLeft: 'auto',
+            minWidth: '44px'
           }}
           data-node-id="226:6018"
         />
@@ -548,13 +625,13 @@ export function SetRow({
 
       {/* Weight Container */}
       <div
+        ref={weightContainerRef}
         style={{
           backgroundColor: '#1e1e1e',
           display: 'flex',
           height: '68px',
           alignItems: 'center',
-          justifyContent: isNarrowScreen ? 'flex-end' : 'space-between',
-          minWidth: isWideScreen ? undefined : '120px',
+          minWidth: '110px',
           overflow: 'hidden',
           paddingLeft: '16px',
           paddingRight: '16px',
@@ -570,6 +647,23 @@ export function SetRow({
         data-name="Sets Container"
         data-node-id="226:6019"
       >
+        {/* Hidden measurement element - always rendered for width calculation */}
+        <span
+          ref={weightLabelMeasureRef}
+          style={{
+            position: 'absolute',
+            visibility: 'hidden',
+            height: 'auto',
+            width: 'auto',
+            whiteSpace: 'nowrap',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '15px'
+          }}
+          aria-hidden="true"
+        >
+          #
+        </span>
         <p
           style={{
             fontFamily: 'Inter, sans-serif',
@@ -582,8 +676,9 @@ export function SetRow({
             fontSize: '15px',
             color: 'white',
             margin: 0,
+            marginRight: '8px',
             padding: 0,
-            display: isNarrowScreen ? 'none' : 'block'
+            display: showWeightLabel ? 'block' : 'none'
           }}
           data-node-id="226:6020"
         >
@@ -600,7 +695,7 @@ export function SetRow({
             fontWeight: 500,
             lineHeight: '61.102px',
             position: 'relative',
-            flexShrink: 0,
+            width: getInputWidth(localWeight),
             fontSize: '44px',
             textAlign: 'right',
             color: 'white',
@@ -610,8 +705,8 @@ export function SetRow({
             outline: 'none',
             padding: 0,
             margin: 0,
-            width: '80px',
-            minWidth: '60px'
+            marginLeft: 'auto',
+            minWidth: '44px'
           }}
           data-node-id="226:6021"
         />
