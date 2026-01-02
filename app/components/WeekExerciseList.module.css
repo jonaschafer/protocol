@@ -1,0 +1,34 @@
+.weekExerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dividerContainer {
+  padding-top: 0px;
+  padding-bottom: 25px;
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.divider {
+  height: 0;
+  width: 100%;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.daysContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+

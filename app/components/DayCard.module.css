@@ -1,0 +1,121 @@
+.card {
+  width: 100%;
+  min-height: fit-content;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 16px;
+  padding-right: 14px;
+  position: relative;
+  background: #000;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 13px;
+  transition: background-color 200ms ease;
+}
+
+.card.completed {
+  background: #00FF00;
+}
+
+.headerRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+
+.dayName {
+  color: white;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.dayLabel {
+  color: white;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 19.37px;
+  word-wrap: break-word;
+  opacity: 0.60;
+  text-align: right;
+}
+
+.tagsRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tagWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tag {
+  height: 25px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.tagOutlined {
+  outline: 1px solid rgba(255, 255, 255, 0.50);
+  outline-offset: -1px;
+  background: transparent;
+}
+
+.tagFilled {
+  background: white;
+}
+
+.tagText {
+  color: white;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  line-height: 19.37px;
+  word-wrap: break-word;
+}
+
+.tagFilled .tagText {
+  color: #080808;
+}
+
+.xSeparator {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkmarkIcon {
+  position: absolute;
+  top: 20px;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
