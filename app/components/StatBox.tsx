@@ -109,6 +109,8 @@ export function StatBox({
         backgroundColor,
         display: 'flex',
         height: '68px',
+        minHeight: '68px',
+        maxHeight: '68px',
         alignItems: 'center',
         overflow: 'hidden',
         paddingLeft: '16px',
