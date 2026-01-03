@@ -1,15 +1,31 @@
 'use client'
 
+import { useState } from 'react'
+
 interface ExerciseListLogButtonProps {
   onClick?: () => void
+  initialDone?: boolean
 }
 
-export function ExerciseListLogButton({ onClick }: ExerciseListLogButtonProps) {
+export function ExerciseListLogButton({ onClick, initialDone = false }: ExerciseListLogButtonProps) {
+  const [isDone, setIsDone] = useState(initialDone)
+
+  const handleClick = () => {
+    if (isDone) {
+      // Undo the done state
+      setIsDone(false)
+    } else {
+      // Set to done state
+      setIsDone(true)
+    }
+    onClick?.()
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       style={{
-        background: 'white',
+        background: isDone ? '#059F00' : 'white',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -32,14 +48,14 @@ export function ExerciseListLogButton({ onClick }: ExerciseListLogButtonProps) {
           position: 'relative',
           flexShrink: 0,
           fontSize: '15px',
-          color: '#1e1e1e',
+          color: isDone ? 'white' : '#1e1e1e',
           textAlign: 'center',
           whiteSpace: 'nowrap',
           margin: 0,
           padding: 0
         }}
       >
-        Log
+        {isDone ? 'Done' : 'Log'}
       </p>
     </button>
   )

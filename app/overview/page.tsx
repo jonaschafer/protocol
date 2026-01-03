@@ -1268,7 +1268,7 @@ export default function OverviewPage() {
             {/* ExerciseListLogButton - Used by ExerciseList */}
             <div
               style={{
-                width: '402px',
+                gridColumn: '1 / -1',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
@@ -1311,8 +1311,87 @@ export default function OverviewPage() {
                   <span style={{ color: '#AC47FF' }}>used by ExerciseList</span>
                 </div>
               </div>
-              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                <ExerciseListLogButton onClick={() => console.log('ExerciseListLogButton clicked')} />
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '20px',
+                  maxWidth: '824px'
+                }}
+              >
+                {/* Default State */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Default State
+                  </div>
+                  <div
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      padding: '10px'
+                    }}
+                  >
+                    <ExerciseListLogButton onClick={() => console.log('ExerciseListLogButton clicked')} />
+                  </div>
+                </div>
+
+                {/* Done State */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Done State
+                  </div>
+                  <div
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      padding: '10px'
+                    }}
+                  >
+                    <ExerciseListLogButton 
+                      onClick={() => console.log('ExerciseListLogButton clicked')} 
+                      initialDone={true}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  textAlign: 'center',
+                  marginTop: '5px'
+                }}
+              >
+                Click to toggle between states
               </div>
             </div>
 
