@@ -41,7 +41,9 @@ export function WeekView({
         width: '100%',
         minHeight: '100vh',
         position: 'relative',
-        background: '#272727'
+        backgroundColor: '#272727',
+        borderRadius: '30px',
+        overflow: 'hidden'
       }}
       data-name="weekView"
     >
