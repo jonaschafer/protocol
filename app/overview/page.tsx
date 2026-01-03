@@ -2027,7 +2027,7 @@ export default function OverviewPage() {
               </div>
             </div>
 
-            {/* DayView */}
+            {/* DayView - Durability Phase */}
             <div
               style={{
                 width: '402px',
@@ -2071,6 +2071,17 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#165DFC',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Durability Phase (#165DFC)
+              </div>
+              <div
+                style={{
                   width: '402px',
                   position: 'relative',
                   borderRadius: '30px',
@@ -2082,11 +2093,154 @@ export default function OverviewPage() {
                   date="Sunday, Apr 4"
                   dayNumber={13}
                   category="Durability"
+                  phase="durability"
                 />
               </div>
             </div>
 
-            {/* WeekView */}
+            {/* DayView - Specificity Phase */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  DayView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses DayHeader, RunHeader, RunNutrition, ExerciseList</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#AC47FF',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Specificity Phase (#AC47FF)
+              </div>
+              <div
+                style={{
+                  width: '402px',
+                  position: 'relative',
+                  borderRadius: '30px',
+                  overflow: 'hidden',
+                  minHeight: '600px'
+                }}
+              >
+                <DayView
+                  date="Monday, Apr 5"
+                  dayNumber={14}
+                  category="Specificity"
+                  phase="specificity"
+                />
+              </div>
+            </div>
+
+            {/* DayView - Foundation Phase */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  DayView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses DayHeader, RunHeader, RunNutrition, ExerciseList</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#FF474A',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Foundation Phase (#FF474A)
+              </div>
+              <div
+                style={{
+                  width: '402px',
+                  position: 'relative',
+                  borderRadius: '30px',
+                  overflow: 'hidden',
+                  minHeight: '600px'
+                }}
+              >
+                <DayView
+                  date="Tuesday, Apr 6"
+                  dayNumber={15}
+                  category="Foundation"
+                  phase="foundation"
+                />
+              </div>
+            </div>
+
+            {/* WeekView - Durability Phase */}
             <div
               style={{
                 width: '402px',
@@ -2131,6 +2285,17 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#165DFC',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Durability Phase (#165DFC)
+              </div>
+              <div
+                style={{
                   width: '402px',
                   position: 'relative',
                   minHeight: '800px'
@@ -2163,6 +2328,200 @@ export default function OverviewPage() {
                     {
                       dayName: 'Wednesday',
                       runInfo: '4 miles',
+                      hasPT: true,
+                      ptType: 'PT',
+                      intensity: 'Easy'
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
+            {/* WeekView - Specificity Phase */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses WeekHeader (→BaseHeader), WeekRunHeader (→RunHeaderStatBox), WeekExerciseList</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#AC47FF',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Specificity Phase (#AC47FF)
+              </div>
+              <div
+                style={{
+                  width: '402px',
+                  position: 'relative',
+                  minHeight: '800px'
+                }}
+              >
+                <WeekView
+                  weekNumber={14}
+                  category="Specificity"
+                  phase="specificity"
+                  milesCurrent={0}
+                  milesTotal={20}
+                  vert={3000}
+                  notes="Focus on race-specific training"
+                  days={[
+                    {
+                      dayName: 'Monday',
+                      runInfo: '4 miles',
+                      hasPT: true,
+                      ptType: 'PT',
+                      intensity: 'Rest'
+                    },
+                    {
+                      dayName: 'Tuesday',
+                      runInfo: '8 miles',
+                      vert: '2000',
+                      hasPT: true,
+                      ptType: 'Heavy',
+                      intensity: 'TTT'
+                    },
+                    {
+                      dayName: 'Wednesday',
+                      runInfo: '5 miles',
+                      hasPT: true,
+                      ptType: 'PT',
+                      intensity: 'Easy'
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
+            {/* WeekView - Foundation Phase */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses WeekHeader (→BaseHeader), WeekRunHeader (→RunHeaderStatBox), WeekExerciseList</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: '#FF474A',
+                  marginBottom: '5px',
+                  fontWeight: 500
+                }}
+              >
+                Foundation Phase (#FF474A)
+              </div>
+              <div
+                style={{
+                  width: '402px',
+                  position: 'relative',
+                  minHeight: '800px'
+                }}
+              >
+                <WeekView
+                  weekNumber={15}
+                  category="Foundation"
+                  phase="foundation"
+                  milesCurrent={0}
+                  milesTotal={15}
+                  vert={1800}
+                  notes="Build base fitness and strength"
+                  days={[
+                    {
+                      dayName: 'Monday',
+                      runInfo: '2 miles',
+                      hasPT: true,
+                      ptType: 'PT',
+                      intensity: 'Rest'
+                    },
+                    {
+                      dayName: 'Tuesday',
+                      runInfo: '5 miles',
+                      vert: '1000',
+                      hasPT: true,
+                      ptType: 'Heavy',
+                      intensity: 'Easy'
+                    },
+                    {
+                      dayName: 'Wednesday',
+                      runInfo: '3 miles',
                       hasPT: true,
                       ptType: 'PT',
                       intensity: 'Easy'

@@ -5,13 +5,16 @@ import { RunHeader } from '../components/RunHeader'
 import RunNutrition from '../components/RunNutrition'
 import ExerciseList from '../components/ExerciseList'
 
+type Phase = 'durability' | 'specificity' | 'foundation'
+
 interface DayViewProps {
   date: string;
   dayNumber: number | string;
   category?: string;
+  phase?: Phase;
 }
 
-export function DayView({ date, dayNumber, category }: DayViewProps) {
+export function DayView({ date, dayNumber, category, phase = 'durability' }: DayViewProps) {
   return (
     <div
       style={{
@@ -29,6 +32,7 @@ export function DayView({ date, dayNumber, category }: DayViewProps) {
         date={date}
         dayNumber={dayNumber}
         category={category}
+        phase={phase}
       />
 
       {/* Run Header */}
