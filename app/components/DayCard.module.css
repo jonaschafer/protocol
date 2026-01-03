@@ -24,8 +24,9 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   position: relative;
+  gap: 12px;
 }
 
 .dayName {
@@ -34,7 +35,10 @@
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   word-wrap: break-word;
+  overflow-wrap: break-word;
   line-height: 1.4;
+  flex: 1;
+  min-width: 0;
 }
 
 .dayLabel {
@@ -46,6 +50,7 @@
   word-wrap: break-word;
   opacity: 0.60;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .tagsRow {
