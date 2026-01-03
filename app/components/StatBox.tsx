@@ -205,7 +205,7 @@ export function StatBox({
             color: 'white',
             margin: 0,
             padding: 0,
-            marginLeft: width === 'flex' ? 'auto' : undefined
+            marginLeft: (width === 'flex' || (typeof width === 'string' && width !== 'fixed')) ? 'auto' : undefined
           }}
         >
           {value}

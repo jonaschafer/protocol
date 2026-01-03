@@ -49,7 +49,7 @@ export function WeekRunHeader({ milesCurrent, milesTotal, vert, notes }: WeekRun
         <RunHeaderStatBox
           label="Vert"
           value={vert}
-          width="flex"
+          width="100%"
         />
       </div>
 
