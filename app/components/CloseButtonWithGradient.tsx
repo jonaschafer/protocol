@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 interface CloseButtonWithGradientProps {
   onClick: () => void;
   buttonText?: string;
@@ -7,6 +9,7 @@ interface CloseButtonWithGradientProps {
   gradientHeight?: string;
   buttonBottom?: string;
   zIndex?: number;
+  demoPressed?: boolean; // For demonstration purposes
 }
 
 export function CloseButtonWithGradient({
@@ -15,8 +18,19 @@ export function CloseButtonWithGradient({
   buttonBackgroundColor = '#165DFC',
   gradientHeight = '150px',
   buttonBottom = '40px',
-  zIndex = 20
+  zIndex = 20,
+  demoPressed = false
 }: CloseButtonWithGradientProps) {
+  const [isPressed, setIsPressed] = useState(false)
+  const displayPressed = demoPressed || isPressed
+
+  const handleClick = () => {
+    setIsPressed(true)
+    onClick()
+    // Reset pressed state after animation
+    setTimeout(() => setIsPressed(false), 200)
+  }
+
   return (
     <div
       style={{
@@ -41,15 +55,20 @@ export function CloseButtonWithGradient({
         }}
       >
         <button
-          onClick={onClick}
+          onClick={demoPressed ? undefined : handleClick}
+          onTouchStart={demoPressed ? undefined : () => setIsPressed(true)}
+          onTouchEnd={demoPressed ? undefined : () => setTimeout(() => setIsPressed(false), 200)}
+          onMouseDown={demoPressed ? undefined : () => setIsPressed(true)}
+          onMouseUp={demoPressed ? undefined : () => setIsPressed(false)}
+          onMouseLeave={demoPressed ? undefined : () => setIsPressed(false)}
           style={{
             width: '140px',
             height: '40px',
             left: '50%',
             bottom: buttonBottom,
-            transform: 'translateX(-50%)',
+            transform: displayPressed ? 'translateX(-50%) scale(0.95)' : 'translateX(-50%) scale(1)',
             position: 'absolute',
-            background: buttonBackgroundColor,
+            background: displayPressed ? 'rgba(22, 93, 252, 0.8)' : buttonBackgroundColor,
             overflow: 'hidden',
             borderRadius: '20px',
             justifyContent: 'center',
@@ -57,9 +76,11 @@ export function CloseButtonWithGradient({
             gap: '10px',
             display: 'inline-flex',
             border: 'none',
-            cursor: 'pointer',
-            pointerEvents: 'auto',
-            padding: 0
+            cursor: demoPressed ? 'default' : 'pointer',
+            pointerEvents: demoPressed ? 'none' : 'auto',
+            padding: 0,
+            transition: 'transform 0.1s ease-out, background 0.1s ease-out',
+            WebkitTapHighlightColor: 'transparent'
           }}
           data-name="Done Container"
           data-node-id="243:4867"
@@ -74,7 +95,9 @@ export function CloseButtonWithGradient({
               lineHeight: 'normal',
               wordWrap: 'break-word',
               margin: 0,
-              padding: 0
+              padding: 0,
+              opacity: displayPressed ? 0.9 : 1,
+              transition: 'opacity 0.1s ease-out'
             }}
           >
             {buttonText}

@@ -35,6 +35,7 @@ export default function OverviewPage() {
   const [dayExerciseCardCompleted, setDayExerciseCardCompleted] = useState(false)
   const [weekDayCardCompleted, setWeekDayCardCompleted] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
+  const [closeButtonClicked, setCloseButtonClicked] = useState(false)
 
   return (
     <div
@@ -410,12 +411,10 @@ export default function OverviewPage() {
             {/* CloseButtonWithGradient */}
             <div
               style={{
-                width: '402px',
+                gridColumn: '1 / -1',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '10px',
-                position: 'relative',
-                height: '200px'
+                gap: '10px'
               }}
             >
               <div
@@ -430,18 +429,100 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
-                  width: '402px',
-                  height: '150px',
-                  position: 'relative',
-                  backgroundColor: '#1e1e1e',
-                  borderRadius: '20px',
-                  overflow: 'hidden'
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '20px',
+                  maxWidth: '824px'
                 }}
               >
-                <CloseButtonWithGradient
-                  onClick={() => console.log('Close clicked')}
-                />
+                {/* Idle State */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Idle State
+                  </div>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '150px',
+                      position: 'relative',
+                      backgroundColor: '#1e1e1e',
+                      borderRadius: '20px',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <CloseButtonWithGradient
+                      onClick={() => {
+                        setCloseButtonClicked(true)
+                        console.log('Close clicked')
+                        setTimeout(() => setCloseButtonClicked(false), 2000)
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Clicked State */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Clicked State
+                  </div>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '150px',
+                      position: 'relative',
+                      backgroundColor: '#1e1e1e',
+                      borderRadius: '20px',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <CloseButtonWithGradient
+                      onClick={() => {}}
+                      demoPressed={true}
+                    />
+                  </div>
+                </div>
               </div>
+              {closeButtonClicked && (
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    color: '#165DFC',
+                    textAlign: 'center',
+                    marginTop: '5px',
+                    opacity: 1,
+                    transition: 'opacity 0.2s ease-in'
+                  }}
+                >
+                  ✓ Button clicked! (State updated)
+                </div>
+              )}
             </div>
 
             {/* Button Relationship Note */}
