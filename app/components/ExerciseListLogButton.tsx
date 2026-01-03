@@ -1,25 +1,16 @@
 'use client'
 
-import { useState } from 'react'
-
 interface ExerciseListLogButtonProps {
   onClick?: () => void
   initialDone?: boolean
 }
 
 export function ExerciseListLogButton({ onClick, initialDone = false }: ExerciseListLogButtonProps) {
-  const [isDone, setIsDone] = useState(initialDone)
-
   const handleClick = () => {
-    if (isDone) {
-      // Undo the done state
-      setIsDone(false)
-    } else {
-      // Set to done state
-      setIsDone(true)
-    }
     onClick?.()
   }
+
+  const isDone = initialDone
 
   return (
     <button

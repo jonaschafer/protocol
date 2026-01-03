@@ -1,4 +1,6 @@
-import { FunctionComponent } from 'react';
+'use client'
+
+import { FunctionComponent, useState } from 'react';
 import styles from './ExerciseList.module.css';
 import DayExerciseCard from './DayExerciseCard';
 import { ExerciseListLogButton } from './ExerciseListLogButton';
@@ -16,6 +18,12 @@ interface ExerciseListProps {
 }
 
 const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
+  const [allExercisesDone, setAllExercisesDone] = useState(false);
+
+  const handleLogButtonClick = () => {
+    setAllExercisesDone(prev => !prev);
+  };
+
   return (
     <div className={styles.exerciseList}>
       {/* Divider Line */}
@@ -27,7 +35,10 @@ const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
       <div className={styles.header}>
         <p className={styles.title}>PT</p>
         <div className={styles.logButtonContainer}>
-          <ExerciseListLogButton onClick={() => console.log('Exercise list log clicked')} />
+          <ExerciseListLogButton 
+            onClick={handleLogButtonClick}
+            initialDone={allExercisesDone}
+          />
         </div>
       </div>
 
@@ -41,6 +52,7 @@ const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
             reps={exercise.reps}
             weight={exercise.weight}
             exerciseNote={exercise.exerciseNote}
+            isCompleted={allExercisesDone}
           />
         ))}
       </div>
