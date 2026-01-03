@@ -17,7 +17,7 @@ export function DayHeader({ date, dayNumber, category, phase = 'durability' }: D
       phase={phase}
       category={category}
       borderRadius="none"
-      className="md:px-6 pt-7"
+      className="md:px-6"
     >
       {/* Top row: Date and Day Number */}
       <div className="flex justify-between items-center">

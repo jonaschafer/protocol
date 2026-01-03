@@ -49,7 +49,7 @@ export function BaseHeader({
 
   return (
     <div
-      className={`w-full h-[110px] px-5 relative ${className}`}
+      className={`w-full h-[110px] px-5 flex flex-col justify-center ${className}`}
       style={{ 
         backgroundColor: config.bgColor,
         ...borderRadiusStyle
@@ -58,7 +58,7 @@ export function BaseHeader({
       {children}
       
       {/* Category Badge */}
-      <div className={borderRadius === 'top' ? 'absolute left-5 top-[65px]' : 'mt-[9px]'}>
+      <div className="mt-[9px]">
         <div 
           className="inline-flex items-center justify-center px-[13px] h-[25px] rounded-full border"
           style={{ borderColor: config.badgeBorderColor }}

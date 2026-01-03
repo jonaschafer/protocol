@@ -15,13 +15,11 @@ export function WeekHeader({ weekNumber, category, phase = 'durability' }: WeekH
     <BaseHeader
       phase={phase}
       category={category}
-      borderRadius="top"
+      borderRadius="none"
     >
       {/* Week Number */}
-      <div className="absolute left-5 top-7">
-        <div className="text-white text-[26px] font-medium leading-[26px]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
-          Week {weekNumber}
-        </div>
+      <div className="text-white text-[26px] font-medium leading-[26px]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+        Week {weekNumber}
       </div>
     </BaseHeader>
   )
