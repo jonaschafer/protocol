@@ -25,7 +25,7 @@ interface Tag {
 
 - **Completion States**: 
   - Default: Black background (#000), white text
-  - Completed: Bright green background (#00FF00), white text
+  - Completed: Bright green background (#046D00), white text
   - Smooth 200ms transition between states
 
 - **Layout**:

@@ -2223,7 +2223,7 @@ export default function OverviewPage() {
               <div>
                 <div
                   style={{
-                    backgroundColor: '#00FF00',
+                    backgroundColor: '#046D00',
                     height: '80px',
                     borderRadius: '8px',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -2236,7 +2236,7 @@ export default function OverviewPage() {
                     fontSize: '12px'
                   }}
                 >
-                  #00FF00
+                  #046D00
                 </div>
                 <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Completed</strong><br />
