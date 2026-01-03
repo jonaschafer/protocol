@@ -1,5 +1,7 @@
 'use client'
 
+import { CuesContent } from './CuesContent'
+
 interface ExerciseHeaderProps {
   exerciseName: string;
   restNote: string;
@@ -79,66 +81,7 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
       />
 
       {/* Cues Section */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          alignItems: 'flex-start',
-          fontStyle: 'normal',
-          overflow: 'clip',
-          paddingLeft: 0,
-          paddingRight: '16px',
-          paddingTop: '14px',
-          paddingBottom: 0,
-          position: 'relative',
-          flexShrink: 0,
-          width: '100%',
-          boxSizing: 'border-box'
-        }}
-        data-name="Notes Container"
-        data-node-id="232:7359"
-      >
-        {/* Cues Label */}
-        <p
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            lineHeight: 'normal',
-            fontStyle: 'normal',
-            opacity: 0.5,
-            position: 'relative',
-            flexShrink: 0,
-            fontSize: '15px',
-            width: '100%',
-            color: 'white',
-            margin: 0,
-            padding: 0
-          }}
-          data-node-id="232:7360"
-        >
-          Cues
-        </p>
-
-        {/* Cues Content */}
-        <p
-          style={{
-            fontFamily: 'IBM Plex Mono, monospace',
-            fontWeight: 400,
-            lineHeight: 1.49,
-            position: 'relative',
-            flexShrink: 0,
-            fontSize: '13px',
-            width: '100%',
-            color: 'white',
-            margin: 0,
-            padding: 0
-          }}
-          data-node-id="232:7361"
-        >
-          {cues}
-        </p>
-      </div>
+      <CuesContent cues={cues} />
     </div>
   );
 }

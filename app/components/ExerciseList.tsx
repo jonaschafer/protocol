@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styles from './ExerciseList.module.css';
 import DayExerciseCard from './DayExerciseCard';
+import { ExerciseListLogButton } from './ExerciseListLogButton';
 
 interface Exercise {
   exerciseName: string;
@@ -26,9 +27,7 @@ const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
       <div className={styles.header}>
         <p className={styles.title}>PT</p>
         <div className={styles.logButtonContainer}>
-          <button className={styles.logButton}>
-            <p className={styles.logButtonText}>Log</p>
-          </button>
+          <ExerciseListLogButton onClick={() => console.log('Exercise list log clicked')} />
         </div>
       </div>
 

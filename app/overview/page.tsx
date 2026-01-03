@@ -11,6 +11,21 @@ import { CloseButtonWithGradient } from '../components/CloseButtonWithGradient'
 import { BaseButton } from '../components/BaseButton'
 import { AddSetButton } from '../components/AddSetButton'
 import { LogButton } from '../components/LogButton'
+import { BaseHeader } from '../components/BaseHeader'
+import { DayHeader } from '../components/DayHeader'
+import { WeekHeader } from '../components/WeekHeader'
+import { RunHeader } from '../components/RunHeader'
+import { WeekRunHeader } from '../components/WeekRunHeader'
+import RunNutrition from '../components/RunNutrition'
+import ExerciseList from '../components/ExerciseList'
+import { ExerciseListLogButton } from '../components/ExerciseListLogButton'
+import { StatBox } from '../components/StatBox'
+import { SetRowStatBox } from '../components/SetRowStatBox'
+import { RunHeaderStatBox } from '../components/RunHeaderStatBox'
+import { BaseLabeledContent } from '../components/BaseLabeledContent'
+import { CuesContent } from '../components/CuesContent'
+import { NutritionSection } from '../components/NutritionSection'
+import { WeekNotes } from '../components/WeekNotes'
 import { ExerciseCard } from '../exercises/exerciseCard'
 import { DayView } from '../exercises/dayView'
 import { WeekView } from '../components/WeekView'
@@ -110,18 +125,47 @@ export default function OverviewPage() {
                 width: '402px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '10px'
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
               }}
             >
               <div
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  color: 'rgba(255, 255, 255, 0.5)',
-                  marginBottom: '5px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
                 }}
               >
-                ExerciseHeader
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  ExerciseHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses CuesContent (→BaseLabeledContent)</span>
+                </div>
               </div>
               <div style={{ width: '402px' }}>
                 <ExerciseHeader
@@ -259,7 +303,8 @@ export default function OverviewPage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  marginBottom: '5px'
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
                 }}
               >
                 <div
@@ -279,11 +324,14 @@ export default function OverviewPage() {
                     color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px'
+                    gap: '4px',
+                    flexWrap: 'wrap'
                   }}
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses DayCard</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by ExerciseList</span>
                 </div>
               </div>
               <div style={{ width: '100%' }}>
@@ -598,6 +646,1123 @@ export default function OverviewPage() {
                 </div>
               </div>
             </div>
+
+            {/* Header Relationship Note */}
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                backgroundColor: 'rgba(22, 93, 252, 0.1)',
+                border: '1px solid rgba(22, 93, 252, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '10px',
+                marginTop: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.5'
+                }}
+              >
+                <strong style={{ color: '#165DFC' }}>Header Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseHeader</span> is the base reusable component for headers with phase colors and badges. <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>DayHeader</span> and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>WeekHeader</span> are wrapper components that use BaseHeader internally.
+              </div>
+            </div>
+
+            {/* BaseHeader - Base Component */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid #165DFC',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#165DFC'
+                  }}
+                >
+                  BaseHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    backgroundColor: 'rgba(22, 93, 252, 0.2)',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}
+                >
+                  BASE COMPONENT
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <BaseHeader phase="durability" category="Durability">
+                  <div className="flex justify-between items-center">
+                    <div className="text-white text-[26px] font-medium leading-[26px]" style={{ fontFamily: 'Instrument Sans, sans-serif' }}>
+                      Sample Header
+                    </div>
+                  </div>
+                </BaseHeader>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  textAlign: 'center',
+                  marginTop: '5px',
+                  fontStyle: 'italic'
+                }}
+              >
+                (Single component with phase variants: durability, specificity, foundation)
+              </div>
+            </div>
+
+            {/* DayHeader - Uses BaseHeader */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  DayHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseHeader</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <DayHeader
+                  date="Sunday, Apr 4"
+                  dayNumber={13}
+                  category="Durability"
+                />
+              </div>
+            </div>
+
+            {/* WeekHeader - Uses BaseHeader */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseHeader</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by WeekView</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <WeekHeader
+                  weekNumber={13}
+                  category="Durability"
+                />
+              </div>
+            </div>
+
+            {/* DayView Components Relationship Note */}
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                backgroundColor: 'rgba(172, 71, 255, 0.1)',
+                border: '1px solid rgba(172, 71, 255, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '10px',
+                marginTop: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.5'
+                }}
+              >
+                <strong style={{ color: '#AC47FF' }}>DayView Components:</strong> The following components are used by <span style={{ color: '#AC47FF' }}>DayView</span> to compose the full day view.
+              </div>
+            </div>
+
+            {/* DayHeader - Used by DayView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  DayHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <DayHeader
+                  date="Sunday, Apr 4"
+                  dayNumber={13}
+                  category="Durability"
+                />
+              </div>
+            </div>
+
+            {/* RunHeader - Used by DayView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  RunHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>uses RunHeaderStatBox</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <RunHeader
+                  helper="Long run"
+                  miles={18}
+                  vert={5200}
+                  zone={2}
+                  rpe="6-7"
+                  route="Wildwood out and back, or a double Nasty"
+                />
+              </div>
+            </div>
+
+            {/* WeekRunHeader - Used by WeekView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekRunHeader
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by WeekView</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>uses RunHeaderStatBox</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>uses WeekNotes (→BaseLabeledContent)</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <WeekRunHeader
+                  milesCurrent={0}
+                  milesTotal={18}
+                  vert={2500}
+                  notes="Start conservative, establish PT habit"
+                />
+              </div>
+            </div>
+
+            {/* RunNutrition - Used by DayView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  RunNutrition
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>uses NutritionSection (→BaseLabeledContent)</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <RunNutrition />
+              </div>
+            </div>
+
+            {/* ExerciseList - Used by DayView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  ExerciseList
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>uses DayExerciseCard</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>uses ExerciseListLogButton</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <ExerciseList
+                  exercises={[
+                    {
+                      exerciseName: "Trap Bar Deadlift",
+                      sets: 3,
+                      reps: 8,
+                      weight: "#165",
+                      exerciseNote: "60%"
+                    },
+                    {
+                      exerciseName: "Barbell Back Squat with Pause at Bottom",
+                      sets: 4,
+                      reps: 6,
+                      exerciseNote: "65%"
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+
+            {/* ExerciseListLogButton - Used by ExerciseList */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  ExerciseListLogButton
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by ExerciseList</span>
+                </div>
+              </div>
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                <ExerciseListLogButton onClick={() => console.log('ExerciseListLogButton clicked')} />
+              </div>
+            </div>
+
+            {/* StatBox Relationship Note */}
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                backgroundColor: 'rgba(22, 93, 252, 0.1)',
+                border: '1px solid rgba(22, 93, 252, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '10px',
+                marginTop: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.5'
+                }}
+              >
+                <strong style={{ color: '#165DFC' }}>StatBox Hierarchy:</strong> <span style={{ color: '#165DFC' }}>StatBox</span> is the base reusable component for stat boxes (label + value). <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>SetRowStatBox</span> (editable, dark background) and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>RunHeaderStatBox</span> (read-only, black background) are wrapper components that use StatBox internally.
+              </div>
+            </div>
+
+            {/* StatBox - Base Component */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid #165DFC',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#165DFC'
+                  }}
+                >
+                  StatBox
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    backgroundColor: 'rgba(22, 93, 252, 0.2)',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}
+                >
+                  BASE COMPONENT
+                </div>
+              </div>
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <StatBox
+                  label="Miles"
+                  value={18}
+                  variant="black"
+                  width="fixed"
+                  fixedWidth="130px"
+                />
+                <StatBox
+                  label="Reps"
+                  value="15"
+                  variant="dark"
+                  width="flex"
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  textAlign: 'center',
+                  marginTop: '5px',
+                  fontStyle: 'italic'
+                }}
+              >
+                (Single component with 'dark' and 'black' variants, editable/read-only modes)
+              </div>
+            </div>
+
+            {/* SetRowStatBox - Uses StatBox */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  SetRowStatBox
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses StatBox</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <SetRowStatBox
+                  label="Reps"
+                  value="15"
+                  onValueChange={(value) => console.log('Reps changed:', value)}
+                />
+              </div>
+            </div>
+
+            {/* RunHeaderStatBox - Uses StatBox */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  RunHeaderStatBox
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses StatBox</span>
+                </div>
+              </div>
+              <div style={{ width: '100%', display: 'flex', gap: '10px' }}>
+                <RunHeaderStatBox
+                  label="Miles"
+                  value={18}
+                  width="fixed"
+                  fixedWidth="130px"
+                />
+                <RunHeaderStatBox
+                  label="Vert"
+                  value={5200}
+                  width="flex"
+                />
+              </div>
+            </div>
+
+            {/* BaseLabeledContent Relationship Note */}
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                backgroundColor: 'rgba(22, 93, 252, 0.1)',
+                border: '1px solid rgba(22, 93, 252, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '10px',
+                marginTop: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.5'
+                }}
+              >
+                <strong style={{ color: '#165DFC' }}>LabeledContent Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseLabeledContent</span> is the base reusable component for label + content sections. <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Notes</span> (editable), <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>CuesContent</span>, <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>NutritionSection</span>, and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>WeekNotes</span> are wrapper components that use BaseLabeledContent internally.
+              </div>
+            </div>
+
+            {/* BaseLabeledContent - Base Component */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid #165DFC',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#165DFC'
+                  }}
+                >
+                  BaseLabeledContent
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    backgroundColor: 'rgba(22, 93, 252, 0.2)',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}
+                >
+                  BASE COMPONENT
+                </div>
+              </div>
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '15px', backgroundColor: '#1e1e1e', padding: '12px', borderRadius: '8px' }}>
+                <BaseLabeledContent
+                  label="Read-only Example"
+                  content="This is read-only content with mono font"
+                  variant="read-only"
+                  contentFont="mono"
+                />
+                <BaseLabeledContent
+                  label="Editable Example"
+                  content=""
+                  variant="editable"
+                  contentFont="inter"
+                  placeholder="Type something..."
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  textAlign: 'center',
+                  marginTop: '5px',
+                  fontStyle: 'italic'
+                }}
+              >
+                (Single component with 'editable'/'read-only' variants, 'inter'/'mono' font options)
+              </div>
+            </div>
+
+            {/* Notes - Uses BaseLabeledContent */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  Notes
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <Notes onSave={(value) => console.log('Notes saved:', value)} />
+              </div>
+            </div>
+
+            {/* CuesContent - Uses BaseLabeledContent */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  CuesContent
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by ExerciseHeader</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <CuesContent cues="Loop band around foot and anchor it to stable object at ankle height, then sit tall and drive knee toward chest with controlled tempo." />
+              </div>
+            </div>
+
+            {/* NutritionSection - Uses BaseLabeledContent */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  NutritionSection
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by RunNutrition</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <NutritionSection
+                  label="Before run"
+                  content="Toast + jam, water 30min before"
+                />
+              </div>
+            </div>
+
+            {/* WeekNotes - Uses BaseLabeledContent */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekNotes
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by WeekRunHeader</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <WeekNotes notes="Start conservative, establish PT habit" />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -678,6 +1843,30 @@ export default function OverviewPage() {
               </div>
             </div>
 
+            {/* DayView Component Composition Note */}
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                backgroundColor: 'rgba(172, 71, 255, 0.1)',
+                border: '1px solid rgba(172, 71, 255, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                marginBottom: '10px',
+                marginTop: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: '1.5'
+                }}
+              >
+                <strong style={{ color: '#AC47FF' }}>DayView Composition:</strong> DayView is composed of <span style={{ color: '#AC47FF' }}>DayHeader</span> (uses <span style={{ color: '#165DFC' }}>BaseHeader</span>), <span style={{ color: '#AC47FF' }}>RunHeader</span> (uses <span style={{ color: '#165DFC' }}>RunHeaderStatBox</span>), <span style={{ color: '#AC47FF' }}>RunNutrition</span> (uses <span style={{ color: '#165DFC' }}>NutritionSection</span>), <span style={{ color: '#AC47FF' }}>ExerciseHeader</span> (uses <span style={{ color: '#165DFC' }}>CuesContent</span>), and <span style={{ color: '#AC47FF' }}>ExerciseList</span> (which includes its own log button component).
+              </div>
+            </div>
+
             {/* DayView */}
             <div
               style={{
@@ -689,13 +1878,36 @@ export default function OverviewPage() {
             >
               <div
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  color: 'rgba(255, 255, 255, 0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   marginBottom: '5px'
                 }}
               >
-                DayView
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  DayView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses DayHeader, RunHeader, RunNutrition, ExerciseList</span>
+                </div>
               </div>
               <div
                 style={{
@@ -725,13 +1937,37 @@ export default function OverviewPage() {
             >
               <div
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  color: 'rgba(255, 255, 255, 0.5)',
-                  marginBottom: '5px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
                 }}
               >
-                WeekView
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  WeekView
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses WeekHeader (→BaseHeader), WeekRunHeader (→RunHeaderStatBox), WeekExerciseList</span>
+                </div>
               </div>
               <div
                 style={{
@@ -773,6 +2009,653 @@ export default function OverviewPage() {
                     }
                   ]}
                 />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Design System Section */}
+        <section style={{ marginBottom: '60px' }}>
+          <h2
+            style={{
+              fontFamily: 'Instrument Sans, sans-serif',
+              fontSize: '24px',
+              fontWeight: 500,
+              color: 'white',
+              marginBottom: '30px',
+              opacity: 0.8
+            }}
+          >
+            Design System
+          </h2>
+
+          {/* Colors */}
+          <div style={{ marginBottom: '40px' }}>
+            <h3
+              style={{
+                fontFamily: 'Instrument Sans, sans-serif',
+                fontSize: '20px',
+                fontWeight: 500,
+                color: 'white',
+                marginBottom: '20px'
+              }}
+            >
+              Colors
+            </h3>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                gap: '20px'
+              }}
+            >
+              {/* Background Colors */}
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#272727',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #272727
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Background</strong><br />
+                  Main page background
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #1e1e1e
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Container BG</strong><br />
+                  Notes, SetRow containers
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#000',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #000 / black
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Black</strong><br />
+                  DayCard, stat boxes
+                </div>
+              </div>
+
+              {/* Phase Colors */}
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#165DFC',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #165DFC
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Durability</strong><br />
+                  Phase color, buttons
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#AC47FF',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #AC47FF
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Specificity</strong><br />
+                  Phase color
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#FF474A',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #FF474A
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Foundation</strong><br />
+                  Phase color
+                </div>
+              </div>
+
+              {/* State Colors */}
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#059F00',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #059F00
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Success/Logged</strong><br />
+                  LogButton active state
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#00FF00',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#000',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #00FF00
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Completed</strong><br />
+                  DayCard completed state
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: '#d51c1c',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  #d51c1c
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Delete</strong><br />
+                  SetRow delete action
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    backgroundColor: 'white',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#1e1e1e',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px'
+                  }}
+                >
+                  white / #ffffff
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>White</strong><br />
+                  Text, button backgrounds
+                </div>
+              </div>
+
+              {/* Opacity Colors */}
+              <div>
+                <div
+                  style={{
+                    background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(30, 30, 30, 0.6) 100%)',
+                    height: '80px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '12px',
+                    textAlign: 'center',
+                    padding: '8px'
+                  }}
+                >
+                  rgba values
+                </div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <strong>Opacity Colors</strong><br />
+                  rgba(255,255,255,0.5) - labels<br />
+                  rgba(255,255,255,0.2) - dividers<br />
+                  rgba(30,30,30,0.6) - SetRow set number
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Typography */}
+          <div style={{ marginBottom: '40px' }}>
+            <h3
+              style={{
+                fontFamily: 'Instrument Sans, sans-serif',
+                fontSize: '20px',
+                fontWeight: 500,
+                color: 'white',
+                marginBottom: '20px'
+              }}
+            >
+              Typography
+            </h3>
+
+            {/* Font Families */}
+            <div style={{ marginBottom: '30px' }}>
+              <h4
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: 'white',
+                  marginBottom: '15px'
+                }}
+              >
+                Font Families
+              </h4>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+                  gap: '15px'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Instrument Sans, sans-serif',
+                      fontSize: '18px',
+                      fontWeight: 500,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Instrument Sans
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Weights: 400, 500<br />
+                    Used for: Headings, titles (26px)
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px',
+                      fontWeight: 400,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Inter
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Weight: 400<br />
+                    Used for: Body text, labels (15px)
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter Tight, sans-serif',
+                      fontSize: '18px',
+                      fontWeight: 500,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    Inter Tight
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Weights: 400, 500<br />
+                    Used for: Large numbers (44px)
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'IBM Plex Mono, monospace',
+                      fontSize: '18px',
+                      fontWeight: 400,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    IBM Plex Mono
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Weight: 400<br />
+                    Used for: Small text, cues, routes (13px)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Font Sizes */}
+            <div style={{ marginBottom: '30px' }}>
+              <h4
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: 'white',
+                  marginBottom: '15px'
+                }}
+              >
+                Font Sizes & Line Heights
+              </h4>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                  gap: '15px'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter Tight, sans-serif',
+                      fontSize: '44px',
+                      fontWeight: 500,
+                      lineHeight: '61.102px',
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    44px
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Line height: 61.102px<br />
+                    Weight: 500<br />
+                    Used for: Large numbers (reps, weight, stats)
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Instrument Sans, sans-serif',
+                      fontSize: '26px',
+                      fontWeight: 500,
+                      lineHeight: 1.2,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    26px
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Line height: 1.2<br />
+                    Weight: 500<br />
+                    Used for: Headings, titles
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '15px',
+                      fontWeight: 400,
+                      lineHeight: 'normal',
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    15px
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Line height: normal<br />
+                    Weight: 400<br />
+                    Used for: Body text, labels, buttons
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'IBM Plex Mono, monospace',
+                      fontSize: '13px',
+                      fontWeight: 400,
+                      lineHeight: 1.49,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    13px
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Line height: 1.49 (19.37px)<br />
+                    Weight: 400<br />
+                    Used for: Small text, cues, routes
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Font Weights */}
+            <div>
+              <h4
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: 'white',
+                  marginBottom: '15px'
+                }}
+              >
+                Font Weights
+              </h4>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                  gap: '15px'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px',
+                      fontWeight: 400,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    400 (Regular)
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Most body text, labels
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: '#1e1e1e',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px',
+                      fontWeight: 500,
+                      color: 'white',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    500 (Medium)
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
+                    Headings, titles, large numbers
+                  </div>
+                </div>
               </div>
             </div>
           </div>
