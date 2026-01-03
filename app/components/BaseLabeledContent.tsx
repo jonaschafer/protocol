@@ -138,7 +138,9 @@ export function BaseLabeledContent({
         justifyContent: 'space-between', 
         alignItems: 'baseline',
         width: '100%',
-        flexShrink: 0
+        flexShrink: 0,
+        gap: '8px',
+        minWidth: 0
       }}>
         <p
           style={{
@@ -148,9 +150,9 @@ export function BaseLabeledContent({
             fontStyle: 'normal',
             opacity: 0.5,
             position: 'relative',
-            flexShrink: 0,
+            flexShrink: 1,
+            minWidth: 0,
             fontSize: '15px',
-            width: '100%',
             color: 'white',
             margin: 0,
             padding: 0
@@ -173,7 +175,9 @@ export function BaseLabeledContent({
               userSelect: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px'
+              gap: '6px',
+              flexShrink: 0,
+              marginRight: '0'
             }}
           >
             <span>Saved</span>
