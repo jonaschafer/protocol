@@ -1,7 +1,6 @@
 'use client'
 
 import { StatBox } from './StatBox'
-import { useRef } from 'react'
 
 interface SetRowStatBoxProps {
   label: string

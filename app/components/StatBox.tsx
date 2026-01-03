@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 interface StatBoxProps {
   label: string
