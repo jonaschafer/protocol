@@ -1,4 +1,7 @@
+'use client'
+
 import { FunctionComponent } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './DayCard.module.css';
 
 export interface Tag {
@@ -13,6 +16,8 @@ export interface DayCardProps {
   tags: Tag[];
   isCompleted: boolean;
   onToggleComplete: () => void;
+  weekNumber?: number | string;
+  category?: string;
 }
 
 const XIcon = () => (
@@ -27,12 +32,21 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   dayLabel,
   tags,
   isCompleted,
-  onToggleComplete
+  onToggleComplete,
+  weekNumber,
+  category
 }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    const dayRoute = dayName.toLowerCase();
+    router.push(`/day/${dayRoute}`);
+  };
+
   return (
     <div 
       className={`${styles.card} ${isCompleted ? styles.completed : ''}`}
-      onClick={onToggleComplete}
+      onClick={handleClick}
       style={{ cursor: 'pointer' }}
     >
       {/* Header Row */}

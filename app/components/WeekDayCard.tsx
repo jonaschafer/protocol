@@ -11,6 +11,8 @@ interface WeekDayCardProps {
   intensity?: string; // e.g., "Rest", "Easy", "Hard", "Long", "TTT"
   isCompleted?: boolean;
   onToggleComplete?: () => void;
+  weekNumber?: number | string;
+  category?: string;
 }
 
 const WeekDayCard: FunctionComponent<WeekDayCardProps> = ({
@@ -22,7 +24,9 @@ const WeekDayCard: FunctionComponent<WeekDayCardProps> = ({
   ptType = 'PT',
   intensity,
   isCompleted = false,
-  onToggleComplete = () => {}
+  onToggleComplete = () => {},
+  weekNumber,
+  category
 }) => {
   // Build tags array from runInfo, vert, zone, and PT
   const tags: Tag[] = useMemo(() => {
@@ -49,6 +53,8 @@ const WeekDayCard: FunctionComponent<WeekDayCardProps> = ({
       tags={tags}
       isCompleted={isCompleted}
       onToggleComplete={onToggleComplete}
+      weekNumber={weekNumber}
+      category={category}
     />
   );
 };

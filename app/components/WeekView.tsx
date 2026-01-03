@@ -72,7 +72,7 @@ export function WeekView({
         />
 
         {/* Exercise List (Days) */}
-        <WeekExerciseList days={days} />
+        <WeekExerciseList days={days} weekNumber={weekNumber} category={category} />
       </div>
     </div>
   );

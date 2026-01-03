@@ -14,9 +14,11 @@ interface DayData {
 
 interface WeekExerciseListProps {
   days: DayData[];
+  weekNumber?: number | string;
+  category?: string;
 }
 
-const WeekExerciseList: FunctionComponent<WeekExerciseListProps> = ({ days }) => {
+const WeekExerciseList: FunctionComponent<WeekExerciseListProps> = ({ days, weekNumber, category }) => {
   return (
     <div className={styles.weekExerciseList}>
       {/* Divider Line */}
@@ -36,6 +38,8 @@ const WeekExerciseList: FunctionComponent<WeekExerciseListProps> = ({ days }) =>
             hasPT={day.hasPT}
             ptType={day.ptType}
             intensity={day.intensity}
+            weekNumber={weekNumber}
+            category={category}
           />
         ))}
       </div>
