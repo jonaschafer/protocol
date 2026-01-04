@@ -8,12 +8,17 @@ import ExerciseList from '../components/ExerciseList'
 type Phase = 'durability' | 'specificity' | 'foundation'
 
 interface RunData {
+  variant?: 'run' | 'row';
   helper?: string;
   miles: number | string;
   vert?: number | string;
   zone?: number | string;
   rpe?: string;
   route?: string;
+  // Row-specific fields
+  pace?: number | string;
+  spm?: number | string;
+  cues?: string;
 }
 
 interface Exercise {
@@ -71,12 +76,16 @@ export function DayView({
         <>
           <div style={{ padding: '0 20px', paddingTop: '20px' }}>
             <RunHeader
+              variant={runData.variant || (runData.miles === 'Row' ? 'row' : 'run')}
               helper={runData.helper}
               miles={runData.miles}
-              vert={runData.vert || 0}
-              zone={runData.zone || 0}
-              rpe={runData.rpe || ''}
-              route={runData.route || ''}
+              vert={runData.vert}
+              zone={runData.zone}
+              rpe={runData.rpe}
+              route={runData.route}
+              pace={runData.pace}
+              spm={runData.spm}
+              cues={runData.cues}
             />
           </div>
 
@@ -107,4 +116,3 @@ export function DayView({
     </div>
   );
 }
-

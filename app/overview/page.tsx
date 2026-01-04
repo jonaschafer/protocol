@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { SetRow } from '../components/SetRow'
 import { ExerciseHeader } from '../components/ExerciseHeader'
 import { Notes } from '../components/Notes'
@@ -35,78 +35,11 @@ export default function OverviewPage() {
   const [dayExerciseCardCompleted, setDayExerciseCardCompleted] = useState(false)
   const [weekDayCardCompleted, setWeekDayCardCompleted] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
-  const [closeButtonClicked, setCloseButtonClicked] = useState(false)
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
-  const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
-  const individualSectionRef = useRef<HTMLElement | null>(null)
-  const compiledSectionRef = useRef<HTMLElement | null>(null)
-
-  // Theme configuration
-  const themes = {
-    light: {
-      background: '#c1c1c1',
-      text: '#1a1a1a',
-      textSecondary: 'rgba(0, 0, 0, 0.7)',
-      textTertiary: 'rgba(0, 0, 0, 0.6)',
-      textQuaternary: 'rgba(0, 0, 0, 0.5)',
-      textMuted: 'rgba(0, 0, 0, 0.85)',
-      border: 'rgba(0, 0, 0, 0.3)',
-      borderLight: 'rgba(0, 0, 0, 0.2)'
-    },
-    dark: {
-      background: '#272727',
-      text: 'white',
-      textSecondary: 'rgba(255, 255, 255, 0.5)',
-      textTertiary: 'rgba(255, 255, 255, 0.4)',
-      textQuaternary: 'rgba(255, 255, 255, 0.3)',
-      textMuted: 'rgba(255, 255, 255, 0.7)',
-      border: 'rgba(255, 255, 255, 0.2)',
-      borderLight: 'rgba(255, 255, 255, 0.1)'
-    }
-  }
-
-  const currentTheme = themes[theme]
-
-  // Scroll detection for active section
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!individualSectionRef.current || !compiledSectionRef.current) return
-
-      const individualTop = individualSectionRef.current.offsetTop
-      const compiledTop = compiledSectionRef.current.offsetTop
-      const scrollPosition = window.scrollY + 150 // Offset for sticky nav
-
-      if (scrollPosition >= compiledTop) {
-        setActiveSection('compiled')
-      } else {
-        setActiveSection('individual')
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Check initial position
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Helper function to determine accessible text color based on background
-  const getContrastColor = (backgroundColor: string): string => {
-    // Remove # if present and convert to RGB
-    const hex = backgroundColor.replace('#', '')
-    const r = parseInt(hex.substring(0, 2), 16)
-    const g = parseInt(hex.substring(2, 4), 16)
-    const b = parseInt(hex.substring(4, 6), 16)
-    
-    // Calculate relative luminance
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-    
-    // Return white for dark backgrounds, black for light backgrounds
-    return luminance > 0.5 ? '#1a1a1a' : 'white'
-  }
 
   return (
     <div
       style={{
-        backgroundColor: currentTheme.background,
+        backgroundColor: '#272727',
         minHeight: '100vh',
         padding: '40px 20px',
         width: '100%'
@@ -118,95 +51,34 @@ export default function OverviewPage() {
           margin: '0 auto'
         }}
       >
-        {/* Sticky Navigation */}
-        <div
+        {/* Page Title */}
+        <h1
           style={{
-            position: 'sticky',
-            top: 0,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '15px 20px',
-            marginBottom: '30px',
-            backgroundColor: currentTheme.background,
-            borderBottom: `1px solid ${currentTheme.borderLight}`,
-            zIndex: 1000,
-            backdropFilter: 'blur(10px)',
-            boxShadow: theme === 'dark' ? '0 2px 8px rgba(0, 0, 0, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.1)'
+            fontFamily: 'Instrument Sans, sans-serif',
+            fontSize: '32px',
+            fontWeight: 500,
+            color: 'white',
+            marginBottom: '40px',
+            textAlign: 'center'
           }}
         >
-          {/* Section Title */}
-          <div
-            style={{
-              fontFamily: 'Instrument Sans, sans-serif',
-              fontSize: '20px',
-              fontWeight: 500,
-              color: currentTheme.text
-            }}
-          >
-            {activeSection === 'individual' ? 'Individual Components' : 'Compiled Pages/Views'}
-          </div>
-
-          {/* Theme Toggle */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '14px',
-                color: currentTheme.text,
-                fontWeight: theme === 'light' ? 500 : 400
-              }}
-            >
-              Light
-            </span>
-            <button
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              style={{
-                width: '50px',
-                height: '26px',
-                borderRadius: '13px',
-                border: `2px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background,
-                cursor: 'pointer',
-                position: 'relative',
-                transition: 'all 0.2s ease',
-                padding: 0
-              }}
-            >
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  backgroundColor: theme === 'light' ? currentTheme.text : 'white',
-                  position: 'absolute',
-                  top: '1px',
-                  left: theme === 'light' ? '1px' : '25px',
-                  transition: 'left 0.2s ease'
-                }}
-              />
-            </button>
-            <span
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '14px',
-                color: currentTheme.text,
-                fontWeight: theme === 'dark' ? 500 : 400
-              }}
-            >
-              Dark
-            </span>
-          </div>
-        </div>
+          Component Overview
+        </h1>
 
         {/* Individual Components Section */}
-        <section ref={individualSectionRef} style={{ marginBottom: '60px' }}>
+        <section style={{ marginBottom: '60px' }}>
+          <h2
+            style={{
+              fontFamily: 'Instrument Sans, sans-serif',
+              fontSize: '24px',
+              fontWeight: 500,
+              color: 'white',
+              marginBottom: '30px',
+              opacity: 0.8
+            }}
+          >
+            Individual Components
+          </h2>
           <div
             style={{
               display: 'grid',
@@ -228,7 +100,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
-                  color: currentTheme.textSecondary,
+                  color: 'rgba(255, 255, 255, 0.5)',
                   marginBottom: '5px'
                 }}
               >
@@ -254,7 +126,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -274,7 +146,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -284,7 +156,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -317,7 +189,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
-                  color: currentTheme.textSecondary,
+                  color: 'rgba(255, 255, 255, 0.5)',
                   marginBottom: '5px'
                 }}
               >
@@ -345,11 +217,11 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
-                <strong style={{ color: '#165DFC' }}>Component Hierarchy:</strong> <span style={{ color: '#165DFC' }}>DayCard</span> is the base reusable component. <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>DayExerciseCard</span> and <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>WeekDayCard</span> are wrapper components that use DayCard internally.
+                <strong style={{ color: '#165DFC' }}>Component Hierarchy:</strong> <span style={{ color: '#165DFC' }}>DayCard</span> is the base reusable component. <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>DayExerciseCard</span> and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>WeekDayCard</span> are wrapper components that use DayCard internally.
               </div>
             </div>
 
@@ -388,7 +260,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     backgroundColor: 'rgba(22, 93, 252, 0.2)',
                     padding: '2px 6px',
                     borderRadius: '4px'
@@ -419,7 +291,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -439,7 +311,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -449,7 +321,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -458,7 +330,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses DayCard</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by ExerciseList</span>
                 </div>
               </div>
@@ -482,7 +354,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -501,7 +373,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -511,7 +383,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -538,17 +410,19 @@ export default function OverviewPage() {
             {/* CloseButtonWithGradient */}
             <div
               style={{
-                gridColumn: '1 / -1',
+                width: '402px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '10px'
+                gap: '10px',
+                position: 'relative',
+                height: '200px'
               }}
             >
               <div
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
-                  color: currentTheme.textSecondary,
+                  color: 'rgba(255, 255, 255, 0.5)',
                   marginBottom: '5px'
                 }}
               >
@@ -556,100 +430,18 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '20px',
-                  maxWidth: '824px'
+                  width: '402px',
+                  height: '150px',
+                  position: 'relative',
+                  backgroundColor: '#1e1e1e',
+                  borderRadius: '20px',
+                  overflow: 'hidden'
                 }}
               >
-                {/* Idle State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Idle State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '150px',
-                      position: 'relative',
-                      backgroundColor: '#1e1e1e',
-                      borderRadius: '20px',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <CloseButtonWithGradient
-                      onClick={() => {
-                        setCloseButtonClicked(true)
-                        console.log('Close clicked')
-                        setTimeout(() => setCloseButtonClicked(false), 2000)
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Clicked State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Clicked State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '150px',
-                      position: 'relative',
-                      backgroundColor: '#1e1e1e',
-                      borderRadius: '20px',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <CloseButtonWithGradient
-                      onClick={() => {}}
-                      demoPressed={true}
-                    />
-                  </div>
-                </div>
+                <CloseButtonWithGradient
+                  onClick={() => console.log('Close clicked')}
+                />
               </div>
-              {closeButtonClicked && (
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
-                    color: '#165DFC',
-                    textAlign: 'center',
-                    marginTop: '5px',
-                    opacity: 1,
-                    transition: 'opacity 0.2s ease-in'
-                  }}
-                >
-                  ✓ Button clicked! (State updated)
-                </div>
-              )}
             </div>
 
             {/* Button Relationship Note */}
@@ -668,11 +460,11 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
-                <strong style={{ color: '#165DFC' }}>Button Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseButton</span> is a single base reusable button component (with 'outlined' and 'filled' variants). <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>AddSetButton</span> and <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>LogButton</span> are wrapper components that use BaseButton internally.
+                <strong style={{ color: '#165DFC' }}>Button Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseButton</span> is a single base reusable button component (with 'outlined' and 'filled' variants). <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>AddSetButton</span> and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>LogButton</span> are wrapper components that use BaseButton internally.
               </div>
             </div>
 
@@ -711,7 +503,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     backgroundColor: 'rgba(22, 93, 252, 0.2)',
                     padding: '2px 6px',
                     borderRadius: '4px'
@@ -729,7 +521,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',
-                  color: currentTheme.text,
+                  color: 'rgba(255, 255, 255, 0.4)',
                   textAlign: 'center',
                   marginTop: '5px',
                   fontStyle: 'italic'
@@ -746,7 +538,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -765,7 +557,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -775,7 +567,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -797,7 +589,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -816,7 +608,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -826,7 +618,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -845,7 +637,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     textAlign: 'center',
                     marginTop: '-5px'
                   }}
@@ -871,11 +663,11 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
-                <strong style={{ color: '#165DFC' }}>Header Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseHeader</span> is the base reusable component for headers with phase colors and badges. <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>DayHeader</span> and <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>WeekHeader</span> are wrapper components that use BaseHeader internally.
+                <strong style={{ color: '#165DFC' }}>Header Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseHeader</span> is the base reusable component for headers with phase colors and badges. <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>DayHeader</span> and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>WeekHeader</span> are wrapper components that use BaseHeader internally.
               </div>
             </div>
 
@@ -914,7 +706,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     backgroundColor: 'rgba(22, 93, 252, 0.2)',
                     padding: '2px 6px',
                     borderRadius: '4px'
@@ -936,7 +728,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',
-                  color: currentTheme.textTertiary,
+                  color: 'rgba(255, 255, 255, 0.4)',
                   textAlign: 'center',
                   marginTop: '5px',
                   fontStyle: 'italic'
@@ -953,7 +745,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -973,7 +765,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -983,7 +775,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -992,7 +784,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses BaseHeader</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by DayView</span>
                 </div>
               </div>
@@ -1012,7 +804,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1032,7 +824,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1042,7 +834,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1051,7 +843,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses BaseHeader</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by WeekView</span>
                 </div>
               </div>
@@ -1079,7 +871,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
@@ -1094,7 +886,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1113,7 +905,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1123,7 +915,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -1149,7 +941,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1169,7 +961,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1179,7 +971,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1188,7 +980,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#AC47FF' }}>used by DayView</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#165DFC' }}>uses RunHeaderStatBox</span>
                 </div>
               </div>
@@ -1204,14 +996,14 @@ export default function OverviewPage() {
               </div>
             </div>
 
-            {/* WeekRunHeader - Used by WeekView */}
+            {/* RunHeader - Row Variant */}
             <div
               style={{
                 width: '402px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1231,7 +1023,68 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    marginBottom: '0'
+                  }}
+                >
+                  RunHeader (Row Variant)
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>used by DayView</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>uses RunHeaderStatBox</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <RunHeader
+                  variant="row"
+                  miles="Row"
+                  pace="2:05"
+                  spm={22}
+                  cues="Focus on smooth drive phase, strong leg engagement, and controlled recovery. Maintain consistent stroke rate throughout."
+                />
+              </div>
+            </div>
+
+            {/* WeekRunHeader - Used by WeekView */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1241,7 +1094,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1250,9 +1103,9 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#AC47FF' }}>used by WeekView</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#165DFC' }}>uses RunHeaderStatBox</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#165DFC' }}>uses WeekNotes (→BaseLabeledContent)</span>
                 </div>
               </div>
@@ -1273,7 +1126,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1292,7 +1145,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1302,7 +1155,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1311,7 +1164,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#AC47FF' }}>used by DayView</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#165DFC' }}>uses NutritionSection (→BaseLabeledContent)</span>
                 </div>
               </div>
@@ -1327,7 +1180,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1346,7 +1199,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1356,7 +1209,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1365,9 +1218,9 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#AC47FF' }}>used by DayView</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>uses DayExerciseCard</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>uses ExerciseListLogButton</span>
                 </div>
               </div>
@@ -1395,11 +1248,11 @@ export default function OverviewPage() {
             {/* ExerciseListLogButton - Used by ExerciseList */}
             <div
               style={{
-                gridColumn: '1 / -1',
+                width: '402px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1418,7 +1271,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1428,7 +1281,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -1438,87 +1291,8 @@ export default function OverviewPage() {
                   <span style={{ color: '#AC47FF' }}>used by ExerciseList</span>
                 </div>
               </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '20px',
-                  maxWidth: '824px'
-                }}
-              >
-                {/* Default State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Default State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      padding: '10px'
-                    }}
-                  >
-                    <ExerciseListLogButton onClick={() => console.log('ExerciseListLogButton clicked')} />
-                  </div>
-                </div>
-
-                {/* Done State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Done State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      padding: '10px'
-                    }}
-                  >
-                    <ExerciseListLogButton 
-                      onClick={() => console.log('ExerciseListLogButton clicked')} 
-                      initialDone={true}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  color: currentTheme.textTertiary,
-                  textAlign: 'center',
-                  marginTop: '5px'
-                }}
-              >
-                Click to toggle between states
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                <ExerciseListLogButton onClick={() => console.log('ExerciseListLogButton clicked')} />
               </div>
             </div>
 
@@ -1538,11 +1312,11 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
-                <strong style={{ color: '#165DFC' }}>StatBox Hierarchy:</strong> <span style={{ color: '#165DFC' }}>StatBox</span> is the base reusable component for stat boxes (label + value). <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>SetRowStatBox</span> (editable, dark background) and <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>RunHeaderStatBox</span> (read-only, black background) are wrapper components that use StatBox internally.
+                <strong style={{ color: '#165DFC' }}>StatBox Hierarchy:</strong> <span style={{ color: '#165DFC' }}>StatBox</span> is the base reusable component for stat boxes (label + value). <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>SetRowStatBox</span> (editable, dark background) and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>RunHeaderStatBox</span> (read-only, black background) are wrapper components that use StatBox internally.
               </div>
             </div>
 
@@ -1581,7 +1355,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     backgroundColor: 'rgba(22, 93, 252, 0.2)',
                     padding: '2px 6px',
                     borderRadius: '4px'
@@ -1609,7 +1383,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',
-                  color: currentTheme.textTertiary,
+                  color: 'rgba(255, 255, 255, 0.4)',
                   textAlign: 'center',
                   marginTop: '5px',
                   fontStyle: 'italic'
@@ -1626,7 +1400,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1645,7 +1419,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1655,7 +1429,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -1681,7 +1455,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1700,7 +1474,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1710,7 +1484,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -1751,11 +1525,11 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
-                <strong style={{ color: '#165DFC' }}>LabeledContent Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseLabeledContent</span> is the base reusable component for label + content sections. <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>Notes</span> (editable), <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>CuesContent</span>, <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>NutritionSection</span>, and <span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>WeekNotes</span> are wrapper components that use BaseLabeledContent internally.
+                <strong style={{ color: '#165DFC' }}>LabeledContent Hierarchy:</strong> <span style={{ color: '#165DFC' }}>BaseLabeledContent</span> is the base reusable component for label + content sections. <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Notes</span> (editable), <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>CuesContent</span>, <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>NutritionSection</span>, and <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>WeekNotes</span> are wrapper components that use BaseLabeledContent internally.
               </div>
             </div>
 
@@ -1794,7 +1568,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '11px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     backgroundColor: 'rgba(22, 93, 252, 0.2)',
                     padding: '2px 6px',
                     borderRadius: '4px'
@@ -1822,7 +1596,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',
-                  color: currentTheme.textTertiary,
+                  color: 'rgba(255, 255, 255, 0.4)',
                   textAlign: 'center',
                   marginTop: '5px',
                   fontStyle: 'italic'
@@ -1839,7 +1613,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1858,7 +1632,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1868,7 +1642,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -1890,7 +1664,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1910,7 +1684,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1920,7 +1694,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1929,7 +1703,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by ExerciseHeader</span>
                 </div>
               </div>
@@ -1945,7 +1719,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -1965,7 +1739,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -1975,7 +1749,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -1984,7 +1758,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by RunNutrition</span>
                 </div>
               </div>
@@ -2003,7 +1777,7 @@ export default function OverviewPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
-                border: `2px solid ${currentTheme.border}`,
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '12px',
                 padding: '12px',
                 boxSizing: 'border-box',
@@ -2023,7 +1797,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -2033,7 +1807,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -2042,7 +1816,7 @@ export default function OverviewPage() {
                 >
                   <span>→</span>
                   <span style={{ color: '#165DFC' }}>uses BaseLabeledContent</span>
-                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
                   <span style={{ color: '#AC47FF' }}>used by WeekRunHeader</span>
                 </div>
               </div>
@@ -2054,7 +1828,19 @@ export default function OverviewPage() {
         </section>
 
         {/* Compiled Pages/Views Section */}
-        <section ref={compiledSectionRef} style={{ marginBottom: '60px' }}>
+        <section style={{ marginBottom: '60px' }}>
+          <h2
+            style={{
+              fontFamily: 'Instrument Sans, sans-serif',
+              fontSize: '24px',
+              fontWeight: 500,
+              color: 'white',
+              marginBottom: '30px',
+              opacity: 0.8
+            }}
+          >
+            Compiled Pages/Views
+          </h2>
           <div
             style={{
               display: 'grid',
@@ -2076,7 +1862,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
-                  color: currentTheme.textSecondary,
+                  color: 'rgba(255, 255, 255, 0.5)',
                   marginBottom: '5px'
                 }}
               >
@@ -2134,7 +1920,7 @@ export default function OverviewPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: currentTheme.textMuted,
+                  color: 'rgba(255, 255, 255, 0.7)',
                   lineHeight: '1.5'
                 }}
               >
@@ -2142,7 +1928,7 @@ export default function OverviewPage() {
               </div>
             </div>
 
-            {/* DayView - Durability Phase */}
+            {/* DayView */}
             <div
               style={{
                 width: '402px',
@@ -2163,7 +1949,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -2173,7 +1959,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -2186,179 +1972,22 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#165DFC',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Durability Phase (#165DFC)
-              </div>
-              <div
-                style={{
                   width: '402px',
                   position: 'relative',
                   borderRadius: '30px',
                   overflow: 'hidden',
-                  minHeight: '600px',
-                  ...(theme === 'dark' ? { border: '1px solid rgba(255, 255, 255, 0.2)' } : {})
+                  minHeight: '600px'
                 }}
               >
                 <DayView
                   date="Sunday, Apr 4"
                   dayNumber={13}
                   category="Durability"
-                  phase="durability"
                 />
               </div>
             </div>
 
-            {/* DayView - Specificity Phase */}
-            <div
-              style={{
-                width: '402px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '5px'
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '14px',
-                    color: currentTheme.textSecondary,
-                    marginBottom: '0'
-                  }}
-                >
-                  DayView
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    color: currentTheme.textTertiary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  <span>→</span>
-                  <span style={{ color: '#AC47FF' }}>uses DayHeader, RunHeader, RunNutrition, ExerciseList</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#AC47FF',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Specificity Phase (#AC47FF)
-              </div>
-              <div
-                style={{
-                  width: '402px',
-                  position: 'relative',
-                  borderRadius: '30px',
-                  overflow: 'hidden',
-                  minHeight: '600px',
-                  ...(theme === 'dark' ? { border: '1px solid rgba(255, 255, 255, 0.2)' } : {})
-                }}
-              >
-                <DayView
-                  date="Monday, Apr 5"
-                  dayNumber={14}
-                  category="Specificity"
-                  phase="specificity"
-                />
-              </div>
-            </div>
-
-            {/* DayView - Foundation Phase */}
-            <div
-              style={{
-                width: '402px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '5px'
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '14px',
-                    color: currentTheme.textSecondary,
-                    marginBottom: '0'
-                  }}
-                >
-                  DayView
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    color: currentTheme.textTertiary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  <span>→</span>
-                  <span style={{ color: '#AC47FF' }}>uses DayHeader, RunHeader, RunNutrition, ExerciseList</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#FF474A',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Foundation Phase (#FF474A)
-              </div>
-              <div
-                style={{
-                  width: '402px',
-                  position: 'relative',
-                  borderRadius: '30px',
-                  overflow: 'hidden',
-                  minHeight: '600px',
-                  ...(theme === 'dark' ? { border: '1px solid rgba(255, 255, 255, 0.2)' } : {})
-                }}
-              >
-                <DayView
-                  date="Tuesday, Apr 6"
-                  dayNumber={15}
-                  category="Foundation"
-                  phase="foundation"
-                />
-              </div>
-            </div>
-
-            {/* WeekView - Durability Phase */}
+            {/* WeekView */}
             <div
               style={{
                 width: '402px',
@@ -2380,7 +2009,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
-                    color: currentTheme.textSecondary,
+                    color: 'rgba(255, 255, 255, 0.5)',
                     marginBottom: '0'
                   }}
                 >
@@ -2390,7 +2019,7 @@ export default function OverviewPage() {
                   style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '10px',
-                    color: currentTheme.textTertiary,
+                    color: 'rgba(255, 255, 255, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px',
@@ -2403,25 +2032,9 @@ export default function OverviewPage() {
               </div>
               <div
                 style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#165DFC',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Durability Phase (#165DFC)
-              </div>
-              <div
-                style={{
                   width: '402px',
                   position: 'relative',
-                  minHeight: '800px',
-                  ...(theme === 'dark' ? { 
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderTopLeftRadius: '30px',
-                    borderTopRightRadius: '30px'
-                  } : {})
+                  minHeight: '800px'
                 }}
               >
                 <WeekView
@@ -2459,210 +2072,6 @@ export default function OverviewPage() {
                 />
               </div>
             </div>
-
-            {/* WeekView - Specificity Phase */}
-            <div
-              style={{
-                width: '402px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '5px',
-                  flexWrap: 'wrap'
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '14px',
-                    color: currentTheme.textSecondary,
-                    marginBottom: '0'
-                  }}
-                >
-                  WeekView
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    color: currentTheme.textTertiary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  <span>→</span>
-                  <span style={{ color: '#AC47FF' }}>uses WeekHeader (→BaseHeader), WeekRunHeader (→RunHeaderStatBox), WeekExerciseList</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#AC47FF',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Specificity Phase (#AC47FF)
-              </div>
-              <div
-                style={{
-                  width: '402px',
-                  position: 'relative',
-                  minHeight: '800px',
-                  ...(theme === 'dark' ? { 
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderTopLeftRadius: '30px',
-                    borderTopRightRadius: '30px'
-                  } : {})
-                }}
-              >
-                <WeekView
-                  weekNumber={14}
-                  category="Specificity"
-                  phase="specificity"
-                  milesCurrent={0}
-                  milesTotal={20}
-                  vert={3000}
-                  notes="Focus on race-specific training"
-                  days={[
-                    {
-                      dayName: 'Monday',
-                      runInfo: '4 miles',
-                      hasPT: true,
-                      ptType: 'PT',
-                      intensity: 'Rest'
-                    },
-                    {
-                      dayName: 'Tuesday',
-                      runInfo: '8 miles',
-                      vert: '2000',
-                      hasPT: true,
-                      ptType: 'Heavy',
-                      intensity: 'TTT'
-                    },
-                    {
-                      dayName: 'Wednesday',
-                      runInfo: '5 miles',
-                      hasPT: true,
-                      ptType: 'PT',
-                      intensity: 'Easy'
-                    }
-                  ]}
-                />
-              </div>
-            </div>
-
-            {/* WeekView - Foundation Phase */}
-            <div
-              style={{
-                width: '402px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '5px',
-                  flexWrap: 'wrap'
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '14px',
-                    color: currentTheme.textSecondary,
-                    marginBottom: '0'
-                  }}
-                >
-                  WeekView
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    color: currentTheme.textTertiary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  <span>→</span>
-                  <span style={{ color: '#AC47FF' }}>uses WeekHeader (→BaseHeader), WeekRunHeader (→RunHeaderStatBox), WeekExerciseList</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: '#FF474A',
-                  marginBottom: '5px',
-                  fontWeight: 500
-                }}
-              >
-                Foundation Phase (#FF474A)
-              </div>
-              <div
-                style={{
-                  width: '402px',
-                  position: 'relative',
-                  minHeight: '800px',
-                  ...(theme === 'dark' ? { 
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderTopLeftRadius: '30px',
-                    borderTopRightRadius: '30px'
-                  } : {})
-                }}
-              >
-                <WeekView
-                  weekNumber={15}
-                  category="Foundation"
-                  phase="foundation"
-                  milesCurrent={0}
-                  milesTotal={15}
-                  vert={1800}
-                  notes="Build base fitness and strength"
-                  days={[
-                    {
-                      dayName: 'Monday',
-                      runInfo: '2 miles',
-                      hasPT: true,
-                      ptType: 'PT',
-                      intensity: 'Rest'
-                    },
-                    {
-                      dayName: 'Tuesday',
-                      runInfo: '5 miles',
-                      vert: '1000',
-                      hasPT: true,
-                      ptType: 'Heavy',
-                      intensity: 'Easy'
-                    },
-                    {
-                      dayName: 'Wednesday',
-                      runInfo: '3 miles',
-                      hasPT: true,
-                      ptType: 'PT',
-                      intensity: 'Easy'
-                    }
-                  ]}
-                />
-              </div>
-            </div>
           </div>
         </section>
 
@@ -2673,7 +2082,7 @@ export default function OverviewPage() {
               fontFamily: 'Instrument Sans, sans-serif',
               fontSize: '24px',
               fontWeight: 500,
-              color: currentTheme.text,
+              color: 'white',
               marginBottom: '30px',
               opacity: 0.8
             }}
@@ -2688,7 +2097,7 @@ export default function OverviewPage() {
                 fontFamily: 'Instrument Sans, sans-serif',
                 fontSize: '20px',
                 fontWeight: 500,
-                color: currentTheme.text,
+                color: 'white',
                 marginBottom: '20px'
               }}
             >
@@ -2705,22 +2114,22 @@ export default function OverviewPage() {
               <div>
                 <div
                   style={{
-                    backgroundColor: currentTheme.background,
+                    backgroundColor: '#272727',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor(currentTheme.background),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
-                  {currentTheme.background}
+                  #272727
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Background</strong><br />
                   Main page background
                 </div>
@@ -2732,19 +2141,19 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#1e1e1e'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #1e1e1e
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Container BG</strong><br />
                   Notes, SetRow containers
                 </div>
@@ -2756,19 +2165,19 @@ export default function OverviewPage() {
                     backgroundColor: '#000',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#000'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #000 / black
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Black</strong><br />
                   DayCard, stat boxes
                 </div>
@@ -2781,19 +2190,19 @@ export default function OverviewPage() {
                     backgroundColor: '#165DFC',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#165DFC'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #165DFC
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Durability</strong><br />
                   Phase color, buttons
                 </div>
@@ -2805,19 +2214,19 @@ export default function OverviewPage() {
                     backgroundColor: '#AC47FF',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#AC47FF'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #AC47FF
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Specificity</strong><br />
                   Phase color
                 </div>
@@ -2829,19 +2238,19 @@ export default function OverviewPage() {
                     backgroundColor: '#FF474A',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#FF474A'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #FF474A
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Foundation</strong><br />
                   Phase color
                 </div>
@@ -2854,19 +2263,19 @@ export default function OverviewPage() {
                     backgroundColor: '#059F00',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#059F00'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #059F00
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Success/Logged</strong><br />
                   LogButton active state
                 </div>
@@ -2875,22 +2284,22 @@ export default function OverviewPage() {
               <div>
                 <div
                   style={{
-                    backgroundColor: '#046D00',
+                    backgroundColor: '#00FF00',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#046D00'),
+                    color: '#000',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
-                  #046D00
+                  #00FF00
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Completed</strong><br />
                   DayCard completed state
                 </div>
@@ -2902,19 +2311,19 @@ export default function OverviewPage() {
                     backgroundColor: '#d51c1c',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#d51c1c'),
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   #d51c1c
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Delete</strong><br />
                   SetRow delete action
                 </div>
@@ -2926,19 +2335,19 @@ export default function OverviewPage() {
                     backgroundColor: 'white',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: getContrastColor('#ffffff'),
+                    color: '#1e1e1e',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px'
                   }}
                 >
                   white / #ffffff
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>White</strong><br />
                   Text, button backgrounds
                 </div>
@@ -2948,15 +2357,15 @@ export default function OverviewPage() {
               <div>
                 <div
                   style={{
-                    background: 'linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.15) 50%, rgba(30, 30, 30, 0.4) 100%)',
+                    background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(30, 30, 30, 0.6) 100%)',
                     height: '80px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     marginBottom: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: currentTheme.text,
+                    color: 'white',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '12px',
                     textAlign: 'center',
@@ -2965,10 +2374,10 @@ export default function OverviewPage() {
                 >
                   rgba values
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: currentTheme.textMuted }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'rgba(255, 255, 255, 0.7)' }}>
                   <strong>Opacity Colors</strong><br />
-                  rgba(0,0,0,0.7) - labels<br />
-                  rgba(0,0,0,0.3) - dividers<br />
+                  rgba(255,255,255,0.5) - labels<br />
+                  rgba(255,255,255,0.2) - dividers<br />
                   rgba(30,30,30,0.6) - SetRow set number
                 </div>
               </div>
@@ -2982,7 +2391,7 @@ export default function OverviewPage() {
                 fontFamily: 'Instrument Sans, sans-serif',
                 fontSize: '20px',
                 fontWeight: 500,
-                color: currentTheme.text,
+                color: 'white',
                 marginBottom: '20px'
               }}
             >
@@ -2996,7 +2405,7 @@ export default function OverviewPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '16px',
                   fontWeight: 500,
-                  color: currentTheme.text,
+                  color: 'white',
                   marginBottom: '15px'
                 }}
               >
@@ -3014,7 +2423,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3039,7 +2448,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3064,7 +2473,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3089,7 +2498,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3118,7 +2527,7 @@ export default function OverviewPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '16px',
                   fontWeight: 500,
-                  color: currentTheme.text,
+                  color: 'white',
                   marginBottom: '15px'
                 }}
               >
@@ -3136,7 +2545,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3163,7 +2572,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3190,7 +2599,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3217,7 +2626,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3248,7 +2657,7 @@ export default function OverviewPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '16px',
                   fontWeight: 500,
-                  color: currentTheme.text,
+                  color: 'white',
                   marginBottom: '15px'
                 }}
               >
@@ -3266,7 +2675,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
@@ -3290,7 +2699,7 @@ export default function OverviewPage() {
                     backgroundColor: '#1e1e1e',
                     padding: '15px',
                     borderRadius: '8px',
-                    border: `1px solid ${currentTheme.borderLight}`
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
                   }}
                 >
                   <div
