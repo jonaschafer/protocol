@@ -45,7 +45,7 @@ export function WeekView({
         backgroundColor: '#272727',
         borderRadius: '30px',
         overflow: 'hidden',
-        marginTop: '20px',
+        marginTop: '0',
         marginLeft: 'auto',
         marginRight: 'auto'
       }}
