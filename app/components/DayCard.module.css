@@ -20,6 +20,10 @@
   background: #046D00;
 }
 
+.card.weekVariant {
+  background: #080808;
+}
+
 .headerRow {
   width: 100%;
   display: flex;

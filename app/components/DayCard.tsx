@@ -19,6 +19,8 @@ export interface DayCardProps {
   weekNumber?: number | string;
   category?: string;
   onClick?: () => void; // Optional custom click handler
+  variant?: 'default' | 'week'; // Variant for different background colors
+  style?: React.CSSProperties; // Optional inline styles for custom styling
 }
 
 const XIcon = () => (
@@ -36,7 +38,9 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   onToggleComplete,
   weekNumber,
   category,
-  onClick
+  onClick,
+  variant = 'default',
+  style
 }) => {
   const router = useRouter();
 
@@ -50,11 +54,17 @@ const DayCard: FunctionComponent<DayCardProps> = ({
     }
   };
 
+  const cardClasses = [
+    styles.card,
+    isCompleted ? styles.completed : '',
+    variant === 'week' ? styles.weekVariant : ''
+  ].filter(Boolean).join(' ');
+
   return (
     <div 
-      className={`${styles.card} ${isCompleted ? styles.completed : ''}`}
+      className={cardClasses}
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
+      style={{ ...style, cursor: 'pointer' }}
     >
       {/* Header Row */}
       <div className={styles.headerRow}>
