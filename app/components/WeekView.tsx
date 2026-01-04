@@ -39,11 +39,15 @@ export function WeekView({
     <div
       style={{
         width: '100%',
+        maxWidth: '402px',
         minHeight: '100vh',
         position: 'relative',
         backgroundColor: '#272727',
         borderRadius: '30px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        marginTop: '20px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
       }}
       data-name="weekView"
     >

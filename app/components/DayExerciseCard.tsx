@@ -9,6 +9,7 @@ interface DayExerciseCardProps {
   exerciseNote?: string; // e.g., "60% RPE"
   isCompleted?: boolean;
   onToggleComplete?: () => void;
+  onClick?: () => void; // Optional click handler for navigation
 }
 
 const DayExerciseCard: FunctionComponent<DayExerciseCardProps> = ({
@@ -18,7 +19,8 @@ const DayExerciseCard: FunctionComponent<DayExerciseCardProps> = ({
   weight,
   exerciseNote,
   isCompleted = false,
-  onToggleComplete = () => {}
+  onToggleComplete = () => {},
+  onClick
 }) => {
   // Build tags array from sets, reps, weight
   const tags: Tag[] = useMemo(() => {
@@ -42,6 +44,7 @@ const DayExerciseCard: FunctionComponent<DayExerciseCardProps> = ({
       tags={tags}
       isCompleted={isCompleted}
       onToggleComplete={onToggleComplete}
+      onClick={onClick}
     />
   );
 };

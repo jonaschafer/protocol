@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { SetRow } from '../components/SetRow'
 import { Notes } from '../components/Notes'
 import { ExerciseHeader } from '../components/ExerciseHeader'
@@ -32,14 +32,17 @@ interface ExerciseData {
 interface ExerciseCardProps {
   exercises: ExerciseData[];
   onDismiss?: () => void;
+  scrollToExerciseId?: string;
 }
 
 export function ExerciseCard({
   exercises,
-  onDismiss
+  onDismiss,
+  scrollToExerciseId
 }: ExerciseCardProps) {
   const [isDismissing, setIsDismissing] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const exerciseRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     // Check for reduced motion preference
@@ -55,6 +58,24 @@ export function ExerciseCard({
       mediaQuery.removeEventListener('change', handleReducedMotionChange);
     };
   }, []);
+
+  // Scroll to specific exercise when scrollToExerciseId is provided
+  useEffect(() => {
+    if (scrollToExerciseId && exercises.length > 0) {
+      const element = exerciseRefs.current[scrollToExerciseId];
+      if (element) {
+        // Delay to ensure DOM is fully rendered and all exercises are mounted
+        const timeoutId = setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'start'
+          });
+        }, 200);
+        
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [scrollToExerciseId, prefersReducedMotion, exercises.length]);
 
   // Handle close button click
   const handleClose = () => {
@@ -77,6 +98,7 @@ export function ExerciseCard({
       style={{
         position: 'relative',
         width: '100%',
+        maxWidth: '402px',
         height: 'calc(100vh - 20px)',
         backgroundColor: '#000',
         border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -92,7 +114,9 @@ export function ExerciseCard({
           ? 'transform 0.1s linear'
           : 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginLeft: 'auto',
+        marginRight: 'auto'
       }}
       data-name="exerciseCard"
     >
@@ -113,6 +137,9 @@ export function ExerciseCard({
         {exercises.map((exercise) => (
           <div
             key={exercise.id}
+            ref={(el) => {
+              exerciseRefs.current[exercise.id] = el;
+            }}
             data-name="exerciseDeets"
             style={{
               display: 'flex',

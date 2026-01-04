@@ -59,9 +59,10 @@ export default function WeekPage() {
   return (
     <div 
       style={{ 
-        background: '#272727', 
+        background: '#000000', 
         minHeight: '100vh',
-        width: '100%'
+        width: '100%',
+        position: 'relative'
       }}
     >
       <WeekView

@@ -18,6 +18,7 @@ export interface DayCardProps {
   onToggleComplete: () => void;
   weekNumber?: number | string;
   category?: string;
+  onClick?: () => void; // Optional custom click handler
 }
 
 const XIcon = () => (
@@ -34,13 +35,19 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   isCompleted,
   onToggleComplete,
   weekNumber,
-  category
+  category,
+  onClick
 }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    const dayRoute = dayName.toLowerCase();
-    router.push(`/day/${dayRoute}`);
+    if (onClick) {
+      onClick();
+    } else {
+      // Default behavior: navigate to day route
+      const dayRoute = dayName.toLowerCase();
+      router.push(`/day/${dayRoute}`);
+    }
   };
 
   return (

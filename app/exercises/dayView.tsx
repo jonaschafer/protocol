@@ -17,6 +17,7 @@ interface RunData {
 }
 
 interface Exercise {
+  id?: string;
   exerciseName: string;
   sets?: number;
   reps?: number | string;
@@ -46,10 +47,14 @@ export function DayView({
       style={{
         position: 'relative',
         width: '100%',
+        maxWidth: '402px',
         height: '100%',
         backgroundColor: '#272727',
         borderRadius: '30px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        marginTop: '20px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
       }}
       data-name="dayView"
     >
