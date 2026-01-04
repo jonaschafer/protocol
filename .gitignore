@@ -28,6 +28,9 @@ dist-ssr
 out/
 next-env.d.ts
 
+# TypeScript
+*.tsbuildinfo
+
 # Archive directories (should not be built)
 protocol-archive/
 protocol-archive-old/
