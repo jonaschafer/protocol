@@ -10,12 +10,16 @@ export const dayData: Record<string, {
   dayNumber: number;
   category: string;
   runData?: {
+    variant?: 'run' | 'row';
     helper?: string;
     miles: number | string;
     vert?: number | string;
     zone?: number | string;
     rpe?: string;
     route?: string;
+    pace?: number | string;
+    spm?: number | string;
+    cues?: string;
   };
   exercises: Array<{
     id: string;
@@ -23,6 +27,7 @@ export const dayData: Record<string, {
     sets?: number;
     reps?: number | string;
     weight?: string;
+    /** Short descriptive note (e.g., "60%", "Heavy", "Bodyweight"). Should be a single note, not a list of exercises. */
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
@@ -297,10 +302,11 @@ export const dayData: Record<string, {
     dayNumber: 13,
     category: 'Durability',
     runData: {
-      helper: 'Cross training',
+      variant: 'row',
       miles: 'Row',
-      rpe: '5-6',
-      route: 'Indoor rower'
+      pace: '2:05',
+      spm: 22,
+      cues: 'Focus on smooth drive phase, strong leg engagement, and controlled recovery. Maintain consistent stroke rate throughout.'
     },
     exercises: [
       {
@@ -312,15 +318,6 @@ export const dayData: Record<string, {
         exerciseNote: 'Explosive',
         restNote: '60 seconds rest between sets',
         cues: 'Stand with feet slightly wider than shoulders, kettlebell between legs. Hinge at hips and swing kettlebell back between legs. Explosively drive hips forward and swing kettlebell to chest height. Control descent and repeat.'
-      },
-      {
-        id: 'core-circuit',
-        exerciseName: 'Core Circuit',
-        sets: 3,
-        reps: '30 sec',
-        exerciseNote: 'Plank, Side Plank, Dead Bug',
-        restNote: '30 seconds rest between exercises',
-        cues: 'Perform plank hold, side plank on each side, and dead bug exercise. Focus on maintaining proper form and core engagement throughout each movement.'
       },
       {
         id: 'goblet-squats',
@@ -441,4 +438,3 @@ export default function DayPage() {
     </div>
   )
 }
-
