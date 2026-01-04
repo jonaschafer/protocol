@@ -29,6 +29,8 @@ import { WeekNotes } from '../components/WeekNotes'
 import { ExerciseCard } from '../exercises/exerciseCard'
 import { DayView } from '../exercises/dayView'
 import { WeekView } from '../components/WeekView'
+import { PhaseOverview } from '../components/PhaseOverview'
+import { phases } from '../phases/phaseData'
 
 export default function OverviewPage() {
   const [dayCardCompleted, setDayCardCompleted] = useState(false)
@@ -36,7 +38,7 @@ export default function OverviewPage() {
   const [weekDayCardCompleted, setWeekDayCardCompleted] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
   const [closeButtonClicked, setCloseButtonClicked] = useState(false)
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
   const individualSectionRef = useRef<HTMLElement | null>(null)
   const compiledSectionRef = useRef<HTMLElement | null>(null)
@@ -532,6 +534,83 @@ export default function OverviewPage() {
                   isCompleted={weekDayCardCompleted}
                   onToggleComplete={() => setWeekDayCardCompleted(!weekDayCardCompleted)}
                 />
+              </div>
+            </div>
+
+            {/* DayCard - Phase Variant */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: `2px solid ${currentTheme.border}`,
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: currentTheme.textSecondary,
+                    marginBottom: '0'
+                  }}
+                >
+                  DayCard - Phase Variant
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: currentTheme.textTertiary,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>variant="phase"</span>
+                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: '#AC47FF' }}>used by WeekSummaryCard in PhaseOverview</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <DayCard
+                  dayName="Week 3"
+                  dayLabel="Dec 29 – Jan 4"
+                  tags={[
+                    { text: '18 miles', variant: 'outlined', showSeparatorAfter: false },
+                    { text: '0', variant: 'outlined', showSeparatorAfter: false }
+                  ]}
+                  isCompleted={false}
+                  onToggleComplete={() => {}}
+                  variant="phase"
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: currentTheme.textMuted,
+                  textAlign: 'center',
+                  marginTop: '5px',
+                  fontStyle: 'italic'
+                }}
+              >
+                (Week number on left, date on right)
               </div>
             </div>
 
@@ -2792,6 +2871,65 @@ export default function OverviewPage() {
                     }
                   ]}
                 />
+              </div>
+            </div>
+
+            {/* PhaseOverview */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: currentTheme.textSecondary,
+                    marginBottom: '0'
+                  }}
+                >
+                  PhaseOverview
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: currentTheme.textTertiary,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#AC47FF' }}>uses WeekSummaryCard (→DayCard), BackButton</span>
+                </div>
+              </div>
+              <div
+                style={{
+                  width: '402px',
+                  position: 'relative',
+                  minHeight: '800px',
+                  ...(theme === 'dark' ? { 
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderTopLeftRadius: '30px',
+                    borderTopRightRadius: '30px'
+                  } : {})
+                }}
+              >
+                <PhaseOverview phases={phases} />
               </div>
             </div>
           </div>

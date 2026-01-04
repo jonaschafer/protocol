@@ -24,6 +24,10 @@
   background: #080808;
 }
 
+.card.phaseVariant {
+  background: #080808;
+}
+
 .headerRow {
   width: 100%;
   display: flex;
@@ -55,6 +59,18 @@
   opacity: 0.60;
   text-align: right;
   flex-shrink: 0;
+}
+
+.weekNumber {
+  color: white;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  flex: 1;
+  min-width: 0;
 }
 
 .tagsRow {

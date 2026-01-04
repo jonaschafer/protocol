@@ -59,7 +59,7 @@ export function WeekSummaryCard({
         isCompleted={false}
         onToggleComplete={() => {}}
         onClick={onClick}
-        variant="week"
+        variant="phase"
         style={{
           width: '100%',
           ...(hasColoredBorder ? {

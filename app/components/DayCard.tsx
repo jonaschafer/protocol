@@ -12,14 +12,14 @@ export interface Tag {
 
 export interface DayCardProps {
   dayName: string;
-  dayLabel?: string; // e.g., "Rest", "TTT", "60% RPE"
+  dayLabel?: string; // e.g., "Rest", "TTT", "60% RPE", or date for phase variant
   tags: Tag[];
   isCompleted: boolean;
   onToggleComplete: () => void;
   weekNumber?: number | string;
   category?: string;
   onClick?: () => void; // Optional custom click handler
-  variant?: 'default' | 'week'; // Variant for different background colors
+  variant?: 'default' | 'week' | 'phase'; // Variant for different background colors and layouts
   style?: React.CSSProperties; // Optional inline styles for custom styling
 }
 
@@ -57,8 +57,12 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   const cardClasses = [
     styles.card,
     isCompleted ? styles.completed : '',
-    variant === 'week' ? styles.weekVariant : ''
+    variant === 'week' ? styles.weekVariant : '',
+    variant === 'phase' ? styles.phaseVariant : ''
   ].filter(Boolean).join(' ');
+
+  // For phase variant, extract week number from dayName (e.g., "Week 3" -> "3")
+  const weekNumberText = variant === 'phase' && dayName ? dayName.replace(/Week\s+/i, '') : null;
 
   return (
     <div 
@@ -68,9 +72,20 @@ const DayCard: FunctionComponent<DayCardProps> = ({
     >
       {/* Header Row */}
       <div className={styles.headerRow}>
-        <div className={styles.dayName}>{dayName}</div>
-        {dayLabel && (
-          <div className={styles.dayLabel}>{dayLabel}</div>
+        {variant === 'phase' && weekNumberText ? (
+          <>
+            <div className={styles.weekNumber}>{weekNumberText}</div>
+            {dayLabel && (
+              <div className={styles.dayLabel}>{dayLabel}</div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className={styles.dayName}>{dayName}</div>
+            {dayLabel && (
+              <div className={styles.dayLabel}>{dayLabel}</div>
+            )}
+          </>
         )}
       </div>
 
