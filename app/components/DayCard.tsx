@@ -74,7 +74,7 @@ const DayCard: FunctionComponent<DayCardProps> = ({
       <div className={styles.headerRow}>
         {variant === 'phase' && weekNumberText ? (
           <>
-            <div className={styles.weekNumber}>{weekNumberText}</div>
+            <div className={styles.weekNumber}>Week {weekNumberText}</div>
             {dayLabel && (
               <div className={styles.dayLabel}>{dayLabel}</div>
             )}
