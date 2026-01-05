@@ -280,7 +280,7 @@ export function RunHeader({
                     borderRadius: '20px',
                     position: 'relative',
                     flexShrink: 0,
-                    width: '130px',
+                    width: '100%',
                     height: '68px',
                     boxSizing: 'border-box'
                   }}

@@ -1,6 +1,7 @@
 'use client'
 
 import { WeekView } from '../components/WeekView';
+import { BackButton } from '../components/BackButton';
 
 export default function WeekPage() {
   const days = [
@@ -65,6 +66,23 @@ export default function WeekPage() {
         position: 'relative'
       }}
     >
+      <div
+        style={{
+          position: 'sticky',
+          top: '20px',
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '0 20px',
+          pointerEvents: 'none'
+        }}
+      >
+        <div style={{ pointerEvents: 'auto' }}>
+          <BackButton href="/" />
+        </div>
+      </div>
       <WeekView
         weekNumber={13}
         category="Durability"

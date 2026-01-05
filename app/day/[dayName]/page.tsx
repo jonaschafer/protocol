@@ -425,7 +425,7 @@ export default function DayPage() {
         }}
       >
         <div style={{ pointerEvents: 'auto' }}>
-          <BackButton href="/" />
+          <BackButton href="/week" />
         </div>
       </div>
       <DayView 
