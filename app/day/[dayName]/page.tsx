@@ -198,6 +198,7 @@ export const dayData: Record<string, {
     runData: {
       helper: 'Tempo run',
       miles: 5,
+      vert: 500,
       zone: 3,
       rpe: '6-7',
       route: 'Track or road'

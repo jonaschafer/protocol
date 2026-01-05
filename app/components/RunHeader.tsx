@@ -270,6 +270,7 @@ export function RunHeader({
                   style={{
                     backgroundColor: 'black',
                     display: 'flex',
+                    flex: '1 1 0',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     overflow: 'hidden',
@@ -280,7 +281,7 @@ export function RunHeader({
                     borderRadius: '20px',
                     position: 'relative',
                     flexShrink: 0,
-                    width: '100%',
+                    minWidth: 0,
                     height: '68px',
                     boxSizing: 'border-box'
                   }}
@@ -379,134 +380,136 @@ export function RunHeader({
                 )}
               </div>
 
-              {/* Bottom Row: Zone and RPE */}
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '10px',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  position: 'relative',
-                  flexShrink: 0,
-                  width: '100%'
-                }}
-              >
-                {/* Zone Box */}
-                {zone !== undefined && (
-                  <div
-                    style={{
-                      backgroundColor: 'black',
-                      display: 'flex',
-                      flex: '1 1 0',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      overflow: 'hidden',
-                      paddingLeft: '16px',
-                      paddingRight: '16px',
-                      paddingTop: '18px',
-                      paddingBottom: '18px',
-                      borderRadius: '20px',
-                      position: 'relative',
-                      flexShrink: 0,
-                      minWidth: 0,
-                      height: '68px',
-                      boxSizing: 'border-box'
-                    }}
-                    data-name="Sets Container"
-                  >
-                    <p
+              {/* Bottom Row: Zone and RPE - Only render if at least one is provided */}
+              {(zone !== undefined || rpe !== undefined) && (
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    position: 'relative',
+                    flexShrink: 0,
+                    width: '100%'
+                  }}
+                >
+                  {/* Zone Box */}
+                  {zone !== undefined && (
+                    <div
                       style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 400,
-                        lineHeight: 'normal',
-                        fontStyle: 'normal',
-                        opacity: 0.5,
+                        backgroundColor: 'black',
+                        display: 'flex',
+                        flex: '1 1 0',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        overflow: 'hidden',
+                        paddingLeft: '16px',
+                        paddingRight: '16px',
+                        paddingTop: '18px',
+                        paddingBottom: '18px',
+                        borderRadius: '20px',
                         position: 'relative',
                         flexShrink: 0,
-                        fontSize: '15px',
-                        color: 'white',
-                        margin: 0,
-                        padding: 0
+                        minWidth: 0,
+                        height: '68px',
+                        boxSizing: 'border-box'
                       }}
+                      data-name="Sets Container"
                     >
-                      Zone
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: 'Inter Tight, sans-serif',
-                        fontWeight: 500,
-                        lineHeight: '61.102px',
-                        position: 'relative',
-                        flexShrink: 0,
-                        fontSize: '44px',
-                        color: 'white',
-                        margin: 0,
-                        padding: 0
-                      }}
-                    >
-                      {zone}
-                    </p>
-                  </div>
-                )}
+                      <p
+                        style={{
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: 400,
+                          lineHeight: 'normal',
+                          fontStyle: 'normal',
+                          opacity: 0.5,
+                          position: 'relative',
+                          flexShrink: 0,
+                          fontSize: '15px',
+                          color: 'white',
+                          margin: 0,
+                          padding: 0
+                        }}
+                      >
+                        Zone
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: 'Inter Tight, sans-serif',
+                          fontWeight: 500,
+                          lineHeight: '61.102px',
+                          position: 'relative',
+                          flexShrink: 0,
+                          fontSize: '44px',
+                          color: 'white',
+                          margin: 0,
+                          padding: 0
+                        }}
+                      >
+                        {zone}
+                      </p>
+                    </div>
+                  )}
 
-                {/* RPE Box */}
-                {rpe !== undefined && (
-                  <div
-                    style={{
-                      backgroundColor: 'black',
-                      display: 'flex',
-                      flex: '1 1 0',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      overflow: 'hidden',
-                      paddingLeft: '16px',
-                      paddingRight: '16px',
-                      paddingTop: '18px',
-                      paddingBottom: '18px',
-                      borderRadius: '20px',
-                      position: 'relative',
-                      flexShrink: 0,
-                      minWidth: 0,
-                      height: '68px',
-                      boxSizing: 'border-box'
-                    }}
-                    data-name="Sets Container"
-                  >
-                    <p
+                  {/* RPE Box */}
+                  {rpe !== undefined && (
+                    <div
                       style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 400,
-                        lineHeight: 'normal',
-                        fontStyle: 'normal',
-                        opacity: 0.5,
+                        backgroundColor: 'black',
+                        display: 'flex',
+                        flex: '1 1 0',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        overflow: 'hidden',
+                        paddingLeft: '16px',
+                        paddingRight: '16px',
+                        paddingTop: '18px',
+                        paddingBottom: '18px',
+                        borderRadius: '20px',
                         position: 'relative',
                         flexShrink: 0,
-                        fontSize: '15px',
-                        color: 'white',
-                        margin: 0,
-                        padding: 0
+                        minWidth: 0,
+                        height: '68px',
+                        boxSizing: 'border-box'
                       }}
+                      data-name="Sets Container"
                     >
-                      RPE
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: 'Inter Tight, sans-serif',
-                        fontWeight: 500,
-                        lineHeight: '61.102px',
-                        position: 'relative',
-                        flexShrink: 0,
-                        fontSize: '44px',
-                        color: 'white',
-                        margin: 0,
-                        padding: 0
-                      }}
-                    >
-                      {rpe}
-                    </p>
-                  </div>
-                )}
-              </div>
+                      <p
+                        style={{
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: 400,
+                          lineHeight: 'normal',
+                          fontStyle: 'normal',
+                          opacity: 0.5,
+                          position: 'relative',
+                          flexShrink: 0,
+                          fontSize: '15px',
+                          color: 'white',
+                          margin: 0,
+                          padding: 0
+                        }}
+                      >
+                        RPE
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: 'Inter Tight, sans-serif',
+                          fontWeight: 500,
+                          lineHeight: '61.102px',
+                          position: 'relative',
+                          flexShrink: 0,
+                          fontSize: '44px',
+                          color: 'white',
+                          margin: 0,
+                          padding: 0
+                        }}
+                      >
+                        {rpe}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>
