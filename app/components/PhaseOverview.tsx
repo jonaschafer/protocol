@@ -38,7 +38,7 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
         position: 'relative',
         backgroundColor: '#272727',
         borderRadius: '30px',
-        overflow: 'hidden',
+        overflow: 'visible',
         marginTop: '0',
         marginLeft: 'auto',
         marginRight: 'auto'
@@ -95,83 +95,81 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                 flexDirection: 'column'
               }}
             >
-              {/* Phase Header with Color - Clickable and Sticky when expanded */}
-              <button
-                onClick={() => togglePhase(phase.id)}
+              {/* Sticky Wrapper: Phase Header + Date Range */}
+              <div
                 style={{
-                  width: '100%',
-                  padding: '28px 20px',
-                  backgroundColor: phase.color,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
                   position: isExpanded ? 'sticky' : 'relative',
                   top: isExpanded ? '0' : 'auto',
-                  zIndex: isExpanded ? 10 : 'auto',
+                  zIndex: isExpanded ? 10 : 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
                   borderRadius: '20px 20px 0 0'
                 }}
               >
-                <div
+                {/* Phase Header with Color - Clickable */}
+                <button
+                  onClick={() => togglePhase(phase.id)}
                   style={{
                     width: '100%',
+                    padding: '28px 20px',
+                    backgroundColor: phase.color,
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
+                    flexDirection: 'column',
+                    gap: '10px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    borderRadius: '20px 20px 0 0'
                   }}
                 >
-                  <p
+                  <div
                     style={{
-                      fontFamily: 'Instrument Sans, sans-serif',
-                      fontWeight: 500,
-                      fontSize: '26px',
-                      lineHeight: '26px',
-                      color: 'white',
-                      margin: 0,
-                      padding: 0
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
                     }}
                   >
-                    {phase.name}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: 'Instrument Sans, sans-serif',
-                      fontWeight: 500,
-                      fontSize: '26px',
-                      lineHeight: '26px',
-                      color: 'white',
-                      margin: 0,
-                      padding: 0,
-                      textAlign: 'right'
-                    }}
-                  >
-                    {phase.weekStart}-{phase.weekEnd}
-                  </p>
-                </div>
-              </button>
+                    <p
+                      style={{
+                        fontFamily: 'Instrument Sans, sans-serif',
+                        fontWeight: 500,
+                        fontSize: '26px',
+                        lineHeight: '26px',
+                        color: 'white',
+                        margin: 0,
+                        padding: 0
+                      }}
+                    >
+                      {phase.name}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'Instrument Sans, sans-serif',
+                        fontWeight: 500,
+                        fontSize: '26px',
+                        lineHeight: '26px',
+                        color: 'white',
+                        margin: 0,
+                        padding: 0,
+                        textAlign: 'right'
+                      }}
+                    >
+                      {phase.weekStart}-{phase.weekEnd}
+                    </p>
+                  </div>
+                </button>
 
-              {/* Phase Content - Date Range */}
-              <div
-                style={{
-                  width: '100%',
-                  padding: '28px 20px',
-                  paddingBottom: isExpanded ? '0' : '28px',
-                  backgroundColor: '#1E1E1E',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  borderRadius: '0 0 20px 20px'
-                }}
-              >
                 {/* Date Range */}
                 <div
                   style={{
                     width: '100%',
+                    padding: '28px 20px 28px',
+                    backgroundColor: '#1E1E1E',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '18px'
+                    borderRadius: isExpanded ? '0' : '0 0 20px 20px'
                   }}
                 >
                   <p
@@ -189,16 +187,29 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                     {formatDateRange(phase.startDate, phase.endDate)}
                   </p>
                 </div>
+              </div>
 
-                {/* Expanded Weeks List */}
-                {isExpanded && (
+              {/* Phase Content - Weeks List */}
+              {isExpanded && (
+                <div
+                  style={{
+                    width: '100%',
+                    backgroundColor: '#1E1E1E',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    paddingBottom: '28px',
+                    borderRadius: '0 0 20px 20px'
+                  }}
+                >
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '0',
                       width: '100%',
-                      paddingTop: '18px'
+                      paddingTop: '18px',
+                      paddingLeft: '20px',
+                      paddingRight: '20px'
                     }}
                   >
                     {phase.weeks.map((week, index) => (
@@ -217,8 +228,8 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                       />
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           );
         })}
