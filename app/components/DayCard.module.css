@@ -28,6 +28,10 @@
   background: #080808;
 }
 
+.card.milestoneCardVariant {
+  background: #080808;
+}
+
 .headerRow {
   width: 100%;
   display: flex;

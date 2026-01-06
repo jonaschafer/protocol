@@ -614,6 +614,84 @@ export default function OverviewPage() {
               </div>
             </div>
 
+            {/* DayCard - Milestone Card Variant */}
+            <div
+              style={{
+                width: '402px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+                border: `2px solid ${currentTheme.border}`,
+                borderRadius: '12px',
+                padding: '12px',
+                boxSizing: 'border-box',
+                position: 'relative'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '5px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    color: currentTheme.textSecondary,
+                    marginBottom: '0'
+                  }}
+                >
+                  DayCard - Milestone Card Variant
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '10px',
+                    color: currentTheme.textTertiary,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  <span>→</span>
+                  <span style={{ color: '#165DFC' }}>variant="milestoneCard"</span>
+                  <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>•</span>
+                  <span style={{ color: '#165DFC' }}>phaseColor prop</span>
+                </div>
+              </div>
+              <div style={{ width: '100%' }}>
+                <DayCard
+                  dayName="50K test"
+                  dayLabel="April XYZ"
+                  tags={[
+                    { text: 'Wildwood E2E', variant: 'outlined', showSeparatorAfter: false },
+                    { text: '3200', variant: 'outlined', showSeparatorAfter: false }
+                  ]}
+                  isCompleted={false}
+                  onToggleComplete={() => {}}
+                  variant="milestoneCard"
+                  phaseColor="#FF474A"
+                />
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: currentTheme.textMuted,
+                  textAlign: 'center',
+                  marginTop: '5px',
+                  fontStyle: 'italic'
+                }}
+              >
+                (Border uses phase color)
+              </div>
+            </div>
+
             {/* CloseButtonWithGradient */}
             <div
               style={{

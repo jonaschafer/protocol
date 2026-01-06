@@ -19,7 +19,8 @@ export interface DayCardProps {
   weekNumber?: number | string;
   category?: string;
   onClick?: () => void; // Optional custom click handler
-  variant?: 'default' | 'week' | 'phase'; // Variant for different background colors and layouts
+  variant?: 'default' | 'week' | 'phase' | 'milestoneCard'; // Variant for different background colors and layouts
+  phaseColor?: string; // Phase color for milestoneCard variant border
   style?: React.CSSProperties; // Optional inline styles for custom styling
 }
 
@@ -40,6 +41,7 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   category,
   onClick,
   variant = 'default',
+  phaseColor,
   style
 }) => {
   const router = useRouter();
@@ -58,17 +60,26 @@ const DayCard: FunctionComponent<DayCardProps> = ({
     styles.card,
     isCompleted ? styles.completed : '',
     variant === 'week' ? styles.weekVariant : '',
-    variant === 'phase' ? styles.phaseVariant : ''
+    variant === 'phase' ? styles.phaseVariant : '',
+    variant === 'milestoneCard' ? styles.milestoneCardVariant : ''
   ].filter(Boolean).join(' ');
 
   // For phase variant, extract week number from dayName (e.g., "Week 3" -> "3")
   const weekNumberText = variant === 'phase' && dayName ? dayName.replace(/Week\s+/i, '') : null;
 
+  // Apply phase color border for milestoneCard variant
+  const milestoneCardStyle = variant === 'milestoneCard' && phaseColor ? {
+    borderLeft: `1px solid ${phaseColor}`,
+    borderTop: `1px solid ${phaseColor}`,
+    borderRight: `1px solid ${phaseColor}`,
+    borderBottom: `10px solid ${phaseColor}`
+  } : {};
+
   return (
     <div 
       className={cardClasses}
       onClick={handleClick}
-      style={{ ...style, cursor: 'pointer' }}
+      style={{ ...style, ...milestoneCardStyle, cursor: 'pointer' }}
     >
       {/* Header Row */}
       <div className={styles.headerRow}>
