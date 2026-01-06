@@ -36,7 +36,7 @@ const DayCard: FunctionComponent<DayCardProps> = ({
   dayLabel,
   tags,
   isCompleted,
-  onToggleComplete,
+  onToggleComplete: _onToggleComplete,
   weekNumber,
   category,
   onClick,
