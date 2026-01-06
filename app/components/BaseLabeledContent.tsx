@@ -128,6 +128,7 @@ export function BaseLabeledContent({
         position: 'relative',
         flexShrink: 0,
         width: '100%',
+        minWidth: 0,
         boxSizing: 'border-box',
         ...containerStyle
       }}
@@ -247,9 +248,13 @@ export function BaseLabeledContent({
             position: 'relative',
             flexShrink: 0,
             width: '100%',
+            minWidth: 0,
             color: 'white',
             margin: 0,
-            padding: 0
+            padding: 0,
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+            boxSizing: 'border-box'
           }}
         >
           {content}

@@ -23,7 +23,10 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
         paddingRight: 0,
         position: 'relative',
         width: '100%',
-        flexShrink: 0
+        minWidth: 0,
+        flexShrink: 0,
+        boxSizing: 'border-box',
+        overflow: 'hidden'
       }}
       data-name="Header"
       data-node-id="232:7356"
@@ -40,7 +43,11 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           color: 'white',
           margin: 0,
           padding: 0,
-          width: '100%'
+          width: '100%',
+          minWidth: 0,
+          wordWrap: 'break-word',
+          overflowWrap: 'break-word',
+          boxSizing: 'border-box'
         }}
         data-node-id="232:7357"
       >
@@ -61,7 +68,12 @@ export function ExerciseHeader({ exerciseName, restNote, cues }: ExerciseHeaderP
           color: 'white',
           margin: 0,
           padding: 0,
-          paddingBottom: '20px'
+          paddingBottom: '20px',
+          width: '100%',
+          minWidth: 0,
+          wordWrap: 'break-word',
+          overflowWrap: 'break-word',
+          boxSizing: 'border-box'
         }}
         data-node-id="232:7358"
       >
