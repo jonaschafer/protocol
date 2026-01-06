@@ -3,9 +3,7 @@
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ExerciseCard } from '../exerciseCard'
-// Import dayData - we'll need to create a shared data file or import it differently
-// For now, let's duplicate the structure or import it properly
-import { dayData } from '../../day/[dayName]/page'
+import { dayData } from '../../data/dayData'
 import { BackButton } from '../../components/BackButton'
 
 interface Set {
