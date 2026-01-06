@@ -37,6 +37,7 @@ interface DayViewProps {
   phase?: Phase;
   runData?: RunData;
   exercises?: Exercise[];
+  noTopMargin?: boolean;
 }
 
 export function DayView({ 
@@ -45,7 +46,8 @@ export function DayView({
   category, 
   phase = 'durability',
   runData,
-  exercises = []
+  exercises = [],
+  noTopMargin = false
 }: DayViewProps) {
   return (
     <div
@@ -57,7 +59,7 @@ export function DayView({
         backgroundColor: '#272727',
         borderRadius: '30px',
         overflow: 'hidden',
-        marginTop: '20px',
+        marginTop: noTopMargin ? '0' : '20px',
         marginLeft: 'auto',
         marginRight: 'auto'
       }}

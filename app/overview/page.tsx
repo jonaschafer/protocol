@@ -2451,6 +2451,7 @@ export default function OverviewPage() {
                       exerciseNote: "65%"
                     }
                   ]}
+                  noTopMargin={true}
                 />
               </div>
             </div>
@@ -2547,6 +2548,7 @@ export default function OverviewPage() {
                       exerciseNote: "70%"
                     }
                   ]}
+                  noTopMargin={true}
                 />
               </div>
             </div>
@@ -2642,6 +2644,7 @@ export default function OverviewPage() {
                       exerciseNote: "Each leg"
                     }
                   ]}
+                  noTopMargin={true}
                 />
               </div>
             </div>
