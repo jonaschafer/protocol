@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Exercise View',
+  title: 'Protocol',
   description: 'Exercise view component from Figma design',
 }
 
