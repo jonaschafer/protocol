@@ -21,3 +21,5 @@ export function NutritionSection({ label, content }: NutritionSectionProps) {
   )
 }
 
+
+
