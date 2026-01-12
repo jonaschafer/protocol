@@ -2,6 +2,8 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { fetchPhases, PhaseData } from '../phases/phaseData'
 
 interface NavItem {
   label: string
@@ -81,33 +83,33 @@ const ExerciseIcon = ({ isActive }: { isActive: boolean }) => {
   )
 }
 
-const defaultNavItems: NavItem[] = [
-  {
-    label: 'Calendar',
-    href: '/',
-    icon: (isActive) => <CalendarIcon isActive={isActive} />,
-  },
-  {
-    label: 'Plan',
-    href: '/phases',
-    icon: (isActive) => <PlanIcon isActive={isActive} />,
-  },
-  {
-    label: 'Week',
-    href: '/week',
-    icon: (isActive) => <WeekIcon isActive={isActive} />,
-  },
-  {
-    label: 'Day',
-    href: '/day',
-    icon: (isActive) => <DayIcon isActive={isActive} />,
-  },
-  {
-    label: 'Exercise',
-    href: '/exercises',
-    icon: (isActive) => <ExerciseIcon isActive={isActive} />,
-  },
-]
+// Helper function to get current week number based on today's date
+function getCurrentWeekNumber(phases: PhaseData[]): number {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  
+  for (const phase of phases) {
+    for (const week of phase.weeks) {
+      const weekStart = new Date(week.startDate)
+      weekStart.setHours(0, 0, 0, 0)
+      const weekEnd = new Date(week.endDate)
+      weekEnd.setHours(23, 59, 59, 999)
+      
+      if (today >= weekStart && today <= weekEnd) {
+        return week.weekNumber
+      }
+    }
+  }
+  
+  // Default to week 1 if not found
+  return 1
+}
+
+// Helper function to get current day name
+function getCurrentDayName(): string {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  return days[new Date().getDay()]
+}
 
 interface BottomNavProps {
   preview?: boolean
@@ -115,6 +117,53 @@ interface BottomNavProps {
 
 export function BottomNav({ preview = false }: BottomNavProps = {}) {
   const pathname = usePathname()
+  const [phases, setPhases] = useState<PhaseData[]>([])
+  const [currentWeek, setCurrentWeek] = useState<number>(1)
+  const [currentDay, setCurrentDay] = useState<string>('Monday')
+
+  useEffect(() => {
+    // Fetch phases to calculate current week
+    fetchPhases()
+      .then((data) => {
+        setPhases(data)
+        setCurrentWeek(getCurrentWeekNumber(data))
+      })
+      .catch((error) => {
+        console.error('Error fetching phases for navigation:', error)
+      })
+    
+    // Set current day
+    setCurrentDay(getCurrentDayName())
+  }, [])
+
+  // Build nav items with dynamic hrefs
+  const navItems: NavItem[] = [
+    {
+      label: 'Calendar',
+      href: '/many-month-view',
+      icon: (isActive) => <CalendarIcon isActive={isActive} />,
+    },
+    {
+      label: 'Plan',
+      href: '/',
+      icon: (isActive) => <PlanIcon isActive={isActive} />,
+    },
+    {
+      label: 'Week',
+      href: `/week?week=${currentWeek}`,
+      icon: (isActive) => <WeekIcon isActive={isActive} />,
+    },
+    {
+      label: 'Day',
+      href: `/day/${currentDay}?week=${currentWeek}`,
+      icon: (isActive) => <DayIcon isActive={isActive} />,
+    },
+    {
+      label: 'Exercise',
+      href: `/exercises/day/${currentDay}?week=${currentWeek}`,
+      icon: (isActive) => <ExerciseIcon isActive={isActive} />,
+    },
+  ]
 
   return (
     <nav
@@ -123,16 +172,44 @@ export function BottomNav({ preview = false }: BottomNavProps = {}) {
         bottom: preview ? 'auto' : 0,
         left: 0,
         right: 0,
+        width: '100%',
         backgroundColor: '#000000',
         padding: '12px 0',
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
         zIndex: preview ? 'auto' : 1000,
+        margin: 0,
+        boxSizing: 'border-box',
       }}
     >
-      {defaultNavItems.map((item) => {
-        const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
+      {navItems.map((item) => {
+        // Get base path without query parameters
+        const basePath = item.href.split('?')[0]
+        
+        // Check if pathname matches the base path
+        // Special handling for different routes:
+        // - Calendar: /many-month-view
+        // - Plan: / (homepage)
+        // - Week: /week
+        // - Day: /day or /day/[dayName] (but NOT /exercises/day)
+        // - Exercise: /exercises (including /exercises/day and /exercises/[exerciseName])
+        let isActive = false
+        if (item.label === 'Calendar') {
+          isActive = pathname?.startsWith('/many-month-view') || false
+        } else if (item.label === 'Plan') {
+          isActive = pathname === '/' || false
+        } else if (item.label === 'Week') {
+          isActive = pathname?.startsWith('/week') || false
+        } else if (item.label === 'Day') {
+          // Day is active only on /day routes, NOT on /exercises routes
+          isActive = (pathname?.startsWith('/day') && !pathname?.startsWith('/exercises')) || false
+        } else if (item.label === 'Exercise') {
+          // Exercise is active only on /exercises routes
+          isActive = pathname?.startsWith('/exercises') || false
+        } else {
+          isActive = pathname === basePath || pathname?.startsWith(basePath + '/') || false
+        }
         
         return (
           <Link

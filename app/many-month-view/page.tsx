@@ -1,7 +1,7 @@
 'use client'
 
 import { MonthCalendarView } from '../components/MonthCalendarView';
-import { BackButton } from '../components/BackButton';
+import { BottomNav } from '../components/BottomNav';
 
 export default function ManyMonthViewPage() {
   return (
@@ -10,27 +10,12 @@ export default function ManyMonthViewPage() {
         background: '#000000', 
         minHeight: '100vh',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
-      <div
-        style={{
-          position: 'sticky',
-          top: '20px',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '0 20px',
-          pointerEvents: 'none'
-        }}
-      >
-        <div style={{ pointerEvents: 'auto' }}>
-          <BackButton href="/" />
-        </div>
-      </div>
       <MonthCalendarView />
+      <BottomNav />
     </div>
   );
 }

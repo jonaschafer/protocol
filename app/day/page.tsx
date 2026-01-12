@@ -1,6 +1,7 @@
 'use client'
 
 import { DayView } from '../exercises/dayView'
+import { BottomNav } from '../components/BottomNav'
 
 export default function DayPage() {
   // Sample data for testing
@@ -13,7 +14,8 @@ export default function DayPage() {
       style={{ 
         background: '#272727', 
         minHeight: '100vh',
-        width: '100%'
+        width: '100%',
+        paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
       <DayView 
@@ -21,6 +23,7 @@ export default function DayPage() {
         dayNumber={dayNumber}
         category={category}
       />
+      <BottomNav />
     </div>
   )
 }

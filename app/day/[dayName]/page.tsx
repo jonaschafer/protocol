@@ -1,5 +1,5 @@
 import { DayView } from '../../exercises/dayView'
-import { BackButton } from '../../components/BackButton'
+import { BottomNav } from '../../components/BottomNav'
 import { fetchDayByWeekAndDay } from '../../../lib/supabase-data'
 
 // Helper function to capitalize exercise name (Title Case)
@@ -154,26 +154,10 @@ export default async function DayPage({
         background: '#000000', 
         minHeight: '100vh',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
-      <div
-        style={{
-          position: 'sticky',
-          top: '20px',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '0 20px',
-          pointerEvents: 'none'
-        }}
-      >
-        <div style={{ pointerEvents: 'auto' }}>
-          <BackButton href={`/week?week=${weekNumber}`} />
-        </div>
-      </div>
       <DayView 
         date={dayInfo.date}
         dayNumber={dayInfo.dayNumber}
@@ -183,6 +167,7 @@ export default async function DayPage({
         weekNumber={weekNumber}
         workoutId={workoutId}
       />
+      <BottomNav />
     </div>
   )
 }

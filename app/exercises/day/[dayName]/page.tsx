@@ -2,10 +2,9 @@
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { ExerciseCard } from '../exerciseCard'
-import { dayData } from '../../data/dayData'
-import { BottomNav } from '../../components/BottomNav'
-import { fetchDayByWeekAndDay } from '../../../lib/supabase-data'
+import { ExerciseCard } from '../../exerciseCard'
+import { BottomNav } from '../../../components/BottomNav'
+import { fetchDayByWeekAndDay } from '../../../../lib/supabase-data'
 
 interface Set {
   id: number;
@@ -33,33 +32,11 @@ interface ExerciseData {
 // Helper function to capitalize exercise name (Title Case)
 function capitalizeExerciseName(name: string): string {
   return name.split(' ').map(word => {
-    // Handle hyphenated words like 'push-ups'
     if (word.includes('-')) {
       return word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join('-')
     }
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   }).join(' ')
-}
-
-// Helper function to encode exercise name for URL
-function encodeExerciseName(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
-
-// Helper function to decode exercise name from URL
-function decodeExerciseName(encoded: string): string {
-  // Try to decode from dayData first (fallback)
-  for (const day of Object.values(dayData)) {
-    for (const exercise of day.exercises) {
-      if (encodeExerciseName(exercise.exerciseName) === encoded || exercise.id === encoded) {
-        return exercise.exerciseName
-      }
-    }
-  }
-  // If not found, try to reconstruct from encoded name
-  // Handle special cases like "circuit-" prefix
-  const decoded = encoded.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-  return decoded
 }
 
 // Transform day view exercise to ExerciseCard format
@@ -81,7 +58,6 @@ function transformExerciseToCardFormat(
     isLogged: false
   }
 
-  // If no sets in state, create them from exercise data
   if (state.sets.length === 0 && exercise.sets) {
     const numSets = exercise.sets
     const repsValue = String(exercise.reps || '8')
@@ -104,36 +80,24 @@ function transformExerciseToCardFormat(
     cues: exercise.cues || 'Focus on proper form and controlled movement.',
     sets: state.sets,
     isLogged: state.isLogged,
-    onDelete: (_id: number) => {
-      // Will be handled by state management
-    },
-    onAddSet: () => {
-      // Will be handled by state management
-    },
-    onLog: () => {
-      // Will be handled by state management
-    },
-    onRepsChange: (_id: number, _value: string) => {
-      // Will be handled by state management
-    },
-    onWeightChange: (_id: number, _value: string) => {
-      // Will be handled by state management
-    },
+    onDelete: (_id: number) => {},
+    onAddSet: () => {},
+    onLog: () => {},
+    onRepsChange: (_id: number, _value: string) => {},
+    onWeightChange: (_id: number, _value: string) => {},
     onNotesSave: (value: string) => {
       console.log(`Notes saved for ${exercise.id}:`, value)
     }
   }
 }
 
-export default function ExercisePage() {
+export default function DayExercisesPage() {
   const params = useParams()
   const router = useRouter()
   const searchParams = useSearchParams()
-  const exerciseNameParam = params?.exerciseName as string
-  const dayNameParam = searchParams?.get('day')
+  const dayNameParam = params?.dayName as string
   const weekParam = searchParams?.get('week')
   
-  // Get all exercises from the day if day name is provided
   const [dayExercises, setDayExercises] = useState<Array<{
     id: string;
     exerciseName: string;
@@ -145,10 +109,9 @@ export default function ExercisePage() {
     cues?: string;
   }>>([])
   
-  const [scrollToExerciseId, setScrollToExerciseId] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Fetch exercises from database if day and week params are provided
+  // Fetch exercises from database
   useEffect(() => {
     const loadExercises = async () => {
       setIsLoading(true)
@@ -163,28 +126,21 @@ export default function ExercisePage() {
         cues?: string;
       }> = []
 
-      // If both day and week are provided, fetch from database
       if (dayNameParam && weekParam) {
         try {
           const weekNumber = parseInt(weekParam)
           const workout = await fetchDayByWeekAndDay(weekNumber, dayNameParam)
           
-          // Transform strength exercises from database
           if (workout.strength_exercises && Array.isArray(workout.strength_exercises)) {
             workout.strength_exercises.forEach((ex: any, idx: number) => {
-              // Exercises are now stored individually in the database (circuits are already split)
-              // So we can treat all exercises the same way
-              // Truncate RPE to just percentage if present
               let weight = ex.notes || ''
               if (weight) {
-                // Extract all percentages and take the last one (usually the target RPE)
                 const rpeMatches = weight.match(/(\d+%)/gi)
                 if (rpeMatches && rpeMatches.length > 0) {
-                  weight = rpeMatches[rpeMatches.length - 1] // Take the last percentage
+                  weight = rpeMatches[rpeMatches.length - 1]
                 }
               }
               
-              // Ensure reps is a number or 0, not "Full circuit" or empty
               let reps = ex.reps || '0'
               if (reps && (reps.toLowerCase().includes('full circuit') || reps.toLowerCase().includes('circuit'))) {
                 reps = '0'
@@ -203,7 +159,6 @@ export default function ExercisePage() {
             })
           }
 
-          // Add PT Foundation if present
           if (workout.workout_notes?.includes('PT FOUNDATION')) {
             exercises.push({
               id: 'pt-foundation',
@@ -216,93 +171,18 @@ export default function ExercisePage() {
             })
           }
 
-          // Find the exercise to scroll to - match by encoded name or exact name
-          const decodedExerciseName = decodeExerciseName(exerciseNameParam)
-          const foundExercise = exercises.find(
-            ex => {
-              const encodedExName = encodeExerciseName(ex.exerciseName)
-              return ex.exerciseName === decodedExerciseName || 
-                     ex.id === exerciseNameParam ||
-                     encodedExName === exerciseNameParam ||
-                     ex.exerciseName.toLowerCase().includes(decodedExerciseName.toLowerCase()) ||
-                     decodedExerciseName.toLowerCase().includes(ex.exerciseName.toLowerCase())
-            }
-          )
-          if (foundExercise) {
-            setScrollToExerciseId(foundExercise.id)
-          }
-
           setDayExercises(exercises)
         } catch (error) {
           console.error('Error fetching exercises from database:', error)
-          // Fallback to hardcoded data
-          const dayInfo = dayData[dayNameParam.toLowerCase()]
-          if (dayInfo) {
-            exercises = dayInfo.exercises
-            const decodedExerciseName = decodeExerciseName(exerciseNameParam)
-            const foundExercise = exercises.find(
-              ex => {
-                const encodedExName = encodeExerciseName(ex.exerciseName)
-                return ex.exerciseName === decodedExerciseName || 
-                       ex.id === exerciseNameParam ||
-                       encodedExName === exerciseNameParam
-              }
-            )
-            if (foundExercise) {
-              setScrollToExerciseId(foundExercise.id)
-            }
-            setDayExercises(exercises)
-          }
         }
-      } else if (dayNameParam) {
-        // Fallback to hardcoded data if only day is provided
-        const dayInfo = dayData[dayNameParam.toLowerCase()]
-        if (dayInfo) {
-          exercises = dayInfo.exercises
-          const decodedExerciseName = decodeExerciseName(exerciseNameParam)
-          const foundExercise = exercises.find(
-            ex => {
-              const encodedExName = encodeExerciseName(ex.exerciseName)
-              return ex.exerciseName === decodedExerciseName || 
-                     ex.id === exerciseNameParam ||
-                     encodedExName === exerciseNameParam
-            }
-          )
-          if (foundExercise) {
-            setScrollToExerciseId(foundExercise.id)
-          }
-          setDayExercises(exercises)
-        }
-      }
-
-      // If still no exercises found, try to find the exercise across all days (fallback)
-      if (exercises.length === 0) {
-        const decodedExerciseName = decodeExerciseName(exerciseNameParam)
-        for (const day of Object.values(dayData)) {
-          const foundExercise = day.exercises.find(
-            ex => {
-              const encodedExName = encodeExerciseName(ex.exerciseName)
-              return ex.exerciseName === decodedExerciseName || 
-                     ex.id === exerciseNameParam ||
-                     encodedExName === exerciseNameParam
-            }
-          )
-          if (foundExercise) {
-            exercises = [foundExercise]
-            setScrollToExerciseId(foundExercise.id)
-            break
-          }
-        }
-        setDayExercises(exercises)
       }
 
       setIsLoading(false)
     }
 
     loadExercises()
-  }, [dayNameParam, weekParam, exerciseNameParam])
+  }, [dayNameParam, weekParam])
 
-  // State management for all exercises
   const [exerciseStates, setExerciseStates] = useState<Record<string, { sets: Set[]; isLogged: boolean }>>(() => {
     const initial: Record<string, { sets: Set[]; isLogged: boolean }> = {}
     dayExercises.forEach(exercise => {
@@ -314,7 +194,6 @@ export default function ExercisePage() {
     return initial
   })
 
-  // Initialize sets for all exercises if not already done
   useEffect(() => {
     dayExercises.forEach(exercise => {
       if (!exerciseStates[exercise.id] || exerciseStates[exercise.id].sets.length === 0) {
@@ -324,7 +203,6 @@ export default function ExercisePage() {
         const isTimed = typeof exercise.reps === 'string' && exercise.reps.includes('sec')
         
         setExerciseStates(prev => {
-          // Skip if already initialized
           if (prev[exercise.id]?.sets.length > 0) {
             return prev
           }
@@ -345,8 +223,7 @@ export default function ExercisePage() {
         })
       }
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dayNameParam, exerciseNameParam])
+  }, [dayExercises])
 
   const handleDelete = (exerciseId: string, setId: number) => {
     setExerciseStates(prev => {
@@ -445,16 +322,14 @@ export default function ExercisePage() {
   if (dayExercises.length === 0) {
     return (
       <div style={{ padding: '20px', background: '#272727', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ color: 'white' }}>Exercise not found</p>
+        <p style={{ color: 'white' }}>No exercises found for this day</p>
       </div>
     )
   }
 
-  // Transform all exercises to ExerciseCard format
   const exercisesData = dayExercises.map(exercise => {
     const exerciseData = transformExerciseToCardFormat(exercise, exerciseStates)
     
-    // Update handlers with actual state management
     exerciseData.onDelete = (id: number) => handleDelete(exercise.id, id)
     exerciseData.onAddSet = () => handleAddSet(exercise.id)
     exerciseData.onLog = () => handleLog(exercise.id)
@@ -466,7 +341,6 @@ export default function ExercisePage() {
   })
 
   const handleDismiss = () => {
-    // Navigate back to the day view if day param exists, otherwise go to home
     if (dayNameParam) {
       const params = new URLSearchParams()
       if (weekParam) params.set('week', weekParam)
@@ -485,16 +359,15 @@ export default function ExercisePage() {
         width: '100%',
         padding: '20px 0 0 0',
         position: 'relative',
-        paddingBottom: '100px' // Extra padding for bottom nav
+        paddingBottom: '100px'
       }}
     >
       <ExerciseCard
         exercises={exercisesData}
         onDismiss={handleDismiss}
-        scrollToExerciseId={scrollToExerciseId}
+        scrollToExerciseId={undefined}
       />
       <BottomNav />
     </div>
   )
 }
-

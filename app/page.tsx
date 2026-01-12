@@ -1,5 +1,6 @@
 import { PhaseOverview } from './components/PhaseOverview';
 import { fetchPhases, PhaseData } from './phases/phaseData';
+import { BottomNav } from './components/BottomNav';
 
 export default async function Home() {
   let phases: PhaseData[] = [];
@@ -19,10 +20,11 @@ export default async function Home() {
         width: '100%',
         position: 'relative',
         paddingTop: '20px',
-        paddingBottom: '20px'
+        paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
       <PhaseOverview phases={phases} />
+      <BottomNav />
     </div>
   );
 }

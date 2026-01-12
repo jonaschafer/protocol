@@ -1,5 +1,5 @@
 import { WeekView } from '../components/WeekView';
-import { BackButton } from '../components/BackButton';
+import { BottomNav } from '../components/BottomNav';
 import { fetchWeek } from '../../lib/supabase-data';
 
 function transformWorkoutToDay(workout: any) {
@@ -90,26 +90,10 @@ export default async function WeekPage({ searchParams }: { searchParams: { week?
         background: '#000000', 
         minHeight: '100vh',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
-      <div
-        style={{
-          position: 'sticky',
-          top: '20px',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '0 20px',
-          pointerEvents: 'none'
-        }}
-      >
-        <div style={{ pointerEvents: 'auto' }}>
-          <BackButton href="/" />
-        </div>
-      </div>
       <WeekView
         weekNumber={weekNumber}
         category={category}
@@ -120,6 +104,7 @@ export default async function WeekPage({ searchParams }: { searchParams: { week?
         notes={weekData?.week_theme || weekData?.notes || ''}
         days={days}
       />
+      <BottomNav />
     </div>
   );
 }
