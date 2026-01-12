@@ -30,7 +30,7 @@ export function WeekSummaryCard({
   hasColoredBorder = false
 }: WeekSummaryCardProps) {
   // Determine padding bottom based on position
-  const paddingBottom = isFirst ? '14px' : isLast ? '28px' : '20px';
+  const paddingBottom = isFirst ? '8px' : isLast ? '28px' : '8px';
 
   // Build tags array from miles and vert
   const tags: Tag[] = useMemo(() => {
