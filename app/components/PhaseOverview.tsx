@@ -53,7 +53,8 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          backgroundColor: '#272727'
+          backgroundColor: '#272727',
+          borderRadius: '30px 30px 0px 0px'
         }}
       >
         <p
