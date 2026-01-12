@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { SetRow } from '../components/SetRow'
 import { ExerciseHeader } from '../components/ExerciseHeader'
 import { Notes } from '../components/Notes'
@@ -42,6 +43,7 @@ export default function OverviewPage() {
   const [closeButtonClicked, setCloseButtonClicked] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
+  const [pagesListExpanded, setPagesListExpanded] = useState(false)
   const individualSectionRef = useRef<HTMLElement | null>(null)
   const compiledSectionRef = useRef<HTMLElement | null>(null)
 
@@ -131,6 +133,282 @@ export default function OverviewPage() {
           margin: '0 auto'
         }}
       >
+        {/* Pages List - Collapsible Section */}
+        <div
+          style={{
+            marginBottom: '30px',
+            border: `1px solid ${currentTheme.border}`,
+            borderRadius: '8px',
+            overflow: 'hidden',
+            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
+          }}
+        >
+          <button
+            onClick={() => setPagesListExpanded(!pagesListExpanded)}
+            style={{
+              width: '100%',
+              padding: '15px 20px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: currentTheme.text,
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              textAlign: 'left'
+            }}
+          >
+            <span>📄 All Pages in App</span>
+            <span style={{ fontSize: '20px' }}>
+              {pagesListExpanded ? '▼' : '▶'}
+            </span>
+          </button>
+          {pagesListExpanded && (
+            <div
+              style={{
+                padding: '20px',
+                borderTop: `1px solid ${currentTheme.border}`,
+                backgroundColor: currentTheme.background
+              }}
+            >
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                  gap: '12px'
+                }}
+              >
+                <Link
+                  href="/"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Home</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/</div>
+                </Link>
+                <Link
+                  href="/overview"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Overview</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/overview</div>
+                </Link>
+                <Link
+                  href="/phases"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Phases</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/phases</div>
+                </Link>
+                <Link
+                  href="/day"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Day</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day</div>
+                </Link>
+                <Link
+                  href="/week"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Week</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/week</div>
+                </Link>
+                <Link
+                  href="/headers"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Headers</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/headers</div>
+                </Link>
+                <Link
+                  href="/nav"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Nav</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/nav</div>
+                </Link>
+                <Link
+                  href="/many-month-view"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Many Month View</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/many-month-view</div>
+                </Link>
+                <Link
+                  href="/temp"
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.text,
+                    textDecoration: 'none',
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Temp</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/temp</div>
+                </Link>
+                <div
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.textSecondary,
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Day (Dynamic)</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day/[dayName]</div>
+                </div>
+                <div
+                  style={{
+                    padding: '10px 15px',
+                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                    borderRadius: '6px',
+                    color: currentTheme.textSecondary,
+                    border: `1px solid ${currentTheme.borderLight}`,
+                    display: 'block'
+                  }}
+                >
+                  <div style={{ fontWeight: '500' }}>Exercise (Dynamic)</div>
+                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/exercises/[exerciseName]</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Sticky Navigation */}
         <div
           style={{
