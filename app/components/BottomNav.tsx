@@ -117,7 +117,6 @@ interface BottomNavProps {
 
 export function BottomNav({ preview = false }: BottomNavProps = {}) {
   const pathname = usePathname()
-  const [phases, setPhases] = useState<PhaseData[]>([])
   const [currentWeek, setCurrentWeek] = useState<number>(1)
   const [currentDay, setCurrentDay] = useState<string>('Monday')
 
@@ -125,7 +124,6 @@ export function BottomNav({ preview = false }: BottomNavProps = {}) {
     // Fetch phases to calculate current week
     fetchPhases()
       .then((data) => {
-        setPhases(data)
         setCurrentWeek(getCurrentWeekNumber(data))
       })
       .catch((error) => {
