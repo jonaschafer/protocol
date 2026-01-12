@@ -104,7 +104,7 @@ function transformExerciseToCardFormat(
     cues: exercise.cues || 'Focus on proper form and controlled movement.',
     sets: state.sets,
     isLogged: state.isLogged,
-    onDelete: (id: number) => {
+    onDelete: (_id: number) => {
       // Will be handled by state management
     },
     onAddSet: () => {
@@ -113,10 +113,10 @@ function transformExerciseToCardFormat(
     onLog: () => {
       // Will be handled by state management
     },
-    onRepsChange: (id: number, value: string) => {
+    onRepsChange: (_id: number, _value: string) => {
       // Will be handled by state management
     },
-    onWeightChange: (id: number, value: string) => {
+    onWeightChange: (_id: number, _value: string) => {
       // Will be handled by state management
     },
     onNotesSave: (value: string) => {

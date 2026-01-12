@@ -101,7 +101,6 @@ function parseWorkout(dayContent: string, date: Date, weekNumber: number): any {
   }
 
   const isFoundationPhase = weekNumber >= 1 && weekNumber <= 9
-  let hasWorkout = false
 
   // Check for rest day first - must be explicit
   const restDayPattern = /(?:^|\n|[-•])\s*\*\*Rest\s+Day\*\*/i
@@ -135,7 +134,6 @@ function parseWorkout(dayContent: string, date: Date, weekNumber: number): any {
   }
 
   if (runMatch) {
-    hasWorkout = true
     const miles = parseFloat(runMatch[1])
     workout.run_distance_miles = miles
     workout.workout_type = 'run'
@@ -162,7 +160,6 @@ function parseWorkout(dayContent: string, date: Date, weekNumber: number): any {
   // Parse rowing
   const rowMatch = dayContent.match(/\*\*.*Row\*\*[:\s]*(\d+)\s*min/i) || dayContent.match(/(\d+)\s*min\s*row/i)
   if (rowMatch) {
-    hasWorkout = true
     workout.rowing_duration_minutes = parseInt(rowMatch[1])
     workout.workout_type = workout.workout_type === 'run' ? 'run+strength' : 'rowing'
     
@@ -175,7 +172,6 @@ function parseWorkout(dayContent: string, date: Date, weekNumber: number): any {
   // Parse strength exercises - handle "Heavy Day 1", "Heavy Day 2", "PT Foundation", "Runner Maintenance"
   const strengthMatch = dayContent.match(/\*\*Strength\s*-\s*(Heavy\s*Day\s*\d+|PT\s*Foundation|Runner\s*Maintenance)\*\*/i)
   if (strengthMatch) {
-    hasWorkout = true
     workout.strength_session_type = strengthMatch[1].trim()
     
     if (workout.workout_type === 'run') {
@@ -185,7 +181,7 @@ function parseWorkout(dayContent: string, date: Date, weekNumber: number): any {
     }
     
     // Extract strength exercises - get the section after "Strength -"
-    const strengthSectionMatch = dayContent.match(/\*\*Strength\s*-\s*[^*]+(.*?)(?=\*\*[A-Z]|\*\*Notes|\*\*Fuel|$)/is)
+    const strengthSectionMatch = dayContent.match(/\*\*Strength\s*-\s*[^*]+([\s\S]*?)(?=\*\*[A-Z]|\*\*Notes|\*\*Fuel|$)/i)
     const strengthSection = strengthSectionMatch ? strengthSectionMatch[1] : ''
     
     const exercises: any[] = []
@@ -295,13 +291,14 @@ async function seedDatabase() {
     is_active: true
   }
 
+  let plan: any = null
   if (dryRun) {
     sqlStatements.push(`-- Training Plan
 INSERT INTO training_plans (plan_name, goal_race, goal_distance, goal_elevation, start_date, end_date, total_weeks, current_week, is_active)
 VALUES (${escapeSQLString(planData.plan_name)}, ${escapeSQLString(planData.goal_race)}, ${escapeSQLString(planData.goal_distance)}, ${escapeSQLString(planData.goal_elevation)}, '${planData.start_date}', '${planData.end_date}', ${planData.total_weeks}, ${planData.current_week}, ${planData.is_active})
 ON CONFLICT DO NOTHING;`)
   } else {
-    const { data: plan, error: planError } = await supabase
+    const { data: insertedPlan, error: planError } = await supabase
       .from('training_plans')
       .insert(planData)
       .select()
@@ -317,17 +314,19 @@ ON CONFLICT DO NOTHING;`)
         
         if (existingPlan) {
           console.log('Training plan already exists, using existing plan')
-          plan.id = existingPlan.id
+          plan = existingPlan
         } else {
           throw planError
         }
       } else {
         throw planError
       }
+    } else {
+      plan = insertedPlan
     }
   }
 
-  const v_plan_id = dryRun ? 'PLAN_ID_PLACEHOLDER' : plan.id
+  const v_plan_id = dryRun ? 'PLAN_ID_PLACEHOLDER' : plan?.id
   if (dryRun) {
     sqlStatements.push(`\n-- Set v_plan_id variable (replace with actual UUID from above)
 -- v_plan_id := (SELECT id FROM training_plans WHERE plan_name = ${escapeSQLString(planData.plan_name)} LIMIT 1);\n`)
@@ -477,8 +476,8 @@ ON CONFLICT DO NOTHING;`)
       notes: weekTheme
     }
 
+    let weeklyPlan: any = null
     if (dryRun) {
-      const v_weekly_plan_id = `WEEK_${weekNumber}_ID`
       const phaseVarName = phaseName === 'Foundation' ? 'v_phase_foundation_id' : phaseName === 'Durability' ? 'v_phase_durability_id' : 'v_phase_specificity_id'
       sqlStatements.push(`\n-- Week ${weekNumber}: ${weekTheme || 'No theme'}
 INSERT INTO weekly_plans (plan_id, phase_id, week_number, week_start_date, week_end_date, week_theme, target_miles, target_vert, notes)
@@ -505,7 +504,7 @@ ON CONFLICT (plan_id, week_number) DO UPDATE SET
 -- Store weekly plan ID for this week
 SELECT id INTO v_weekly_plan_id FROM weekly_plans WHERE weekly_plans.plan_id = v_plan_id AND weekly_plans.week_number = ${weekNumber} LIMIT 1;`)
     } else {
-      const { data: weeklyPlan, error: weekError } = await supabase
+      const { data: insertedWeeklyPlan, error: weekError } = await supabase
         .from('weekly_plans')
         .insert(weeklyPlanData)
         .select()
@@ -534,17 +533,19 @@ SELECT id INTO v_weekly_plan_id FROM weekly_plans WHERE weekly_plans.plan_id = v
               .update(weeklyPlanData)
               .eq('id', existingWeek.id)
             
-            weeklyPlan.id = existingWeek.id
+            weeklyPlan = existingWeek
           } else {
             throw weekError
           }
         } else {
           throw weekError
         }
+      } else {
+        weeklyPlan = insertedWeeklyPlan
       }
     }
 
-    const v_weekly_plan_id = dryRun ? `WEEK_${weekNumber}_ID` : weeklyPlan.id
+    const v_weekly_plan_id = dryRun ? `WEEK_${weekNumber}_ID` : weeklyPlan?.id
 
     // Parse daily workouts
     const daySections = weekContent.split(/###\s*(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/i)

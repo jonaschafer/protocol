@@ -24,7 +24,6 @@ interface ExerciseListProps {
 
 const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises, weekNumber, workoutId }) => {
   const [allExercisesDone, setAllExercisesDone] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -47,15 +46,12 @@ const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises, weekNum
 
     // Update Supabase if workoutId is provided
     if (workoutId) {
-      setIsLoading(true);
       try {
         await updateWorkoutCompletion(workoutId, newState);
       } catch (error) {
         console.error('Error updating workout completion:', error);
         // Revert state on error
         setAllExercisesDone(!newState);
-      } finally {
-        setIsLoading(false);
       }
     }
   };

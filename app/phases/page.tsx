@@ -1,8 +1,8 @@
 import { PhaseOverview } from '../components/PhaseOverview';
-import { fetchPhases } from '@/lib/supabase-data';
+import { fetchPhases, PhaseData } from '@/lib/supabase-data';
 
 export default async function PhasesPage() {
-  let phases;
+  let phases: PhaseData[] = [];
   try {
     phases = await fetchPhases();
   } catch (error) {

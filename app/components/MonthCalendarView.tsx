@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo } from "react";
-import { phases, PhaseData } from "../phases/phaseData";
+import { useState, useMemo, useEffect } from "react";
+import { fetchPhases, PhaseData } from "../phases/phaseData";
 
 type ActivityType = "all" | "run" | "strength";
 
@@ -29,7 +29,7 @@ const seededRandom = (seed: number): number => {
 };
 
 // Helper function to get phase for a given date
-const getPhaseForDate = (date: Date): PhaseData | null => {
+const getPhaseForDate = (date: Date, phases: PhaseData[]): PhaseData | null => {
   for (const phase of phases) {
     if (date >= phase.startDate && date <= phase.endDate) {
       return phase;
@@ -39,7 +39,7 @@ const getPhaseForDate = (date: Date): PhaseData | null => {
 };
 
 // Helper function to get week range for a month
-const getWeekRangeForMonth = (monthStart: Date, monthEnd: Date): string => {
+const getWeekRangeForMonth = (monthStart: Date, monthEnd: Date, phases: PhaseData[]): string => {
   const weeksInRange: number[] = [];
   
   for (const phase of phases) {
@@ -78,6 +78,7 @@ const getWeekRangeForMonth = (monthStart: Date, monthEnd: Date): string => {
 const generateMonthData = (
   monthIndex: number, // 0-11 (January = 0)
   year: number,
+  phases: PhaseData[],
 ): MonthData | null => {
   const monthStart = new Date(year, monthIndex, 1);
   const monthEnd = new Date(year, monthIndex + 1, 0); // Last day of month
@@ -85,7 +86,7 @@ const generateMonthData = (
   const startDay = monthStart.getDay(); // 0 = Sunday
   
   // Get the primary phase for this month (use the first day)
-  const primaryPhase = getPhaseForDate(monthStart);
+  const primaryPhase = getPhaseForDate(monthStart, phases);
   if (!primaryPhase) return null;
   
   const monthNames = [
@@ -97,7 +98,7 @@ const generateMonthData = (
   
   for (let i = 1; i <= totalDays; i++) {
     const currentDate = new Date(year, monthIndex, i);
-    const dayPhase = getPhaseForDate(currentDate) || primaryPhase;
+    const dayPhase = getPhaseForDate(currentDate, phases) || primaryPhase;
     
     // Use seeded random based on date for consistent server/client rendering
     // Create a unique seed from the date
@@ -118,7 +119,7 @@ const generateMonthData = (
     });
   }
   
-  const weekRange = getWeekRangeForMonth(monthStart, monthEnd);
+  const weekRange = getWeekRangeForMonth(monthStart, monthEnd, phases);
   
   return {
     name: monthNames[monthIndex],
@@ -132,13 +133,13 @@ const generateMonthData = (
 };
 
 // Generate 9 months of data (January - September 2026)
-const generateNineMonthsData = (): MonthData[] => {
+const generateNineMonthsData = (phases: PhaseData[]): MonthData[] => {
   const months: MonthData[] = [];
   const year = 2026;
   
   // January through September (monthIndex 0-8)
   for (let i = 0; i < 9; i++) {
-    const monthData = generateMonthData(i, year);
+    const monthData = generateMonthData(i, year, phases);
     if (monthData) {
       months.push(monthData);
     }
@@ -150,8 +151,24 @@ const generateNineMonthsData = (): MonthData[] => {
 export function MonthCalendarView() {
   const [filter, setFilter] = useState<ActivityType>("all");
   const [view, setView] = useState<"month" | "sixMonths">("month");
+  const [phases, setPhases] = useState<PhaseData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
-  const monthsData = useMemo(() => generateNineMonthsData(), []);
+  useEffect(() => {
+    fetchPhases()
+      .then(setPhases)
+      .catch(error => {
+        console.error('Error fetching phases:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+  
+  const monthsData = useMemo(() => {
+    if (phases.length === 0) return [];
+    return generateNineMonthsData(phases);
+  }, [phases]);
 
   const renderSingleMonth = (
     monthData: MonthData,
@@ -225,6 +242,14 @@ export function MonthCalendarView() {
       </div>
     );
   };
+
+  if (isLoading) {
+    return (
+      <div className="h-screen overflow-y-auto bg-[#0a0a0a] p-6 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen overflow-y-auto bg-[#0a0a0a] p-6">

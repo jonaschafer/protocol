@@ -30,9 +30,10 @@ import { ExerciseCard } from '../exercises/exerciseCard'
 import { DayView } from '../exercises/dayView'
 import { WeekView } from '../components/WeekView'
 import { PhaseOverview } from '../components/PhaseOverview'
-import { phases } from '../phases/phaseData'
+import { fetchPhases } from '../phases/phaseData'
 
 export default function OverviewPage() {
+  const [phases, setPhases] = useState<any[]>([])
   const [dayCardCompleted, setDayCardCompleted] = useState(false)
   const [dayExerciseCardCompleted, setDayExerciseCardCompleted] = useState(false)
   const [weekDayCardCompleted, setWeekDayCardCompleted] = useState(false)
@@ -42,6 +43,15 @@ export default function OverviewPage() {
   const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
   const individualSectionRef = useRef<HTMLElement | null>(null)
   const compiledSectionRef = useRef<HTMLElement | null>(null)
+
+  // Fetch phases on mount
+  useEffect(() => {
+    fetchPhases()
+      .then(setPhases)
+      .catch(error => {
+        console.error('Error fetching phases:', error);
+      });
+  }, []);
 
   // Theme configuration
   const themes = {
@@ -74,7 +84,6 @@ export default function OverviewPage() {
     const handleScroll = () => {
       if (!individualSectionRef.current || !compiledSectionRef.current) return
 
-      const individualTop = individualSectionRef.current.offsetTop
       const compiledTop = compiledSectionRef.current.offsetTop
       const scrollPosition = window.scrollY + 150 // Offset for sticky nav
 

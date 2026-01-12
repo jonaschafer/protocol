@@ -1,8 +1,8 @@
 import { PhaseOverview } from './components/PhaseOverview';
-import { fetchPhases } from './phases/phaseData';
+import { fetchPhases, PhaseData } from './phases/phaseData';
 
 export default async function Home() {
-  let phases;
+  let phases: PhaseData[] = [];
   try {
     phases = await fetchPhases();
   } catch (error) {

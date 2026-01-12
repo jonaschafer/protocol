@@ -450,7 +450,7 @@ async function seedDatabase() {
 
   // 1. Create training plan
   console.log('Creating training plan...')
-  const { data: plan, error: planError } = await supabase
+  const { data: insertedPlan, error: planError } = await supabase
     .from('training_plans')
     .insert({
       plan_name: "Wy'East Trailfest 50M Training Plan",
@@ -466,6 +466,7 @@ async function seedDatabase() {
     .select()
     .single()
 
+  let plan: any = null
   if (planError) {
     if (planError.code === '23505') {
       // Plan already exists, fetch it
@@ -477,16 +478,18 @@ async function seedDatabase() {
       
       if (existingPlan) {
         console.log('Training plan already exists, using existing plan')
-        plan.id = existingPlan.id
+        plan = existingPlan
       } else {
         throw planError
       }
     } else {
       throw planError
     }
+  } else {
+    plan = insertedPlan
   }
 
-  const planId = plan.id
+  const planId = plan?.id
   console.log(`Training plan created: ${planId}`)
 
   // 2. Create training phases
@@ -717,7 +720,6 @@ async function seedDatabase() {
         workoutDate = parseDate(`${dayName}, ${dateMatch[1]} ${dateMatch[2]}`)
       } else {
         // Fallback: Calculate date from week start and day of week
-        const dayIndex = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].indexOf(dayName)
         workoutDate = new Date(weekStartDate)
         // Calculate the correct day: find the first occurrence of this day in the week
         const weekStartDay = weekStartDate.getDay() // 0 = Sunday, 1 = Monday, etc.

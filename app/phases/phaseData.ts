@@ -20,13 +20,6 @@ export interface PhaseData {
 // Re-export from supabase-data
 export { fetchPhases } from '../../lib/supabase-data'
 
-// Helper function to add weeks to a date
-function addWeeks(date: Date, weeks: number): Date {
-  const result = new Date(date);
-  result.setDate(result.getDate() + weeks * 7);
-  return result;
-}
-
 // Helper function to format date for display
 export function formatDateRange(start: Date, end: Date): string {
   const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
