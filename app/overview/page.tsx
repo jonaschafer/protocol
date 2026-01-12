@@ -30,6 +30,7 @@ import { ExerciseCard } from '../exercises/exerciseCard'
 import { DayView } from '../exercises/dayView'
 import { WeekView } from '../components/WeekView'
 import { PhaseOverview } from '../components/PhaseOverview'
+import { BottomNav } from '../components/BottomNav'
 import { fetchPhases } from '../phases/phaseData'
 
 export default function OverviewPage() {
@@ -120,6 +121,7 @@ export default function OverviewPage() {
         backgroundColor: currentTheme.background,
         minHeight: '100vh',
         padding: '40px 20px',
+        paddingBottom: '100px', // Extra padding for bottom nav
         width: '100%'
       }}
     >
@@ -226,6 +228,38 @@ export default function OverviewPage() {
               justifyContent: 'start'
             }}
           >
+            {/* BottomNav */}
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  color: currentTheme.textSecondary,
+                  marginBottom: '5px'
+                }}
+              >
+                BottomNav
+              </div>
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#000000',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  border: `1px solid ${currentTheme.borderLight}`
+                }}
+              >
+                <BottomNav preview={true} />
+              </div>
+            </div>
+
             {/* SetRow */}
             <div
               style={{
