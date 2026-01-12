@@ -52,7 +52,8 @@ const DayCard: FunctionComponent<DayCardProps> = ({
     } else {
       // Default behavior: navigate to day route
       const dayRoute = dayName.toLowerCase();
-      router.push(`/day/${dayRoute}`);
+      const weekParam = _weekNumber ? `?week=${_weekNumber}` : '';
+      router.push(`/day/${dayRoute}${weekParam}`);
     }
   };
 

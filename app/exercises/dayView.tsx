@@ -38,6 +38,8 @@ interface DayViewProps {
   runData?: RunData;
   exercises?: Exercise[];
   noTopMargin?: boolean;
+  weekNumber?: number | string;
+  workoutId?: string;
 }
 
 export function DayView({ 
@@ -47,7 +49,9 @@ export function DayView({
   phase = 'durability',
   runData,
   exercises = [],
-  noTopMargin = false
+  noTopMargin = false,
+  weekNumber,
+  workoutId
 }: DayViewProps) {
   return (
     <div
@@ -112,7 +116,7 @@ export function DayView({
       {/* Exercise List */}
       {exercises.length > 0 && (
         <div style={{ padding: '0 20px', paddingBottom: '200px', paddingTop: runData ? '0' : '20px' }}>
-          <ExerciseList exercises={exercises} />
+          <ExerciseList exercises={exercises} weekNumber={weekNumber} workoutId={workoutId} />
         </div>
       )}
     </div>

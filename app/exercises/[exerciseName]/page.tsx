@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { ExerciseCard } from '../exerciseCard'
 import { dayData } from '../../data/dayData'
 import { BackButton } from '../../components/BackButton'
+import { fetchDayByWeekAndDay } from '../../../lib/supabase-data'
 
 interface Set {
   id: number;
@@ -29,6 +30,17 @@ interface ExerciseData {
   onNotesSave?: (value: string) => void;
 }
 
+// Helper function to capitalize exercise name (Title Case)
+function capitalizeExerciseName(name: string): string {
+  return name.split(' ').map(word => {
+    // Handle hyphenated words like 'push-ups'
+    if (word.includes('-')) {
+      return word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join('-')
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  }).join(' ')
+}
+
 // Helper function to encode exercise name for URL
 function encodeExerciseName(name: string): string {
   return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
@@ -36,7 +48,7 @@ function encodeExerciseName(name: string): string {
 
 // Helper function to decode exercise name from URL
 function decodeExerciseName(encoded: string): string {
-  // Find the exercise by matching the encoded name or by finding closest match
+  // Try to decode from dayData first (fallback)
   for (const day of Object.values(dayData)) {
     for (const exercise of day.exercises) {
       if (encodeExerciseName(exercise.exerciseName) === encoded || exercise.id === encoded) {
@@ -44,7 +56,10 @@ function decodeExerciseName(encoded: string): string {
       }
     }
   }
-  return encoded.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+  // If not found, try to reconstruct from encoded name
+  // Handle special cases like "circuit-" prefix
+  const decoded = encoded.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+  return decoded
 }
 
 // Transform day view exercise to ExerciseCard format
@@ -116,12 +131,10 @@ export default function ExercisePage() {
   const searchParams = useSearchParams()
   const exerciseNameParam = params?.exerciseName as string
   const dayNameParam = searchParams?.get('day')
-  
-  // Decode exercise name from URL
-  const decodedExerciseName = decodeExerciseName(exerciseNameParam)
+  const weekParam = searchParams?.get('week')
   
   // Get all exercises from the day if day name is provided
-  let dayExercises: Array<{
+  const [dayExercises, setDayExercises] = useState<Array<{
     id: string;
     exerciseName: string;
     sets?: number;
@@ -130,38 +143,164 @@ export default function ExercisePage() {
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
-  }> = []
+  }>>([])
   
-  let scrollToExerciseId: string | undefined = undefined
+  const [scrollToExerciseId, setScrollToExerciseId] = useState<string | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // If day name is provided, get all exercises from that day
-  if (dayNameParam) {
-    const dayInfo = dayData[dayNameParam.toLowerCase()]
-    if (dayInfo) {
-      dayExercises = dayInfo.exercises
-      // Find the exercise to scroll to
-      const foundExercise = dayExercises.find(
-        ex => ex.exerciseName === decodedExerciseName || ex.id === exerciseNameParam
-      )
-      if (foundExercise) {
-        scrollToExerciseId = foundExercise.id
-      }
-    }
-  }
+  // Fetch exercises from database if day and week params are provided
+  useEffect(() => {
+    const loadExercises = async () => {
+      setIsLoading(true)
+      let exercises: Array<{
+        id: string;
+        exerciseName: string;
+        sets?: number;
+        reps?: number | string;
+        weight?: string;
+        exerciseNote?: string;
+        restNote?: string;
+        cues?: string;
+      }> = []
 
-  // If no day param or no exercises found, try to find the exercise across all days
-  if (dayExercises.length === 0) {
-    for (const day of Object.values(dayData)) {
-      const foundExercise = day.exercises.find(
-        ex => ex.exerciseName === decodedExerciseName || ex.id === exerciseNameParam
-      )
-      if (foundExercise) {
-        dayExercises = [foundExercise]
-        scrollToExerciseId = foundExercise.id
-        break
+      // If both day and week are provided, fetch from database
+      if (dayNameParam && weekParam) {
+        try {
+          const weekNumber = parseInt(weekParam)
+          const workout = await fetchDayByWeekAndDay(weekNumber, dayNameParam)
+          
+          // Transform strength exercises from database
+          if (workout.strength_exercises && Array.isArray(workout.strength_exercises)) {
+            workout.strength_exercises.forEach((ex: any, idx: number) => {
+              // Exercises are now stored individually in the database (circuits are already split)
+              // So we can treat all exercises the same way
+              // Truncate RPE to just percentage if present
+              let weight = ex.notes || ''
+              if (weight) {
+                // Extract all percentages and take the last one (usually the target RPE)
+                const rpeMatches = weight.match(/(\d+%)/gi)
+                if (rpeMatches && rpeMatches.length > 0) {
+                  weight = rpeMatches[rpeMatches.length - 1] // Take the last percentage
+                }
+              }
+              
+              // Ensure reps is a number or 0, not "Full circuit" or empty
+              let reps = ex.reps || '0'
+              if (reps && (reps.toLowerCase().includes('full circuit') || reps.toLowerCase().includes('circuit'))) {
+                reps = '0'
+              }
+              
+              exercises.push({
+                id: `${ex.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}-${idx}`,
+                exerciseName: capitalizeExerciseName(ex.name),
+                sets: ex.sets,
+                reps: reps,
+                weight: weight,
+                exerciseNote: ex.notes || '',
+                restNote: '2-3 minutes rest between sets',
+                cues: ''
+              })
+            })
+          }
+
+          // Add PT Foundation if present
+          if (workout.workout_notes?.includes('PT FOUNDATION')) {
+            exercises.push({
+              id: 'pt-foundation',
+              exerciseName: 'PT Foundation Routine',
+              sets: 1,
+              reps: 'Full routine',
+              exerciseNote: '20-25min daily',
+              restNote: 'Complete all exercises',
+              cues: workout.workout_notes
+            })
+          }
+
+          // Find the exercise to scroll to - match by encoded name or exact name
+          const decodedExerciseName = decodeExerciseName(exerciseNameParam)
+          const foundExercise = exercises.find(
+            ex => {
+              const encodedExName = encodeExerciseName(ex.exerciseName)
+              return ex.exerciseName === decodedExerciseName || 
+                     ex.id === exerciseNameParam ||
+                     encodedExName === exerciseNameParam ||
+                     ex.exerciseName.toLowerCase().includes(decodedExerciseName.toLowerCase()) ||
+                     decodedExerciseName.toLowerCase().includes(ex.exerciseName.toLowerCase())
+            }
+          )
+          if (foundExercise) {
+            setScrollToExerciseId(foundExercise.id)
+          }
+
+          setDayExercises(exercises)
+        } catch (error) {
+          console.error('Error fetching exercises from database:', error)
+          // Fallback to hardcoded data
+          const dayInfo = dayData[dayNameParam.toLowerCase()]
+          if (dayInfo) {
+            exercises = dayInfo.exercises
+            const decodedExerciseName = decodeExerciseName(exerciseNameParam)
+            const foundExercise = exercises.find(
+              ex => {
+                const encodedExName = encodeExerciseName(ex.exerciseName)
+                return ex.exerciseName === decodedExerciseName || 
+                       ex.id === exerciseNameParam ||
+                       encodedExName === exerciseNameParam
+              }
+            )
+            if (foundExercise) {
+              setScrollToExerciseId(foundExercise.id)
+            }
+            setDayExercises(exercises)
+          }
+        }
+      } else if (dayNameParam) {
+        // Fallback to hardcoded data if only day is provided
+        const dayInfo = dayData[dayNameParam.toLowerCase()]
+        if (dayInfo) {
+          exercises = dayInfo.exercises
+          const decodedExerciseName = decodeExerciseName(exerciseNameParam)
+          const foundExercise = exercises.find(
+            ex => {
+              const encodedExName = encodeExerciseName(ex.exerciseName)
+              return ex.exerciseName === decodedExerciseName || 
+                     ex.id === exerciseNameParam ||
+                     encodedExName === exerciseNameParam
+            }
+          )
+          if (foundExercise) {
+            setScrollToExerciseId(foundExercise.id)
+          }
+          setDayExercises(exercises)
+        }
       }
+
+      // If still no exercises found, try to find the exercise across all days (fallback)
+      if (exercises.length === 0) {
+        const decodedExerciseName = decodeExerciseName(exerciseNameParam)
+        for (const day of Object.values(dayData)) {
+          const foundExercise = day.exercises.find(
+            ex => {
+              const encodedExName = encodeExerciseName(ex.exerciseName)
+              return ex.exerciseName === decodedExerciseName || 
+                     ex.id === exerciseNameParam ||
+                     encodedExName === exerciseNameParam
+            }
+          )
+          if (foundExercise) {
+            exercises = [foundExercise]
+            setScrollToExerciseId(foundExercise.id)
+            break
+          }
+        }
+        setDayExercises(exercises)
+      }
+
+      setIsLoading(false)
     }
-  }
+
+    loadExercises()
+  }, [dayNameParam, weekParam, exerciseNameParam])
 
   // State management for all exercises
   const [exerciseStates, setExerciseStates] = useState<Record<string, { sets: Set[]; isLogged: boolean }>>(() => {
@@ -295,6 +434,14 @@ export default function ExercisePage() {
     console.log(`Notes saved for ${exerciseId}:`, value)
   }
 
+  if (isLoading) {
+    return (
+      <div style={{ padding: '20px', background: '#272727', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: 'white' }}>Loading exercises...</p>
+      </div>
+    )
+  }
+
   if (dayExercises.length === 0) {
     return (
       <div style={{ padding: '20px', background: '#272727', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -321,7 +468,10 @@ export default function ExercisePage() {
   const handleDismiss = () => {
     // Navigate back to the day view if day param exists, otherwise go to home
     if (dayNameParam) {
-      router.push(`/day/${dayNameParam}`)
+      const params = new URLSearchParams()
+      if (weekParam) params.set('week', weekParam)
+      const queryString = params.toString()
+      router.push(`/day/${dayNameParam}${queryString ? `?${queryString}` : ''}`)
     } else {
       router.push('/')
     }
@@ -352,7 +502,15 @@ export default function ExercisePage() {
         }}
       >
         <div style={{ pointerEvents: 'auto' }}>
-          <BackButton href={dayNameParam ? `/day/${dayNameParam}` : '/'} />
+          {(() => {
+            if (dayNameParam) {
+              const params = new URLSearchParams()
+              if (weekParam) params.set('week', weekParam)
+              const queryString = params.toString()
+              return <BackButton href={`/day/${dayNameParam}${queryString ? `?${queryString}` : ''}`} />
+            }
+            return <BackButton href="/" />
+          })()}
         </div>
       </div>
       <ExerciseCard

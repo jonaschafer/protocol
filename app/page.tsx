@@ -1,9 +1,16 @@
-'use client'
-
 import { PhaseOverview } from './components/PhaseOverview';
-import { phases } from './phases/phaseData';
+import { fetchPhases } from './phases/phaseData';
 
-export default function Home() {
+export default async function Home() {
+  let phases;
+  try {
+    phases = await fetchPhases();
+  } catch (error) {
+    console.error('Error fetching phases:', error);
+    // Fallback to empty array or show error state
+    phases = [];
+  }
+
   return (
     <div
       style={{

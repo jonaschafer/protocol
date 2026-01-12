@@ -1,10 +1,11 @@
 'use client'
 
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import styles from './ExerciseList.module.css';
 import DayExerciseCard from './DayExerciseCard';
 import { ExerciseListLogButton } from './ExerciseListLogButton';
+import { fetchWorkoutCompletion, updateWorkoutCompletion } from '../../lib/supabase-data';
 
 interface Exercise {
   id?: string;
@@ -17,15 +18,46 @@ interface Exercise {
 
 interface ExerciseListProps {
   exercises: Exercise[];
+  weekNumber?: number | string;
+  workoutId?: string;
 }
 
-const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
+const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises, weekNumber, workoutId }) => {
   const [allExercisesDone, setAllExercisesDone] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleLogButtonClick = () => {
-    setAllExercisesDone(prev => !prev);
+  // Fetch initial completion state from Supabase
+  useEffect(() => {
+    if (workoutId) {
+      fetchWorkoutCompletion(workoutId)
+        .then(completed => {
+          setAllExercisesDone(completed);
+        })
+        .catch(error => {
+          console.error('Error fetching workout completion:', error);
+        });
+    }
+  }, [workoutId]);
+
+  const handleLogButtonClick = async () => {
+    const newState = !allExercisesDone;
+    setAllExercisesDone(newState);
+
+    // Update Supabase if workoutId is provided
+    if (workoutId) {
+      setIsLoading(true);
+      try {
+        await updateWorkoutCompletion(workoutId, newState);
+      } catch (error) {
+        console.error('Error updating workout completion:', error);
+        // Revert state on error
+        setAllExercisesDone(!newState);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   // Helper function to encode exercise name for URL
@@ -41,10 +73,12 @@ const ExerciseList: FunctionComponent<ExerciseListProps> = ({ exercises }) => {
     const dayMatch = pathname?.match(/\/day\/([^/]+)/);
     const dayName = dayMatch ? dayMatch[1] : null;
     
-    // Build URL with day as query parameter if available
-    const exerciseUrl = dayName 
-      ? `/exercises/${exerciseIdentifier}?day=${dayName}`
-      : `/exercises/${exerciseIdentifier}`;
+    // Build URL with day and week as query parameters if available
+    const params = new URLSearchParams();
+    if (dayName) params.set('day', dayName);
+    if (weekNumber) params.set('week', String(weekNumber));
+    const queryString = params.toString();
+    const exerciseUrl = `/exercises/${exerciseIdentifier}${queryString ? `?${queryString}` : ''}`;
     
     router.push(exerciseUrl);
   };
