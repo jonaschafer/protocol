@@ -19,7 +19,7 @@ export default async function Home() {
         minHeight: '100vh',
         width: '100%',
         position: 'relative',
-        paddingTop: '20px',
+        paddingTop: '0px',
         paddingBottom: '100px' // Extra padding for bottom nav
       }}
     >
