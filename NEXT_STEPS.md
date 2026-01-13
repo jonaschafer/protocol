@@ -10,7 +10,7 @@
 
 Check what was actually created in your Supabase database:
 
-1. **Training Plan**: Should have 1 active plan
+1. **Wy'East Trailfest 50M**: Should have 1 active plan
 2. **Training Phases**: Should have 3 phases (Foundation, Durability, Specificity)
 3. **Weekly Plans**: Currently has weeks 1-10 and 24 (missing 11-23, 25-27)
 4. **Daily Workouts**: Should have ~77 workouts (7 days × 11 weeks)

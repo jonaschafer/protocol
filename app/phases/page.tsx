@@ -35,9 +35,9 @@ export default async function PhasesPage() {
             color: 'rgba(255, 255, 255, 0.7)'
           }}
         >
-          <h2 style={{ marginBottom: '20px', fontSize: '24px' }}>No Training Plan Found</h2>
+          <h2 style={{ marginBottom: '20px', fontSize: '24px' }}>No Wy'East Trailfest 50M Found</h2>
           <p style={{ marginBottom: '10px' }}>
-            No active training plan was found in the database.
+            No active Wy'East Trailfest 50M was found in the database.
           </p>
           <p style={{ fontSize: '14px', opacity: 0.6 }}>
             Please run the seed script to populate the database.

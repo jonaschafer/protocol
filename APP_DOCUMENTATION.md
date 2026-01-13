@@ -1,8 +1,8 @@
-# Protocol - Training Plan Application Documentation
+# Protocol - Wy'East Trailfest 50M Application Documentation
 
 ## Overview
 
-Protocol is a Next.js-based web application for viewing and managing a structured training plan. It provides a visual interface for organizing training phases, weeks, days, and exercises with detailed workout information. The application is designed with a mobile-first approach, featuring a dark theme and a clean, card-based UI.
+Protocol is a Next.js-based web application for viewing and managing a structured Wy'East Trailfest 50M. It provides a visual interface for organizing training phases, weeks, days, and exercises with detailed workout information. The application is designed with a mobile-first approach, featuring a dark theme and a clean, card-based UI.
 
 ## Application Purpose
 
@@ -279,7 +279,7 @@ interface Set {
 
 ### What the App CAN Do
 
-1. **View Training Plan Structure**
+1. **View Wy'East Trailfest 50M Structure**
    - Browse 3 training phases with 36 total weeks
    - See phase date ranges and week numbers
    - Navigate through phase → week → day hierarchy
@@ -352,7 +352,7 @@ interface Set {
 4. **No Personalization**
    - No user profiles
    - No customization options
-   - Fixed training plan (not dynamic)
+   - Fixed Wy'East Trailfest 50M (not dynamic)
 
 5. **No Integration**
    - No integration with fitness trackers
@@ -538,4 +538,4 @@ Based on the codebase structure, potential enhancements could include:
 **Last Updated**: Based on current codebase state
 **Version**: 1.0.0 (per package.json)
 **Framework**: Next.js 14 with App Router
-**Primary Use Case**: Training plan visualization and workout viewing
+**Primary Use Case**: Wy'East Trailfest 50M visualization and workout viewing

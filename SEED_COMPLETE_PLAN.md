@@ -16,7 +16,7 @@
 
 Before executing the SQL, verify:
 
-- [ ] **Training Plan**: Single plan with correct metadata
+- [ ] **Wy'East Trailfest 50M**: Single plan with correct metadata
 - [ ] **Training Phases**: 3 phases (Foundation, Durability, Specificity)
 - [ ] **Weekly Plans**: All 27 weeks present (check for duplicates)
 - [ ] **Daily Workouts**: ~189 workouts (7 days × 27 weeks)
@@ -69,7 +69,7 @@ This will:
 
 ## 📊 What Gets Created
 
-- **1 Training Plan**: Wy'East Trailfest 50M Training Plan
+- **1 Wy'East Trailfest 50M**: Wy'East Trailfest 50M
 - **3 Training Phases**: Foundation (9 weeks), Durability (11 weeks), Specificity (7 weeks)
 - **27 Weekly Plans**: One for each week with dates, mileage, vert
 - **~189 Daily Workouts**: All 7 days × 27 weeks with:

@@ -48,27 +48,33 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
       <div
         style={{
           width: '100%',
-          height: '110px',
-          padding: '0 20px',
+          minHeight: '110px',
+          padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           backgroundColor: '#272727',
-          borderRadius: '30px 30px 0px 0px'
+          borderRadius: '30px 30px 0px 0px',
+          overflow: 'hidden',
+          boxSizing: 'border-box'
         }}
       >
         <p
           style={{
             fontFamily: 'Instrument Sans, sans-serif',
             fontWeight: 500,
-            fontSize: '26px',
-            lineHeight: '26px',
+            fontSize: '22px',
+            lineHeight: '28px',
             color: 'white',
             margin: 0,
-            padding: 0
+            padding: 0,
+            overflow: 'hidden',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+            maxWidth: '100%'
           }}
         >
-          Training Plan
+          Wy'East Trailfest 50M
         </p>
       </div>
 
@@ -91,9 +97,10 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
               style={{
                 width: '100%',
                 borderRadius: '20px',
-                overflow: 'visible',
+                overflow: 'hidden',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                boxSizing: 'border-box'
               }}
             >
               {/* Sticky Wrapper: Phase Header + Date Range */}
@@ -105,7 +112,9 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                   display: 'flex',
                   flexDirection: 'column',
                   width: '100%',
-                  borderRadius: '20px 20px 0 0'
+                  borderRadius: '20px 20px 0 0',
+                  boxSizing: 'border-box',
+                  overflow: 'hidden'
                 }}
               >
                 {/* Phase Header with Color - Clickable */}
@@ -121,7 +130,9 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                     border: 'none',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    borderRadius: '20px 20px 0 0'
+                    borderRadius: '20px 20px 0 0',
+                    boxSizing: 'border-box',
+                    overflow: 'hidden'
                   }}
                 >
                   <div
@@ -129,7 +140,9 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                       width: '100%',
                       display: 'flex',
                       justifyContent: 'space-between',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      boxSizing: 'border-box',
+                      minWidth: 0
                     }}
                   >
                     <p
@@ -140,7 +153,12 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                         lineHeight: '26px',
                         color: 'white',
                         margin: 0,
-                        padding: 0
+                        padding: 0,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        flex: '1 1 auto',
+                        minWidth: 0
                       }}
                     >
                       {phase.name}
@@ -154,7 +172,9 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                         color: 'white',
                         margin: 0,
                         padding: 0,
-                        textAlign: 'right'
+                        paddingLeft: '10px',
+                        textAlign: 'right',
+                        flexShrink: 0
                       }}
                     >
                       {phase.weekStart}-{phase.weekEnd}
@@ -170,7 +190,9 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                     backgroundColor: '#1E1E1E',
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: isExpanded ? '0' : '0 0 20px 20px'
+                    borderRadius: isExpanded ? '0' : '0 0 20px 20px',
+                    boxSizing: 'border-box',
+                    overflow: 'hidden'
                   }}
                 >
                   <p
@@ -182,7 +204,11 @@ export function PhaseOverview({ phases }: PhaseOverviewProps) {
                       color: 'white',
                       margin: 0,
                       padding: 0,
-                      opacity: 0.5
+                      opacity: 0.5,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '100%'
                     }}
                   >
                     {formatDateRange(phase.startDate, phase.endDate)}

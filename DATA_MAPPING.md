@@ -4,8 +4,8 @@ This document explains how data flows from your `MASTER_PLAN_27WEEKS_COMPLETE.md
 
 ## Overview
 
-Your training plan is structured hierarchically:
-- **Training Plan** (1 plan: Wy'East Trailfest 50M)
+Your Wy'East Trailfest 50M is structured hierarchically:
+- **Wy'East Trailfest 50M** (1 plan: Wy'East Trailfest 50M)
   - **Training Phases** (3 phases: Foundation, Durability, Specificity)
     - **Weekly Plans** (27 weeks)
       - **Daily Workouts** (7 days per week = 189 total workouts)
@@ -15,7 +15,7 @@ Your training plan is structured hierarchically:
 ## Database Schema
 
 ### 1. `training_plans` Table
-**Purpose:** Top-level container for the entire training plan
+**Purpose:** Top-level container for the entire Wy'East Trailfest 50M
 
 | Column | Type | Source (from Master Plan) | Example |
 |--------|------|---------------------------|---------|

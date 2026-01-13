@@ -35,7 +35,7 @@ export async function fetchPhases(): Promise<PhaseData[]> {
     .limit(1)
 
   if (planError || !plans || plans.length === 0) {
-    throw new Error('No active training plan found')
+    throw new Error('No active Wy\'East Trailfest 50M found')
   }
 
   const plan = plans[0]
@@ -96,7 +96,7 @@ export async function fetchWeek(weekNumber: number) {
     .limit(1)
 
   if (planError || !plans || plans.length === 0) {
-    throw new Error('No active training plan found')
+    throw new Error('No active Wy\'East Trailfest 50M found')
   }
 
   const plan = plans[0]
@@ -148,7 +148,7 @@ export async function fetchDayByWeekAndDay(weekNumber: number, dayOfWeek: string
     .limit(1)
 
   if (planError || !plans || plans.length === 0) {
-    throw new Error('No active training plan found')
+    throw new Error('No active Wy\'East Trailfest 50M found')
   }
 
   const plan = plans[0]
