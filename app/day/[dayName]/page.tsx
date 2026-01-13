@@ -1,17 +1,7 @@
 import { DayView } from '../../exercises/dayView'
 import { BottomNav } from '../../components/BottomNav'
 import { fetchDayByWeekAndDay } from '../../../lib/supabase-data'
-
-// Helper function to capitalize exercise name (Title Case)
-function capitalizeExerciseName(name: string): string {
-  return name.split(' ').map(word => {
-    // Handle hyphenated words like 'push-ups'
-    if (word.includes('-')) {
-      return word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join('-')
-    }
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-  }).join(' ')
-}
+import { parsePTFoundationExercises, capitalizeExerciseName } from '../../../lib/pt-foundation-parser'
 
 function transformWorkoutToDayData(workout: any, weekNumber: number) {
   // Determine category/phase
@@ -95,20 +85,9 @@ function transformWorkoutToDayData(workout: any, weekNumber: number) {
     })
   }
 
-  // Add PT Foundation exercises if present
+  // Parse PT Foundation exercises if present
   if (workout.workout_notes?.includes('PT FOUNDATION')) {
-    // Parse PT exercises from notes or add placeholder
-    const ptExercises = [
-      {
-        id: 'pt-foundation',
-        exerciseName: 'PT Foundation Routine',
-        sets: 1,
-        reps: 'Full routine',
-        exerciseNote: '20-25min daily',
-        restNote: 'Complete all exercises',
-        cues: workout.workout_notes
-      }
-    ]
+    const ptExercises = parsePTFoundationExercises(workout.workout_notes)
     exercises.push(...ptExercises)
   }
 

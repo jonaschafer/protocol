@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { ExerciseCard } from '../../exerciseCard'
 import { BottomNav } from '../../../components/BottomNav'
 import { fetchDayByWeekAndDay } from '../../../../lib/supabase-data'
+import { parsePTFoundationExercises, capitalizeExerciseName } from '../../../../lib/pt-foundation-parser'
 
 interface Set {
   id: number;
@@ -29,16 +30,6 @@ interface ExerciseData {
   onNotesSave?: (value: string) => void;
 }
 
-// Helper function to capitalize exercise name (Title Case)
-function capitalizeExerciseName(name: string): string {
-  return name.split(' ').map(word => {
-    if (word.includes('-')) {
-      return word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join('-')
-    }
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-  }).join(' ')
-}
-
 // Transform day view exercise to ExerciseCard format
 function transformExerciseToCardFormat(
   exercise: {
@@ -50,6 +41,7 @@ function transformExerciseToCardFormat(
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
+    isTimed?: boolean;
   },
   exerciseStates: Record<string, { sets: Set[]; isLogged: boolean }>
 ): ExerciseData {
@@ -62,7 +54,10 @@ function transformExerciseToCardFormat(
     const numSets = exercise.sets
     const repsValue = String(exercise.reps || '8')
     const weightValue = exercise.weight || '0'
-    const isTimed = typeof exercise.reps === 'string' && exercise.reps.includes('sec')
+    // Use isTimed from exercise if available, otherwise check if reps includes 'sec'
+    const isTimed = exercise.isTimed !== undefined 
+      ? exercise.isTimed 
+      : (typeof exercise.reps === 'string' && exercise.reps.includes('sec'))
     
     state.sets = Array.from({ length: numSets }, (_, i) => ({
       id: i + 1,
@@ -107,6 +102,7 @@ export default function DayExercisesPage() {
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
+    isTimed?: boolean;
   }>>([])
   
   const [isLoading, setIsLoading] = useState(true)
@@ -124,6 +120,7 @@ export default function DayExercisesPage() {
         exerciseNote?: string;
         restNote?: string;
         cues?: string;
+        isTimed?: boolean;
       }> = []
 
       if (dayNameParam && weekParam) {
@@ -154,21 +151,16 @@ export default function DayExercisesPage() {
                 weight: weight,
                 exerciseNote: ex.notes || '',
                 restNote: '2-3 minutes rest between sets',
-                cues: ''
+                cues: '',
+                isTimed: typeof reps === 'string' && reps.includes('sec')
               })
             })
           }
 
+          // Parse PT Foundation exercises if present
           if (workout.workout_notes?.includes('PT FOUNDATION')) {
-            exercises.push({
-              id: 'pt-foundation',
-              exerciseName: 'PT Foundation Routine',
-              sets: 1,
-              reps: 'Full routine',
-              exerciseNote: '20-25min daily',
-              restNote: 'Complete all exercises',
-              cues: workout.workout_notes
-            })
+            const ptExercises = parsePTFoundationExercises(workout.workout_notes)
+            exercises.push(...ptExercises)
           }
 
           setDayExercises(exercises)
@@ -200,7 +192,10 @@ export default function DayExercisesPage() {
         const numSets = exercise.sets || 3
         const repsValue = String(exercise.reps || '8')
         const weightValue = exercise.weight || '0'
-        const isTimed = typeof exercise.reps === 'string' && exercise.reps.includes('sec')
+        // Use isTimed from exercise if available, otherwise check if reps includes 'sec'
+        const isTimed = exercise.isTimed !== undefined 
+          ? exercise.isTimed 
+          : (typeof exercise.reps === 'string' && exercise.reps.includes('sec'))
         
         setExerciseStates(prev => {
           if (prev[exercise.id]?.sets.length > 0) {

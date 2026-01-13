@@ -539,13 +539,14 @@ export function SetRow({
         ref={repsContainerRef}
         style={{
           backgroundColor: '#1e1e1e',
-          display: 'flex',
+          display: localReps.toUpperCase().includes('AMRAP') ? 'inline-flex' : 'flex',
           height: '68px',
           alignItems: 'center',
+          justifyContent: localReps.toUpperCase().includes('AMRAP') ? 'center' : 'flex-start',
           minWidth: '110px',
           overflow: 'hidden',
-          paddingLeft: '16px',
-          paddingRight: '16px',
+          paddingLeft: localReps.toUpperCase().includes('AMRAP') ? '0' : '16px',
+          paddingRight: localReps.toUpperCase().includes('AMRAP') ? '0' : '16px',
           paddingTop: '18px',
           paddingBottom: '18px',
           position: 'relative',
@@ -558,69 +559,96 @@ export function SetRow({
         data-name="Sets Container"
         data-node-id="226:6016"
       >
-        {/* Hidden measurement element - always rendered for width calculation */}
-        <span
-          ref={repsLabelMeasureRef}
-          style={{
-            position: 'absolute',
-            visibility: 'hidden',
-            height: 'auto',
-            width: 'auto',
-            whiteSpace: 'nowrap',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            fontSize: '15px'
-          }}
-          aria-hidden="true"
-        >
-          {isTimed ? 'Dur' : 'Reps'}
-        </span>
-        <p
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            lineHeight: 'normal',
-            fontStyle: 'normal',
-            opacity: 0.5,
-            position: 'relative',
-            flexShrink: 0,
-            fontSize: '15px',
-            color: 'white',
-            margin: 0,
-            marginRight: '8px',
-            padding: 0,
-            display: showRepsLabel ? 'block' : 'none'
-          }}
-          data-node-id="226:6017"
-        >
-          {isTimed ? 'Dur' : 'Reps'}
-        </p>
-        <input
-          type="tel"
-          inputMode="numeric"
-          value={localReps}
-          onChange={handleRepsChange}
-          onFocus={(e) => e.target.select()}
-          style={{
-            fontFamily: 'Inter Tight, sans-serif',
-            fontWeight: 500,
-            lineHeight: '61.102px',
-            position: 'relative',
-            width: getInputWidth(localReps),
-            fontSize: '44px',
-            textAlign: 'right',
-            color: 'white',
-            WebkitTextFillColor: 'white',
-            background: 'transparent',
-            border: 'none',
-            outline: 'none',
-            padding: 0,
-            margin: 0,
-            marginLeft: 'auto',
-            minWidth: '44px'
-          }}
-          data-node-id="226:6018"
-        />
+        {(() => {
+          const isAMRAP = localReps.toUpperCase().includes('AMRAP');
+          
+          if (isAMRAP) {
+            return (
+              <div
+                style={{
+                  textAlign: 'center',
+                  color: 'white',
+                  fontSize: '30px',
+                  fontFamily: 'Inter Tight, sans-serif',
+                  fontWeight: 500,
+                  wordWrap: 'break-word',
+                  margin: 0,
+                  padding: 0
+                }}
+              >
+                AMRAP
+              </div>
+            );
+          }
+          
+          return (
+            <>
+              {/* Hidden measurement element - always rendered for width calculation */}
+              <span
+                ref={repsLabelMeasureRef}
+                style={{
+                  position: 'absolute',
+                  visibility: 'hidden',
+                  height: 'auto',
+                  width: 'auto',
+                  whiteSpace: 'nowrap',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '15px'
+                }}
+                aria-hidden="true"
+              >
+                {isTimed ? 'Dur' : 'Reps'}
+              </span>
+              <p
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 400,
+                  lineHeight: 'normal',
+                  fontStyle: 'normal',
+                  opacity: 0.5,
+                  position: 'relative',
+                  flexShrink: 0,
+                  fontSize: '15px',
+                  color: 'white',
+                  margin: 0,
+                  marginRight: '8px',
+                  padding: 0,
+                  display: showRepsLabel ? 'block' : 'none'
+                }}
+                data-node-id="226:6017"
+              >
+                {isTimed ? 'Dur' : 'Reps'}
+              </p>
+              <input
+                type="tel"
+                inputMode="numeric"
+                value={localReps}
+                onChange={handleRepsChange}
+                onFocus={(e) => e.target.select()}
+                style={{
+                  fontFamily: 'Inter Tight, sans-serif',
+                  fontWeight: 500,
+                  lineHeight: '61.102px',
+                  position: 'relative',
+                  width: getInputWidth(localReps),
+                  fontSize: '44px',
+                  textAlign: 'right',
+                  color: 'white',
+                  WebkitTextFillColor: 'white',
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  padding: 0,
+                  margin: 0,
+                  marginLeft: 'auto',
+                  minWidth: '44px'
+                }}
+                data-node-id="226:6018"
+              />
+            </>
+          );
+        })()}
       </div>
 
       {/* Weight Container */}

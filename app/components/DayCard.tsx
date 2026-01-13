@@ -6,7 +6,7 @@ import styles from './DayCard.module.css';
 
 export interface Tag {
   text: string;
-  variant: 'outlined' | 'filled';
+  variant: 'outlined' | 'filled' | 'amrap'; // AMRAP variant: no label, smaller text
   showSeparatorAfter?: boolean; // Whether to show X icon after this tag
 }
 
@@ -106,9 +106,19 @@ const DayCard: FunctionComponent<DayCardProps> = ({
         {tags.map((tag, index) => (
           <div key={index} className={styles.tagWrapper}>
             <div 
-              className={`${styles.tag} ${tag.variant === 'filled' ? styles.tagFilled : styles.tagOutlined}`}
+              className={`${styles.tag} ${
+                tag.variant === 'filled' 
+                  ? styles.tagFilled 
+                  : tag.variant === 'amrap'
+                  ? styles.tagAmrap
+                  : styles.tagOutlined
+              }`}
             >
-              <div className={styles.tagText}>{tag.text}</div>
+              <div className={
+                tag.variant === 'amrap' 
+                  ? styles.tagTextAmrap 
+                  : styles.tagText
+              }>{tag.text}</div>
             </div>
             {/* X Icon separator - only if showSeparatorAfter is true (defaults to true for backward compatibility) */}
             {(tag.showSeparatorAfter !== false) && index < tags.length - 1 && (

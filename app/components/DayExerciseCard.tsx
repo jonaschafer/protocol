@@ -29,7 +29,17 @@ const DayExerciseCard: FunctionComponent<DayExerciseCardProps> = ({
       tagArray.push({ text: String(sets), variant: 'outlined' });
     }
     if (reps !== undefined) {
-      tagArray.push({ text: String(reps), variant: 'outlined' });
+      // Format reps: extract just the number, remove "each", etc.
+      const repsStr = String(reps)
+      // Check if it's AMRAP
+      if (repsStr.toUpperCase().includes('AMRAP')) {
+        tagArray.push({ text: 'AMRAP', variant: 'amrap' });
+      } else {
+        // Extract first number if it's a range like "15-20"
+        const numberMatch = repsStr.match(/^(\d+)/)
+        const formattedReps = numberMatch ? numberMatch[1] : repsStr
+        tagArray.push({ text: formattedReps, variant: 'outlined' });
+      }
     }
     if (weight) {
       tagArray.push({ text: weight, variant: 'outlined' });

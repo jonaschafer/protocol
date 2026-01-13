@@ -6,6 +6,7 @@ import { ExerciseCard } from '../exerciseCard'
 import { dayData } from '../../data/dayData'
 import { BottomNav } from '../../components/BottomNav'
 import { fetchDayByWeekAndDay } from '../../../lib/supabase-data'
+import { parsePTFoundationExercises, capitalizeExerciseName } from '../../../lib/pt-foundation-parser'
 
 interface Set {
   id: number;
@@ -28,17 +29,6 @@ interface ExerciseData {
   onRepsChange: (id: number, value: string) => void;
   onWeightChange: (id: number, value: string) => void;
   onNotesSave?: (value: string) => void;
-}
-
-// Helper function to capitalize exercise name (Title Case)
-function capitalizeExerciseName(name: string): string {
-  return name.split(' ').map(word => {
-    // Handle hyphenated words like 'push-ups'
-    if (word.includes('-')) {
-      return word.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()).join('-')
-    }
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-  }).join(' ')
 }
 
 // Helper function to encode exercise name for URL
@@ -73,6 +63,7 @@ function transformExerciseToCardFormat(
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
+    isTimed?: boolean;
   },
   exerciseStates: Record<string, { sets: Set[]; isLogged: boolean }>
 ): ExerciseData {
@@ -86,7 +77,10 @@ function transformExerciseToCardFormat(
     const numSets = exercise.sets
     const repsValue = String(exercise.reps || '8')
     const weightValue = exercise.weight || '0'
-    const isTimed = typeof exercise.reps === 'string' && exercise.reps.includes('sec')
+    // Use isTimed from exercise if available, otherwise check if reps includes 'sec'
+    const isTimed = exercise.isTimed !== undefined 
+      ? exercise.isTimed 
+      : (typeof exercise.reps === 'string' && exercise.reps.includes('sec'))
     
     state.sets = Array.from({ length: numSets }, (_, i) => ({
       id: i + 1,
@@ -143,6 +137,7 @@ export default function ExercisePage() {
     exerciseNote?: string;
     restNote?: string;
     cues?: string;
+    isTimed?: boolean;
   }>>([])
   
   const [scrollToExerciseId, setScrollToExerciseId] = useState<string | undefined>(undefined)
@@ -152,7 +147,7 @@ export default function ExercisePage() {
   useEffect(() => {
     const loadExercises = async () => {
       setIsLoading(true)
-      let exercises: Array<{
+          let exercises: Array<{
         id: string;
         exerciseName: string;
         sets?: number;
@@ -161,6 +156,7 @@ export default function ExercisePage() {
         exerciseNote?: string;
         restNote?: string;
         cues?: string;
+        isTimed?: boolean;
       }> = []
 
       // If both day and week are provided, fetch from database
@@ -198,22 +194,16 @@ export default function ExercisePage() {
                 weight: weight,
                 exerciseNote: ex.notes || '',
                 restNote: '2-3 minutes rest between sets',
-                cues: ''
+                cues: '',
+                isTimed: typeof reps === 'string' && reps.includes('sec')
               })
             })
           }
 
-          // Add PT Foundation if present
+          // Parse PT Foundation exercises if present
           if (workout.workout_notes?.includes('PT FOUNDATION')) {
-            exercises.push({
-              id: 'pt-foundation',
-              exerciseName: 'PT Foundation Routine',
-              sets: 1,
-              reps: 'Full routine',
-              exerciseNote: '20-25min daily',
-              restNote: 'Complete all exercises',
-              cues: workout.workout_notes
-            })
+            const ptExercises = parsePTFoundationExercises(workout.workout_notes)
+            exercises.push(...ptExercises)
           }
 
           // Find the exercise to scroll to - match by encoded name or exact name
@@ -321,7 +311,10 @@ export default function ExercisePage() {
         const numSets = exercise.sets || 3
         const repsValue = String(exercise.reps || '8')
         const weightValue = exercise.weight || '0'
-        const isTimed = typeof exercise.reps === 'string' && exercise.reps.includes('sec')
+        // Use isTimed from exercise if available, otherwise check if reps includes 'sec'
+        const isTimed = exercise.isTimed !== undefined 
+          ? exercise.isTimed 
+          : (typeof exercise.reps === 'string' && exercise.reps.includes('sec'))
         
         setExerciseStates(prev => {
           // Skip if already initialized
