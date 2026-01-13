@@ -30,7 +30,12 @@ function transformWorkoutToDayData(workout: any, weekNumber: number) {
       runData.vert = workout.run_vert_feet
     }
     if (workout.run_effort) {
-      runData.rpe = workout.run_effort
+      // Extract RPE from run_effort string (e.g., "Conversational (Z2, RPE 6)" -> "6")
+      // Handle formats like "RPE 6", "RPE 6-7", "RPE 5-6", etc.
+      const rpeMatch = workout.run_effort.match(/RPE\s+(\d+(?:-\d+)?)/i)
+      if (rpeMatch) {
+        runData.rpe = rpeMatch[1] // Extract just the number(s), e.g., "6" or "6-7"
+      }
       if (workout.run_effort.includes('Z2')) {
         runData.zone = '2'
       } else if (workout.run_effort.includes('Z3')) {
