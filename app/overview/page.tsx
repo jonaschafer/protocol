@@ -8,7 +8,6 @@ import { Notes } from '../components/Notes'
 import DayCard from '../components/DayCard'
 import DayExerciseCard from '../components/DayExerciseCard'
 import WeekDayCard from '../components/WeekDayCard'
-import { CloseButtonWithGradient } from '../components/CloseButtonWithGradient'
 import { BaseButton } from '../components/BaseButton'
 import { AddSetButton } from '../components/AddSetButton'
 import { LogButton } from '../components/LogButton'
@@ -40,7 +39,6 @@ export default function OverviewPage() {
   const [dayExerciseCardCompleted, setDayExerciseCardCompleted] = useState(false)
   const [weekDayCardCompleted, setWeekDayCardCompleted] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
-  const [closeButtonClicked, setCloseButtonClicked] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
   const [pagesListExpanded, setPagesListExpanded] = useState(false)
@@ -1013,122 +1011,6 @@ export default function OverviewPage() {
               </div>
             </div>
 
-            {/* CloseButtonWithGradient */}
-            <div
-              style={{
-                gridColumn: '1 / -1',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  color: currentTheme.textSecondary,
-                  marginBottom: '5px'
-                }}
-              >
-                CloseButtonWithGradient
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '20px',
-                  maxWidth: '824px'
-                }}
-              >
-                {/* Idle State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Idle State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '150px',
-                      position: 'relative',
-                      backgroundColor: '#1e1e1e',
-                      borderRadius: '20px',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <CloseButtonWithGradient
-                      onClick={() => {
-                        setCloseButtonClicked(true)
-                        console.log('Close clicked')
-                        setTimeout(() => setCloseButtonClicked(false), 2000)
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Clicked State */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      color: currentTheme.textMuted,
-                      textAlign: 'center'
-                    }}
-                  >
-                    Clicked State
-                  </div>
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '150px',
-                      position: 'relative',
-                      backgroundColor: '#1e1e1e',
-                      borderRadius: '20px',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <CloseButtonWithGradient
-                      onClick={() => {}}
-                      demoPressed={true}
-                    />
-                  </div>
-                </div>
-              </div>
-              {closeButtonClicked && (
-                <div
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
-                    color: '#165DFC',
-                    textAlign: 'center',
-                    marginTop: '5px',
-                    opacity: 1,
-                    transition: 'opacity 0.2s ease-in'
-                  }}
-                >
-                  ✓ Button clicked! (State updated)
-                </div>
-              )}
-            </div>
 
             {/* Button Relationship Note */}
             <div

@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { SetRow } from '../components/SetRow'
 import { Notes } from '../components/Notes'
 import { ExerciseHeader } from '../components/ExerciseHeader'
-import { CloseButtonWithGradient } from '../components/CloseButtonWithGradient'
 
 interface Set {
   id: number;
@@ -40,7 +39,6 @@ export function ExerciseCard({
   onDismiss,
   scrollToExerciseId
 }: ExerciseCardProps) {
-  const [isDismissing, setIsDismissing] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const exerciseRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -77,22 +75,6 @@ export function ExerciseCard({
     }
   }, [scrollToExerciseId, prefersReducedMotion, exercises.length]);
 
-  // Handle close button click
-  const handleClose = () => {
-    if (onDismiss) {
-      setIsDismissing(true);
-      const dismissDelay = prefersReducedMotion ? 0 : 200;
-      setTimeout(() => {
-        onDismiss();
-      }, dismissDelay);
-    }
-  };
-
-  // Calculate transform for card
-  const cardTranslateY = isDismissing 
-    ? window.innerHeight // Move off screen
-    : 0;
-
   return (
     <div
       style={{
@@ -107,12 +89,6 @@ export function ExerciseCard({
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
         overflow: 'hidden',
-        transform: `translateY(${cardTranslateY}px)`,
-        transition: isDismissing
-          ? 'none'
-          : prefersReducedMotion
-          ? 'transform 0.1s linear'
-          : 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
         display: 'flex',
         flexDirection: 'column',
         marginLeft: 'auto',
@@ -125,7 +101,7 @@ export function ExerciseCard({
       <div
         style={{
           padding: '20px',
-          paddingBottom: '120px', // Space for fixed close button
+          paddingBottom: '20px',
           display: 'flex',
           flexDirection: 'column',
           gap: '60px',
@@ -274,9 +250,6 @@ export function ExerciseCard({
           </div>
         ))}
       </div>
-
-      {/* Fixed Close Button with Gradient Overlay */}
-      <CloseButtonWithGradient onClick={handleClose} />
     </div>
   );
 }
