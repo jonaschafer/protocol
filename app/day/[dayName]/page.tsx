@@ -6,10 +6,13 @@ import { parsePTFoundationExercises, capitalizeExerciseName } from '../../../lib
 function transformWorkoutToDayData(workout: any, weekNumber: number) {
   // Determine category/phase
   let category = 'Foundation'
+  let phase: 'foundation' | 'durability' | 'specificity' = 'foundation'
   if (weekNumber >= 10 && weekNumber <= 20) {
     category = 'Durability'
+    phase = 'durability'
   } else if (weekNumber >= 21 && weekNumber <= 27) {
     category = 'Specificity'
+    phase = 'specificity'
   }
 
   // Format date - parse as local date to avoid timezone issues
@@ -95,6 +98,7 @@ function transformWorkoutToDayData(workout: any, weekNumber: number) {
     date: dateStr,
     dayNumber: weekNumber,
     category,
+    phase,
     runData: Object.keys(runData).length > 0 ? runData : undefined,
     exercises
   }
@@ -114,6 +118,7 @@ export default async function DayPage({
     date: dayName,
     dayNumber: weekNumber,
     category: 'Foundation',
+    phase: 'foundation' as const,
     exercises: []
   }
 
@@ -141,6 +146,7 @@ export default async function DayPage({
         date={dayInfo.date}
         dayNumber={dayInfo.dayNumber}
         category={dayInfo.category}
+        phase={dayInfo.phase}
         runData={dayInfo.runData}
         exercises={dayInfo.exercises}
         weekNumber={weekNumber}

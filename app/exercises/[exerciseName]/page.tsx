@@ -126,6 +126,23 @@ export default function ExercisePage() {
   const dayNameParam = searchParams?.get('day')
   const weekParam = searchParams?.get('week')
   
+  // Determine phase and background color based on week number - calculate early
+  const getPhaseColor = (weekNumber: number | null): string => {
+    if (!weekNumber || isNaN(weekNumber)) return '#000000' // Default black if no week
+    
+    if (weekNumber >= 1 && weekNumber <= 9) {
+      return '#FF474A' // Foundation - Red
+    } else if (weekNumber >= 10 && weekNumber <= 20) {
+      return '#165DFC' // Durability - Blue
+    } else if (weekNumber >= 21 && weekNumber <= 27) {
+      return '#AC47FF' // Specificity - Purple
+    }
+    return '#000000' // Default black
+  }
+
+  const weekNumber = weekParam ? parseInt(weekParam) : null
+  const backgroundColor = getPhaseColor(weekNumber)
+  
   // Get all exercises from the day if day name is provided
   const [dayExercises, setDayExercises] = useState<Array<{
     id: string;
@@ -428,7 +445,7 @@ export default function ExercisePage() {
 
   if (isLoading) {
     return (
-      <div style={{ padding: '20px', background: '#272727', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ padding: '20px', background: backgroundColor, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ color: 'white' }}>Loading exercises...</p>
       </div>
     )
@@ -436,7 +453,7 @@ export default function ExercisePage() {
 
   if (dayExercises.length === 0) {
     return (
-      <div style={{ padding: '20px', background: '#272727', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ padding: '20px', background: backgroundColor, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ color: 'white' }}>Exercise not found</p>
       </div>
     )
@@ -460,10 +477,10 @@ export default function ExercisePage() {
   return (
     <div 
       style={{ 
-        background: '#000000', 
+        background: backgroundColor, 
         minHeight: '100vh',
         width: '100%',
-        padding: '20px 0 0 0',
+        padding: '0',
         position: 'relative',
         paddingBottom: '100px' // Extra padding for bottom nav
       }}

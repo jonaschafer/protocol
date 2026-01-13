@@ -79,18 +79,19 @@ export function ExerciseCard({
         position: 'relative',
         width: '100%',
         maxWidth: '402px',
-        height: 'calc(100vh - 20px)',
+        minHeight: 'calc(100vh - 100px)',
         backgroundColor: '#000',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
+        border: 'none',
         borderTopLeftRadius: '30px',
         borderTopRightRadius: '30px',
-        borderBottomLeftRadius: '0px',
-        borderBottomRightRadius: '0px',
+        borderBottomLeftRadius: '30px',
+        borderBottomRightRadius: '30px',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        marginTop: '0'
       }}
       data-name="exerciseCard"
     >
@@ -99,7 +100,7 @@ export function ExerciseCard({
       <div
         style={{
           padding: '20px',
-          paddingBottom: '20px',
+          paddingBottom: '40px',
           display: 'flex',
           flexDirection: 'column',
           gap: '60px',
