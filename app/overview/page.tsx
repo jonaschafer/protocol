@@ -41,11 +41,7 @@ export default function OverviewPage() {
   const [isLogged, setIsLogged] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [activeSection, setActiveSection] = useState<'individual' | 'compiled'>('individual')
-  const [pagesListExpanded, setPagesListExpanded] = useState(false)
-  const [techStackExpanded, setTechStackExpanded] = useState(false)
-  const [appRelationshipsExpanded, setAppRelationshipsExpanded] = useState(false)
-  const [appPurposeExpanded, setAppPurposeExpanded] = useState(false)
-  const [costExpanded, setCostExpanded] = useState(false)
+  const [appInfoExpanded, setAppInfoExpanded] = useState(false)
   const individualSectionRef = useRef<HTMLElement | null>(null)
   const compiledSectionRef = useRef<HTMLElement | null>(null)
 
@@ -135,653 +131,6 @@ export default function OverviewPage() {
           margin: '0 auto'
         }}
       >
-        {/* Pages List - Collapsible Section */}
-        <div
-          style={{
-            marginBottom: '30px',
-            border: `1px solid ${currentTheme.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
-          }}
-        >
-          <button
-            onClick={() => setPagesListExpanded(!pagesListExpanded)}
-            style={{
-              width: '100%',
-              padding: '15px 20px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: currentTheme.text,
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'left'
-            }}
-          >
-            <span>📄 All Pages in App</span>
-            <span style={{ fontSize: '20px' }}>
-              {pagesListExpanded ? '▼' : '▶'}
-            </span>
-          </button>
-          {pagesListExpanded && (
-            <div
-              style={{
-                padding: '20px',
-                borderTop: `1px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background
-              }}
-            >
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                  gap: '12px'
-                }}
-              >
-                <Link
-                  href="/"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Home</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/</div>
-                </Link>
-                <Link
-                  href="/overview"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Overview</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/overview</div>
-                </Link>
-                <Link
-                  href="/phases"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Phases</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/phases</div>
-                </Link>
-                <Link
-                  href="/day"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Day</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day</div>
-                </Link>
-                <Link
-                  href="/week"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Week</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/week</div>
-                </Link>
-                <Link
-                  href="/headers"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Headers</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/headers</div>
-                </Link>
-                <Link
-                  href="/nav"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Nav</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/nav</div>
-                </Link>
-                <Link
-                  href="/many-month-view"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Many Month View</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/many-month-view</div>
-                </Link>
-                <Link
-                  href="/temp"
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.text,
-                    textDecoration: 'none',
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Temp</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/temp</div>
-                </Link>
-                <div
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.textSecondary,
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Day (Dynamic)</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day/[dayName]</div>
-                </div>
-                <div
-                  style={{
-                    padding: '10px 15px',
-                    backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
-                    borderRadius: '6px',
-                    color: currentTheme.textSecondary,
-                    border: `1px solid ${currentTheme.borderLight}`,
-                    display: 'block'
-                  }}
-                >
-                  <div style={{ fontWeight: '500' }}>Exercise (Dynamic)</div>
-                  <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/exercises/[exerciseName]</div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Tech Stack Section */}
-        <div
-          style={{
-            marginBottom: '30px',
-            border: `1px solid ${currentTheme.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
-          }}
-        >
-          <button
-            onClick={() => setTechStackExpanded(!techStackExpanded)}
-            style={{
-              width: '100%',
-              padding: '15px 20px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: currentTheme.text,
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'left'
-            }}
-          >
-            <span>⚙️ Tech Stack</span>
-            <span style={{ fontSize: '20px' }}>
-              {techStackExpanded ? '▼' : '▶'}
-            </span>
-          </button>
-          {techStackExpanded && (
-            <div
-              style={{
-                padding: '20px',
-                borderTop: `1px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Frontend</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Next.js 14</strong> - React framework with App Router
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>React 18</strong> - UI library
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>TypeScript</strong> - Type safety
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Tailwind CSS</strong> - Utility-first CSS framework
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Framer Motion</strong> - Animation library
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Backend & Database</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Supabase</strong> - PostgreSQL database with real-time capabilities
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Supabase JS Client</strong> - Database client library
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Development Tools</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>TSX</strong> - TypeScript execution for scripts
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>PostCSS & Autoprefixer</strong> - CSS processing
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* App Relationships Section */}
-        <div
-          style={{
-            marginBottom: '30px',
-            border: `1px solid ${currentTheme.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
-          }}
-        >
-          <button
-            onClick={() => setAppRelationshipsExpanded(!appRelationshipsExpanded)}
-            style={{
-              width: '100%',
-              padding: '15px 20px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: currentTheme.text,
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'left'
-            }}
-          >
-            <span>🔗 Relationship Between Apps</span>
-            <span style={{ fontSize: '20px' }}>
-              {appRelationshipsExpanded ? '▼' : '▶'}
-            </span>
-          </button>
-          {appRelationshipsExpanded && (
-            <div
-              style={{
-                padding: '20px',
-                borderTop: `1px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>Protocol (Current App)</h3>
-                  <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '12px' }}>
-                    This is the active Next.js application for viewing and managing the Wy'East Trailfest 50M training plan. 
-                    It uses Supabase as the backend database and provides a mobile-first interface for browsing phases, weeks, days, and exercises.
-                  </p>
-                </div>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>Protocol Archive</h3>
-                  <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '8px' }}>
-                    The <code style={{ backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', padding: '2px 6px', borderRadius: '4px', fontSize: '14px' }}>protocol-archive/</code> directory contains an older version of the application with:
-                  </p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      Different architecture and routing structure
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      Supabase integration with different schema
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      Different component structure and features
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      Excluded from TypeScript compilation and not actively used
-                    </li>
-                  </ul>
-                </div>
-                <div style={{ padding: '12px', backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '6px', border: `1px solid ${currentTheme.borderLight}` }}>
-                  <p style={{ color: currentTheme.textSecondary, fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
-                    <strong style={{ color: currentTheme.text }}>Note:</strong> The archive serves as a reference for previous implementations but is not part of the active codebase.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* What Each App Does Section */}
-        <div
-          style={{
-            marginBottom: '30px',
-            border: `1px solid ${currentTheme.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
-          }}
-        >
-          <button
-            onClick={() => setAppPurposeExpanded(!appPurposeExpanded)}
-            style={{
-              width: '100%',
-              padding: '15px 20px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: currentTheme.text,
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'left'
-            }}
-          >
-            <span>📱 What Each App Does</span>
-            <span style={{ fontSize: '20px' }}>
-              {appPurposeExpanded ? '▼' : '▶'}
-            </span>
-          </button>
-          {appPurposeExpanded && (
-            <div
-              style={{
-                padding: '20px',
-                borderTop: `1px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Protocol App (Current)</h3>
-                  <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '12px' }}>
-                    A digital training protocol viewer for the Wy'East Trailfest 50M training plan. It provides:
-                  </p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Phase Overview</strong> - Browse 3 training phases (Foundation, Durability, Specificity) spanning 27 weeks
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Week View</strong> - See weekly running totals, targets, and all 7 days of workouts
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Day View</strong> - View daily run details (miles, vert, RPE, zones, routes) and exercise lists
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Exercise Details</strong> - View sets, reps, weights, cues, and notes for each exercise
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Calendar View</strong> - Multi-month calendar showing training activities with phase color coding
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Exercise Logging</strong> - Log exercises, edit sets/reps/weights, and track completion status
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Data Storage</h3>
-                  <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '8px' }}>
-                    All training plan data is stored in Supabase PostgreSQL database:
-                  </p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Training Plans</strong> - Top-level plan metadata
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Training Phases</strong> - Foundation, Durability, Specificity phases
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Weekly Plans</strong> - 27 weeks with targets and themes
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Daily Workouts</strong> - ~189 daily workouts with run data and strength exercises
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Cost Section */}
-        <div
-          style={{
-            marginBottom: '30px',
-            border: `1px solid ${currentTheme.border}`,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
-          }}
-        >
-          <button
-            onClick={() => setCostExpanded(!costExpanded)}
-            style={{
-              width: '100%',
-              padding: '15px 20px',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: currentTheme.text,
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'left'
-            }}
-          >
-            <span>💰 Cost</span>
-            <span style={{ fontSize: '20px' }}>
-              {costExpanded ? '▼' : '▶'}
-            </span>
-          </button>
-          {costExpanded && (
-            <div
-              style={{
-                padding: '20px',
-                borderTop: `1px solid ${currentTheme.border}`,
-                backgroundColor: currentTheme.background
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Supabase (Backend & Database)</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Free Tier:</strong> $0/month
-                      <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- 500 MB database, 1 GB bandwidth, 2 GB file storage</li>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Suitable for development and small projects</li>
-                      </ul>
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative', marginTop: '8px' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Pro Tier:</strong> $25/month
-                      <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- 8 GB database, 250 GB bandwidth, 100 GB file storage</li>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Better for production apps with more data</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Hosting (Frontend)</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Vercel (Recommended for Next.js):</strong> Free tier available
-                      <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Free: Unlimited personal projects, 100 GB bandwidth/month</li>
-                        <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Pro: $20/month for team features and more bandwidth</li>
-                      </ul>
-                    </li>
-                    <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative', marginTop: '8px' }}>
-                      <span style={{ position: 'absolute', left: 0 }}>•</span>
-                      <strong style={{ color: currentTheme.text }}>Other Options:</strong> Netlify, AWS Amplify, or self-hosted
-                    </li>
-                  </ul>
-                </div>
-                <div style={{ padding: '12px', backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '6px', border: `1px solid ${currentTheme.borderLight}` }}>
-                  <p style={{ color: currentTheme.textSecondary, fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
-                    <strong style={{ color: currentTheme.text }}>Total Estimated Cost:</strong> $0-45/month depending on tier selection. 
-                    Free tier is sufficient for development and small-scale usage.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Sticky Navigation */}
         <div
           style={{
@@ -867,6 +216,507 @@ export default function OverviewPage() {
               Dark
             </span>
           </div>
+        </div>
+
+        {/* App Information - Grouped Section */}
+        <div
+          style={{
+            marginBottom: '30px',
+            border: `1px solid ${currentTheme.border}`,
+            borderRadius: '8px',
+            overflow: 'hidden',
+            backgroundColor: theme === 'dark' ? '#1a1a1a' : '#e0e0e0'
+          }}
+        >
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setAppInfoExpanded(!appInfoExpanded);
+            }}
+            style={{
+              width: '100%',
+              padding: '15px 20px',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: currentTheme.text,
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              textAlign: 'left'
+            }}
+          >
+            <span>📋 App Information</span>
+            <span style={{ fontSize: '20px' }}>
+              {appInfoExpanded ? '▼' : '▶'}
+            </span>
+          </button>
+          {appInfoExpanded && (
+            <div
+              style={{
+                padding: '20px',
+                borderTop: `1px solid ${currentTheme.border}`,
+                backgroundColor: currentTheme.background,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '30px'
+              }}
+            >
+              {/* All Pages in App */}
+              <div>
+                <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>📄 All Pages in App</h3>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gap: '12px'
+                  }}
+                >
+                  <Link
+                    href="/"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Home</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/</div>
+                  </Link>
+                  <Link
+                    href="/overview"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Overview</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/overview</div>
+                  </Link>
+                  <Link
+                    href="/phases"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Phases</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/phases</div>
+                  </Link>
+                  <Link
+                    href="/day"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Day</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day</div>
+                  </Link>
+                  <Link
+                    href="/week"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Week</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/week</div>
+                  </Link>
+                  <Link
+                    href="/headers"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Headers</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/headers</div>
+                  </Link>
+                  <Link
+                    href="/nav"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Nav</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/nav</div>
+                  </Link>
+                  <Link
+                    href="/many-month-view"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Many Month View</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/many-month-view</div>
+                  </Link>
+                  <Link
+                    href="/temp"
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.text,
+                      textDecoration: 'none',
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#3a3a3a' : '#e0e0e0'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = theme === 'dark' ? '#2a2a2a' : '#f0f0f0'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Temp</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/temp</div>
+                  </Link>
+                  <div
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.textSecondary,
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Day (Dynamic)</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/day/[dayName]</div>
+                  </div>
+                  <div
+                    style={{
+                      padding: '10px 15px',
+                      backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0',
+                      borderRadius: '6px',
+                      color: currentTheme.textSecondary,
+                      border: `1px solid ${currentTheme.borderLight}`,
+                      display: 'block'
+                    }}
+                  >
+                    <div style={{ fontWeight: '500' }}>Exercise (Dynamic)</div>
+                    <div style={{ fontSize: '12px', color: currentTheme.textSecondary, marginTop: '4px' }}>/exercises/[exerciseName]</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tech Stack */}
+              <div>
+                <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>⚙️ Tech Stack</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Frontend</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Next.js 14</strong> - React framework with App Router
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>React 18</strong> - UI library
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>TypeScript</strong> - Type safety
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Tailwind CSS</strong> - Utility-first CSS framework
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Framer Motion</strong> - Animation library
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Backend & Database</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Supabase</strong> - PostgreSQL database with real-time capabilities
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Supabase JS Client</strong> - Database client library
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Development Tools</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>TSX</strong> - TypeScript execution for scripts
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>PostCSS & Autoprefixer</strong> - CSS processing
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Relationship Between Apps */}
+              <div>
+                <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>🔗 Relationship Between Apps</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>Protocol (Current App)</h4>
+                    <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '12px' }}>
+                      This is the active Next.js application for viewing and managing the Wy'East Trailfest 50M training plan. 
+                      It uses Supabase as the backend database and provides a mobile-first interface for browsing phases, weeks, days, and exercises.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>Protocol Archive</h4>
+                    <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '8px' }}>
+                      The <code style={{ backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', padding: '2px 6px', borderRadius: '4px', fontSize: '14px' }}>protocol-archive/</code> directory contains an older version of the application with:
+                    </p>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        Different architecture and routing structure
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        Supabase integration with different schema
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        Different component structure and features
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        Excluded from TypeScript compilation and not actively used
+                      </li>
+                    </ul>
+                  </div>
+                  <div style={{ padding: '12px', backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '6px', border: `1px solid ${currentTheme.borderLight}` }}>
+                    <p style={{ color: currentTheme.textSecondary, fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
+                      <strong style={{ color: currentTheme.text }}>Note:</strong> The archive serves as a reference for previous implementations but is not part of the active codebase.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* What Each App Does */}
+              <div>
+                <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>📱 What Each App Does</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Protocol App (Current)</h4>
+                    <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '12px' }}>
+                      A digital training protocol viewer for the Wy'East Trailfest 50M training plan. It provides:
+                    </p>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Phase Overview</strong> - Browse 3 training phases (Foundation, Durability, Specificity) spanning 27 weeks
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Week View</strong> - See weekly running totals, targets, and all 7 days of workouts
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Day View</strong> - View daily run details (miles, vert, RPE, zones, routes) and exercise lists
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Exercise Details</strong> - View sets, reps, weights, cues, and notes for each exercise
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Calendar View</strong> - Multi-month calendar showing training activities with phase color coding
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Exercise Logging</strong> - Log exercises, edit sets/reps/weights, and track completion status
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Data Storage</h4>
+                    <p style={{ color: currentTheme.textSecondary, lineHeight: '1.6', marginBottom: '8px' }}>
+                      All training plan data is stored in Supabase PostgreSQL database:
+                    </p>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Training Plans</strong> - Top-level plan metadata
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Training Phases</strong> - Foundation, Durability, Specificity phases
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Weekly Plans</strong> - 27 weeks with targets and themes
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Daily Workouts</strong> - ~189 daily workouts with run data and strength exercises
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cost */}
+              <div>
+                <h3 style={{ color: currentTheme.text, fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>💰 Cost</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Supabase (Backend & Database)</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Free Tier:</strong> $0/month
+                        <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- 500 MB database, 1 GB bandwidth, 2 GB file storage</li>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Suitable for development and small projects</li>
+                        </ul>
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative', marginTop: '8px' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Pro Tier:</strong> $25/month
+                        <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- 8 GB database, 250 GB bandwidth, 100 GB file storage</li>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Better for production apps with more data</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 style={{ color: currentTheme.text, fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Hosting (Frontend)</h4>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Vercel (Recommended for Next.js):</strong> Free tier available
+                        <ul style={{ listStyle: 'none', padding: '4px 0 0 20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Free: Unlimited personal projects, 100 GB bandwidth/month</li>
+                          <li style={{ color: currentTheme.textTertiary, fontSize: '14px' }}>- Pro: $20/month for team features and more bandwidth</li>
+                        </ul>
+                      </li>
+                      <li style={{ color: currentTheme.textSecondary, paddingLeft: '20px', position: 'relative', marginTop: '8px' }}>
+                        <span style={{ position: 'absolute', left: 0 }}>•</span>
+                        <strong style={{ color: currentTheme.text }}>Other Options:</strong> Netlify, AWS Amplify, or self-hosted
+                      </li>
+                    </ul>
+                  </div>
+                  <div style={{ padding: '12px', backgroundColor: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '6px', border: `1px solid ${currentTheme.borderLight}` }}>
+                    <p style={{ color: currentTheme.textSecondary, fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
+                      <strong style={{ color: currentTheme.text }}>Total Estimated Cost:</strong> $0-45/month depending on tier selection. 
+                      Free tier is sufficient for development and small-scale usage.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Individual Components Section */}
