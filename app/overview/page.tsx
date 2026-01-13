@@ -2534,7 +2534,6 @@ export default function OverviewPage() {
                       onNotesSave: (value) => console.log('Notes save', value)
                     }
                   ]}
-                  onDismiss={() => console.log('Dismiss')}
                 />
               </div>
             </div>

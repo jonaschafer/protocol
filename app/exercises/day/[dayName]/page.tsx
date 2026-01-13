@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ExerciseCard } from '../../exerciseCard'
 import { BottomNav } from '../../../components/BottomNav'
@@ -88,7 +88,6 @@ function transformExerciseToCardFormat(
 
 export default function DayExercisesPage() {
   const params = useParams()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const dayNameParam = params?.dayName as string
   const weekParam = searchParams?.get('week')
@@ -335,17 +334,6 @@ export default function DayExercisesPage() {
     return exerciseData
   })
 
-  const handleDismiss = () => {
-    if (dayNameParam) {
-      const params = new URLSearchParams()
-      if (weekParam) params.set('week', weekParam)
-      const queryString = params.toString()
-      router.push(`/day/${dayNameParam}${queryString ? `?${queryString}` : ''}`)
-    } else {
-      router.push('/')
-    }
-  }
-
   return (
     <div 
       style={{ 
@@ -359,7 +347,6 @@ export default function DayExercisesPage() {
     >
       <ExerciseCard
         exercises={exercisesData}
-        onDismiss={handleDismiss}
         scrollToExerciseId={undefined}
       />
       <BottomNav />

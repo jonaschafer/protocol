@@ -30,13 +30,11 @@ interface ExerciseData {
 
 interface ExerciseCardProps {
   exercises: ExerciseData[];
-  onDismiss?: () => void;
   scrollToExerciseId?: string;
 }
 
 export function ExerciseCard({
   exercises,
-  onDismiss,
   scrollToExerciseId
 }: ExerciseCardProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
