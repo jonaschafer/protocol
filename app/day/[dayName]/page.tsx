@@ -145,6 +145,7 @@ export default async function DayPage({
         exercises={dayInfo.exercises}
         weekNumber={weekNumber}
         workoutId={workoutId}
+        noTopMargin={true}
       />
       <BottomNav />
     </div>

@@ -340,7 +340,6 @@ export default function DayExercisesPage() {
         background: '#000000', 
         minHeight: '100vh',
         width: '100%',
-        padding: '20px 0 0 0',
         position: 'relative',
         paddingBottom: '100px'
       }}
