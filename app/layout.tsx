@@ -13,7 +13,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div style={{ padding: '10px 10px 0 10px' }}>
+          {children}
+        </div>
+      </body>
     </html>
   )
 }

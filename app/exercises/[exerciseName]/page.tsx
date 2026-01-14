@@ -445,7 +445,19 @@ export default function ExercisePage() {
 
   if (isLoading) {
     return (
-      <div style={{ padding: '20px', background: backgroundColor, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ 
+        padding: '20px', 
+        background: backgroundColor, 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        width: '100vw', // Use viewport width to cover full screen
+        margin: '-10px -10px 0 -10px', // Extend beyond layout padding to cover full viewport
+        paddingTop: '20px', // Restore top padding for content
+        paddingLeft: '20px', // Restore left padding for content
+        paddingRight: '20px' // Restore right padding for content
+      }}>
         <p style={{ color: 'white' }}>Loading exercises...</p>
       </div>
     )
@@ -453,7 +465,19 @@ export default function ExercisePage() {
 
   if (dayExercises.length === 0) {
     return (
-      <div style={{ padding: '20px', background: backgroundColor, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ 
+        padding: '20px', 
+        background: backgroundColor, 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        width: '100vw', // Use viewport width to cover full screen
+        margin: '-10px -10px 0 -10px', // Extend beyond layout padding to cover full viewport
+        paddingTop: '20px', // Restore top padding for content
+        paddingLeft: '20px', // Restore left padding for content
+        paddingRight: '20px' // Restore right padding for content
+      }}>
         <p style={{ color: 'white' }}>Exercise not found</p>
       </div>
     )
@@ -479,10 +503,13 @@ export default function ExercisePage() {
       style={{ 
         background: backgroundColor, 
         minHeight: '100vh',
-        width: '100%',
-        padding: '0',
+        width: '100vw', // Use viewport width to cover full screen
         position: 'relative',
-        paddingBottom: '100px' // Extra padding for bottom nav
+        paddingBottom: '100px', // Extra padding for bottom nav
+        margin: '-10px -10px 0 -10px', // Extend beyond layout padding to cover full viewport
+        paddingTop: '10px', // Restore top padding for content
+        paddingLeft: '10px', // Restore left padding for content
+        paddingRight: '10px' // Restore right padding for content
       }}
     >
       <ExerciseCard
