@@ -1,0 +1,5 @@
+# Archive directories (should not be deployed)
+swoletron-archive/
+protocol-archive/
+protocol-archive-old/
+protocol-local/
