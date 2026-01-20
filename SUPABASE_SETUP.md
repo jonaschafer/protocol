@@ -70,4 +70,4 @@ CREATE INDEX IF NOT EXISTS idx_weekly_plans_phase_id ON weekly_plans(phase_id);
 
 ### Error: "Master plan file not found"
 **Solution**: Set `MASTER_PLAN_PATH` environment variable or ensure the file is at:
-- `/Users/jonschafer/Dropbox/ jon/work/WHT_Resources/protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md`
+- `/Users/jonschafer/Dropbox/ jon/work/WHT_Git/protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md`

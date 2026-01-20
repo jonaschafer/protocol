@@ -256,7 +256,7 @@ async function seedDatabase() {
   const possiblePaths = [
     path.join(__dirname, '../../protocol-local/cursor docs/MASTER_PLAN_27WEEKS_COMPLETE.md'),
     path.join(__dirname, '../../../protocol-local/cursor docs/MASTER_PLAN_27WEEKS_COMPLETE.md'),
-    '/Users/jonschafer/Dropbox/ jon/work/WHT_Resources/protocol-local/cursor docs/MASTER_PLAN_27WEEKS_COMPLETE.md',
+    '/Users/jonschafer/Dropbox/ jon/work/WHT_Git/protocol-local/cursor docs/MASTER_PLAN_27WEEKS_COMPLETE.md',
     process.env.MASTER_PLAN_PATH
   ].filter(Boolean) as string[]
   

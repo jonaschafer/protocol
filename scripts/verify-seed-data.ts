@@ -15,7 +15,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Read master plan
-const masterPlanPath = '/Users/jonschafer/Dropbox/ jon/work/WHT_Resources/protocol/MASTER_PLAN_27WEEKS_COMPLETE.md'
+const masterPlanPath = '/Users/jonschafer/Dropbox/ jon/work/WHT_Git/protocol/MASTER_PLAN_27WEEKS_COMPLETE.md'
 const masterPlanContent = fs.readFileSync(masterPlanPath, 'utf-8')
 
 // Parse weeks from master plan

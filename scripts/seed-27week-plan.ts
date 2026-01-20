@@ -423,12 +423,12 @@ async function seedDatabase() {
 
   // Read the master plan file - try multiple possible locations
   const possiblePaths = [
-    '/Users/jonschafer/Dropbox/ jon/work/WHT_Resources/protocol/MASTER_PLAN_27WEEKS_COMPLETE.md',
+    '/Users/jonschafer/Dropbox/ jon/work/WHT_Git/protocol/MASTER_PLAN_27WEEKS_COMPLETE.md',
     path.join(__dirname, '../MASTER_PLAN_27WEEKS_COMPLETE.md'),
     path.join(__dirname, '../../MASTER_PLAN_27WEEKS_COMPLETE.md'),
     path.join(__dirname, '../../protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md'),
     path.join(__dirname, '../../../protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md'),
-    '/Users/jonschafer/Dropbox/ jon/work/WHT_Resources/protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md',
+    '/Users/jonschafer/Dropbox/ jon/work/WHT_Git/protocol-local/cursor docs/MASTER_PLAN_27WEEKS.md',
     process.env.MASTER_PLAN_PATH
   ].filter(Boolean) as string[]
   
